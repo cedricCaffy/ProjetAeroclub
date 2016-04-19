@@ -9,6 +9,13 @@ public class Aeroclub {
 	private StringProperty nom;
 	private ObservableList<Membre> membres;
 	private ObservableList<Avion> avions;
+	
+	public ObservableList<Avion> getAvions(){
+		return this.avions;
+	}
+	public void setAvions(ObservableList<Avion> avions){
+		this.avions=avions;
+	}
 	public StringProperty getNomProperty() {
 		return nom;
 	}

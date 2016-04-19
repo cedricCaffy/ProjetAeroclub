@@ -1,6 +1,8 @@
 package controllers;
 
 
+import model.classes.membres.Membre;
+import model.dao.MembresBD;
 import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,6 +20,8 @@ public class ConnexionController {
 	private ImageView iv_photoAccueil;
 	@FXML
 	private Button b_quitter;
+	@FXML
+	private Button b_valider;
 	
 	private MainApp mainApp;
 	
@@ -25,14 +29,28 @@ public class ConnexionController {
 	
 	@FXML
 	private void initialize(){
-		tf_login.setText("Cedric");
+		tf_login.setText("cedric");
 		pf_password.setText("cedric");
 		iv_photoAccueil.setImage(new Image("view/images/cessna-f-gcnp-en-vol1.jpg"));
-		actionBoutonQuitter();
 	}
 	
+	@FXML
 	private void actionBoutonQuitter(){
-		b_quitter.setOnAction((event)->mainApp.quitterProgramme());
+		mainApp.quitterProgramme();
+	}
+	
+	@FXML
+	private void actionBoutonValider(){
+		Membre membre;
+		MembresBD bd=new MembresBD();
+		membre=bd.getMembreByLogin(tf_login.getText());
+		if(membre!=null){
+			if(membre.getMotDePasse().equals(pf_password.getText())){
+				mainApp.afficherEcranAccueil(membre);
+			}else{
+				System.out.println("Erreur de login");
+			}
+		}
 	}
 	
 	public void setMainApp(MainApp mainApp){

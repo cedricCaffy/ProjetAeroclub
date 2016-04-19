@@ -17,8 +17,8 @@
       </Label>
       <Label layoutX="253.0" layoutY="419.0" text="Mot de passe :" />
       <PasswordField fx:id="pf_password" layoutX="418.0" layoutY="415.0" />
-      <Button layoutX="327.0" layoutY="474.0" mnemonicParsing="false" text="Valider" />
-      <Button fx:id="b_quitter" layoutX="401.0" layoutY="474.0" mnemonicParsing="false" text="Quitter" />
+      <Button fx:id="b_valider" layoutX="327.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#actionBoutonValider" text="Valider" />
+      <Button fx:id="b_quitter" layoutX="401.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#actionBoutonQuitter" text="Quitter" />
       <ImageView fx:id="iv_photoAccueil" fitHeight="187.0" fitWidth="242.0" layoutX="276.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
