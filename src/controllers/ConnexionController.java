@@ -30,16 +30,23 @@ public class ConnexionController {
 	
 	@FXML
 	private void initialize(){
+		/*Valeurs pour tests*/
 		tf_login.setText("cedric");
 		pf_password.setText("cedric");
 		iv_photoAccueil.setImage(new Image("view/images/cessna-f-gcnp-en-vol1.jpg"));
 	}
 	
+	/**
+	 * Action qui suit le clic sur le bouton quitter
+	 */
 	@FXML
 	private void actionBoutonQuitter(){
 		mainApp.quitterProgramme();
 	}
 	
+	/**
+	 * Action qui suit le clic sur le bouton valider
+	 */
 	@FXML
 	private void actionBoutonValider(){
 		Membre membre;
@@ -51,6 +58,8 @@ public class ConnexionController {
 			}else{
 				new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
 			}
+		}else{
+			new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
 		}
 	}
 	

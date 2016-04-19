@@ -3,6 +3,7 @@ package application;
 import model.classes.membres.Membre;
 import controllers.AccueilController;
 import controllers.ConnexionController;
+import controllers.MonCompteController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +52,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Affichage de l'ecran d'accueil
+	 * @param membre le membre qui s'est loggé
+	 */
 	public void afficherEcranAccueil(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
@@ -61,13 +66,29 @@ public class MainApp extends Application {
 			this.primaryStage.setScene(rootScene);
 			this.primaryStage.show();
 			AccueilController controller = loader.getController();
+			controller.setMembre(membre);
+			controller.setMainApp(this);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void afficherEcranMonCompte(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/MonCompte.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/MonCompte.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			MonCompteController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.setMembre(membre);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	
 	/**
 	 * Quitte le programme
 	 */

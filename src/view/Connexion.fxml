@@ -8,17 +8,61 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConnexionController">
    <children>
-      <Label layoutX="253.0" layoutY="381.0" text="Login :" />
-      <TextField fx:id="tf_login" layoutX="418.0" layoutY="377.0" />
-      <Label layoutX="355.0" layoutY="326.0" text="Connexion">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="253.0" layoutY="419.0" text="Mot de passe :" />
-      <PasswordField fx:id="pf_password" layoutX="418.0" layoutY="415.0" />
-      <Button fx:id="b_valider" layoutX="327.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#actionBoutonValider" text="Valider" />
-      <Button fx:id="b_quitter" layoutX="401.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#actionBoutonQuitter" text="Quitter" />
-      <ImageView fx:id="iv_photoAccueil" fitHeight="187.0" fitWidth="242.0" layoutX="276.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox alignment="CENTER" layoutY="377.0" prefWidth="800.0" AnchorPane.topAnchor="350.0">
+         <children>
+            <Pane layoutX="253.0" layoutY="377.0">
+               <children>
+                  <Label layoutY="42.0" text="Mot de passe :" />
+                  <PasswordField fx:id="pf_password" layoutX="165.0" layoutY="38.0" />
+                  <Label layoutY="4.0" text="Login :" />
+                  <TextField fx:id="tf_login" layoutX="165.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_CENTER" layoutY="326.0" prefWidth="800.0" AnchorPane.topAnchor="300.0">
+         <children>
+            <Label layoutX="355.0" layoutY="326.0" text="Connexion">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="476.0" prefWidth="800.0" AnchorPane.topAnchor="450.0">
+         <children>
+            <Pane layoutX="283.0" layoutY="476.0" prefHeight="50.0" prefWidth="263.0">
+               <children>
+                  <Button fx:id="b_quitter" layoutX="150.0" mnemonicParsing="false" onMouseClicked="#actionBoutonQuitter" prefHeight="50.0" prefWidth="120.0" text="Quitter">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/quitter.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="b_valider" mnemonicParsing="false" onMouseClicked="#actionBoutonValider" prefHeight="50.0" prefWidth="120.0" text="Valider">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/valider.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="99.0" prefWidth="800.0">
+         <children>
+            <ImageView fx:id="iv_photoAccueil" fitHeight="187.0" fitWidth="275.0" layoutX="276.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/cessna-f-gcnp-en-vol1.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

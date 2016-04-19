@@ -16,5 +16,4 @@ public class PopupError implements Popup{
 
 		alert.showAndWait();
 	}
-	/*public void afficherPopup(String titre,String headerMessage,String contentMessage){}*/
 }

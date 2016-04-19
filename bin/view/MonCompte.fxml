@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MonCompteController">
+   <children>
+      <HBox alignment="CENTER" layoutY="66.0" prefHeight="197.0" prefWidth="800.0" AnchorPane.topAnchor="75.0">
+         <children>
+            <AnchorPane layoutX="82.0" layoutY="66.0" prefHeight="197.0" prefWidth="640.0" styleClass="pane">
+               <children>
+                  <Button layoutX="546.0" layoutY="97.0" mnemonicParsing="false" text="Imprimer" AnchorPane.rightAnchor="30.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/imprimante.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TableView layoutX="5.0" layoutY="35.0" prefHeight="150.0" prefWidth="426.0" AnchorPane.leftAnchor="60.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Date" />
+                      <TableColumn prefWidth="75.0" text="Départ" />
+                        <TableColumn prefWidth="75.0" text="Destination" />
+                        <TableColumn prefWidth="75.0" text="Type" />
+                        <TableColumn prefWidth="124.33334350585938" text="Temps de vol (min)" />
+                    </columns>
+                  </TableView>
+                  <Label styleClass="titreSurBordure" text="Mes vols" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="285.0" prefHeight="197.0" prefWidth="800.0" AnchorPane.topAnchor="300.0">
+         <children>
+            <AnchorPane layoutX="82.0" layoutY="285.0" prefHeight="197.0" prefWidth="640.0" styleClass="pane">
+               <children>
+                  <Label styleClass="titreSurBordure" text="Mon solde" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TableView layoutX="8.0" layoutY="48.0" prefHeight="138.0" prefWidth="307.0" AnchorPane.leftAnchor="153.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Date" />
+                      <TableColumn prefWidth="75.0" text="Montant" />
+                        <TableColumn minWidth="61.0" prefWidth="155.0" resizable="false" text="Moyen de paiement" />
+                    </columns>
+                  </TableView>
+                  <Label layoutX="21.0" layoutY="21.0" text="Votre solde actuel est de : " AnchorPane.leftAnchor="15.0" />
+                  <Button layoutX="507.0" layoutY="102.0" mnemonicParsing="false" text="Imprimer" AnchorPane.rightAnchor="44.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/imprimante.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="526.0" prefHeight="50.0" prefWidth="800.0">
+         <children>
+            <Button alignment="CENTER" layoutX="335.0" layoutY="530.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Retour">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/icone-retour.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <Label layoutX="22.0" layoutY="21.0" text="Mon compte" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

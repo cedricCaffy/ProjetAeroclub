@@ -10,8 +10,8 @@ public class MembresBD {
 	private ObservableList<Membre> membres;
 	public MembresBD(){
 		/*Creation des membres*/
-		membre1=new Membre(0,null,null,"cedric","cedric",null,null,null,0,null,null);
-		membre2=new Membre(1,null,null,"maxime","maxime",null,null,null,0,null,null);
+		membre1=new Membre(0,"CAFFY","Cédric","cedric","cedric",null,null,null,0,null,null);
+		membre2=new Membre(1,"AUZANNEAU","Maxime","maxime","maxime",null,null,null,0,null,null);
 		membres=FXCollections.observableArrayList();
 		/*Ajout des membres dans la fausse BD*/
 		membres.add(membre1);
