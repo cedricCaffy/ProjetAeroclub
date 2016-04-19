@@ -1,6 +1,7 @@
 package controllers;
 
 
+import view.popup.PopupError;
 import model.classes.membres.Membre;
 import model.dao.MembresBD;
 import application.MainApp;
@@ -48,7 +49,7 @@ public class ConnexionController {
 			if(membre.getMotDePasse().equals(pf_password.getText())){
 				mainApp.afficherEcranAccueil(membre);
 			}else{
-				System.out.println("Erreur de login");
+				new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
 			}
 		}
 	}
