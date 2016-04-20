@@ -1,12 +1,14 @@
 package model.classes.vol;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Aerodrome {
 	private StringProperty nom;
 	private StringProperty identifiant;
-	public Aerodrome(){
-		
+	public Aerodrome(String nom,String identifiant){
+		this.nom=new SimpleStringProperty(nom);
+		this.identifiant=new SimpleStringProperty(identifiant);
 	}
 	
 	public StringProperty getNomProperty() {

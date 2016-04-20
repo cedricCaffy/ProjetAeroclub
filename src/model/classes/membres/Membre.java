@@ -2,14 +2,16 @@ package model.classes.membres;
 
 import java.time.LocalDate;
 
-import javafx.beans.property.FloatProperty;
+import model.classes.paiement.Paiement;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
@@ -22,13 +24,13 @@ public class Membre {
 	private StringProperty email;
 	private StringProperty numeroTelephone;
 	private ObjectProperty<LocalDate> dateNaissance;
-	private FloatProperty solde;
+	private DoubleProperty solde;
 	private Image photo;
 	private Adresse adresse;
-	/*private ObservableList<Vol> vols;*/
+	private ObservableList<Paiement> paiements;
 	
 	public Membre(){}
-	public Membre(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,LocalDate dateNaissance,float solde,Image photo,Adresse adresse){
+	public Membre(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,LocalDate dateNaissance,double solde,Image photo,Adresse adresse){
 		this.idMembre=new SimpleIntegerProperty(idMembre);
 		this.nom=new SimpleStringProperty(nom);
 		this.prenom=new SimpleStringProperty(prenom);
@@ -37,13 +39,18 @@ public class Membre {
 		this.email=new SimpleStringProperty(email);
 		this.numeroTelephone=new SimpleStringProperty(numeroTelephone);
 		this.dateNaissance=new SimpleObjectProperty<LocalDate>(dateNaissance);
-		this.solde=new SimpleFloatProperty(solde);
+		this.solde=new SimpleDoubleProperty(solde);
 		this.photo=photo;
 		this.adresse=adresse;
+		this.paiements=FXCollections.observableArrayList();
 	}
 	/*Getters and setters*/
 	public IntegerProperty getIdMembreProperty() {
 		return idMembre;
+	}
+	
+	public ObservableList<Paiement> getPaiements(){
+		return this.paiements;
 	}
 	
 	public Integer getIdMembre(){
@@ -136,15 +143,15 @@ public class Membre {
 	public void setDateNaissance(LocalDate dateNaissance) {
 		this.dateNaissance.set(dateNaissance);
 	}
-	public FloatProperty getSoldeProperty() {
+	public DoubleProperty getSoldeProperty() {
 		return solde;
 	}
 	
-	public float getSolde(){
+	public double getSolde(){
 		return solde.get();
 	}
 	
-	public void setSolde(float solde) {
+	public void setSolde(double solde) {
 		this.solde.set(solde);
 	}
 	public Image getPhoto() {
@@ -158,5 +165,11 @@ public class Membre {
 	}
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+	
+	/**Autres methodes**/
+	
+	public void ajouterPaiement(Paiement paiement){
+		this.paiements.add(paiement);
 	}
 }

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SaisirVolController">
+   <children>
+      <Pane layoutX="44.0" layoutY="73.0" prefHeight="53.0" prefWidth="196.0">
+         <children>
+            <ComboBox fx:id="cb_avions" layoutY="28.0" prefHeight="25.0" prefWidth="196.0" />
+            <Label text="Avion :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="281.0" layoutY="74.0">
+         <children>
+            <Label text="Date :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <DatePicker fx:id="dp_dateVol" layoutY="27.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="44.0" layoutY="145.0">
+         <children>
+            <ComboBox fx:id="cb_typeVol" layoutY="28.0" prefWidth="150.0" />
+            <Label text="Type de vol :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+         </children>
+      </Pane>
+      <Pane layoutX="281.0" layoutY="145.0">
+         <children>
+            <ComboBox layoutY="28.0" prefWidth="150.0" />
+            <Label text="Instructeur :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+         </children>
+      </Pane>
+      <Pane layoutX="479.0" layoutY="145.0">
+         <children>
+            <ComboBox layoutY="28.0" prefHeight="25.0" prefWidth="40.0" />
+            <Label text="Nombre de passagers :">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+         </children>
+      </Pane>
+      <Label layoutX="44.0" layoutY="220.0" text="Etapes :">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <TableView layoutX="44.0" layoutY="247.0" prefHeight="89.0" prefWidth="435.0" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="321.0">
+        <columns>
+          <TableColumn prefWidth="155.0" text="Aérodrome de départ" />
+          <TableColumn prefWidth="155.0" text="Aérodrome d'arrivée" />
+            <TableColumn prefWidth="120.0" text="Temps de vol (min)" />
+        </columns>
+      </TableView>
+      <Pane layoutX="506.0" layoutY="259.0" prefHeight="50.0" prefWidth="266.0" AnchorPane.rightAnchor="28.0">
+         <children>
+            <Button layoutX="146.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Supprimer Etape">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/supprimer.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Ajouter Etape">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/ajouter.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+         </children>
+      </Pane>
+      <HBox alignment="CENTER" layoutY="524.0" prefWidth="800.0">
+         <children>
+            <Button layoutX="308.0" layoutY="544.0" mnemonicParsing="false" onMouseClicked="#actionBoutonEnregistrer" prefHeight="50.0" prefWidth="120.0" text="Enregistrer">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/enregistrer.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets right="50.0" />
+               </HBox.margin>
+            </Button>
+            <Button layoutX="395.0" layoutY="544.0" mnemonicParsing="false" onMouseClicked="#actionBoutonAnnuler" prefHeight="50.0" prefWidth="120.0" text="Annuler">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/quitter.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <Label layoutX="44.0" layoutY="23.0" text="Saisir un vol">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

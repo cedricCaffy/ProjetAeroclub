@@ -10,51 +10,68 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AccueilController">
    <children>
-      <Button fx:id="b_monCompte" contentDisplay="TOP" layoutX="70.0" layoutY="156.0" mnemonicParsing="false" onMouseClicked="#actionBoutonMonCompte" prefHeight="132.0" prefWidth="106.0" text="Mon Compte" AnchorPane.rightAnchor="602.0" AnchorPane.topAnchor="150.0">
-         <graphic>
-            <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/personnage.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="b_saisirVol" contentDisplay="TOP" layoutX="243.0" layoutY="156.0" mnemonicParsing="false" text="Saisir un vol" AnchorPane.rightAnchor="429.0" AnchorPane.topAnchor="150.0">
-         <graphic>
-            <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/iconeAvion.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="b_saisirPaiement" contentDisplay="TOP" layoutX="416.0" layoutY="156.0" mnemonicParsing="false" text="Saisir un paiement" AnchorPane.rightAnchor="256.0" AnchorPane.topAnchor="150.0">
-         <graphic>
-            <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/euro.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="b_preparerVol" contentDisplay="TOP" layoutX="589.0" layoutY="156.0" mnemonicParsing="false" text="Préparer un vol" AnchorPane.rightAnchor="83.0" AnchorPane.topAnchor="150.0">
-         <graphic>
-            <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/preparerVol.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="b_administration" contentDisplay="TOP" layoutX="345.0" layoutY="367.0" mnemonicParsing="false" text="Administration" AnchorPane.leftAnchor="336.0" AnchorPane.topAnchor="336.0">
-         <graphic>
-            <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/engrenage.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
+      <HBox alignment="CENTER" layoutY="150.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="b_monCompte" contentDisplay="TOP" layoutX="70.0" layoutY="156.0" mnemonicParsing="false" onMouseClicked="#actionBoutonMonCompte" prefHeight="132.0" prefWidth="106.0" text="Mon Compte" AnchorPane.rightAnchor="602.0" AnchorPane.topAnchor="150.0">
+               <graphic>
+                  <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/personnage.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets right="50.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="b_saisirVol" contentDisplay="TOP" layoutX="243.0" layoutY="156.0" mnemonicParsing="false" onMouseClicked="#actionBoutonSaisirVol" text="Saisir un vol" AnchorPane.rightAnchor="429.0" AnchorPane.topAnchor="150.0">
+               <graphic>
+                  <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/iconeAvion.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets right="50.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="b_saisirPaiement" contentDisplay="TOP" layoutX="416.0" layoutY="156.0" mnemonicParsing="false" text="Saisir un paiement" AnchorPane.rightAnchor="256.0" AnchorPane.topAnchor="150.0">
+               <graphic>
+                  <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/euro.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets right="50.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="b_preparerVol" contentDisplay="TOP" layoutX="589.0" layoutY="156.0" mnemonicParsing="false" text="Préparer un vol" AnchorPane.rightAnchor="83.0" AnchorPane.topAnchor="150.0">
+               <graphic>
+                  <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/preparerVol.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="336.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="b_administration" contentDisplay="TOP" layoutX="345.0" layoutY="367.0" mnemonicParsing="false" text="Administration" AnchorPane.leftAnchor="336.0" AnchorPane.topAnchor="336.0">
+               <graphic>
+                  <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/engrenage.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
       <Label fx:id="l_messageBienvenue" layoutX="25.0" layoutY="61.0" text="Bonjour" AnchorPane.topAnchor="58.0">
          <font>
             <Font size="24.0" />

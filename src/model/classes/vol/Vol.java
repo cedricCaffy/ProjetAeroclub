@@ -1,39 +1,54 @@
 package model.classes.vol;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
+import util.Temps;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Vol {
-	private ObjectProperty<Date> dateVol;
-	private ObjectProperty<Date> tempsVol;
+	private ObjectProperty<LocalDate> dateVol;
+	private ObjectProperty<Temps> tempsVol;
 	private Aerodrome aerodromeDepart;
 	private Aerodrome aerodromeArrivee;
 	private TypeVol type;
 	private IntegerProperty nombrePassager;
-	public Vol(){}
+	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,TypeVol type,int nombrePassager){
+		this.dateVol=new SimpleObjectProperty<LocalDate>(dateVol);
+		this.tempsVol=new SimpleObjectProperty<Temps>(tempsVol);
+		this.aerodromeDepart=aerodromeDepart;
+		this.aerodromeArrivee=aerodromeArrivee;
+		this.type=type;
+		this.nombrePassager=new SimpleIntegerProperty(nombrePassager);
+	}
 	
-	public ObjectProperty<Date> getDateVolProperty() {
+	public ObjectProperty<LocalDate> getDateVolProperty() {
 		return dateVol;
 	}
 	
-	public Date getDateVol(){
+	public LocalDate getDateVol(){
 		return dateVol.get();
 	}
 	
-	public void setDateVol(Date dateVol) {
+	public void setDateVol(LocalDate dateVol) {
 		this.dateVol.set(dateVol);
 	}
-	public ObjectProperty<Date> getTempsVolProperty() {
+	
+	public ObjectProperty<Temps> getTempsVolProperty() {
 		return tempsVol;
 	}
 	
-	public Date getTempsVol(){
+	public Temps getTempsVol(){
 		return tempsVol.get();
 	}
 	
-	public void setTempsVol(Date tempsVol) {
+	public void setTempsVol(Temps tempsVol) {
 		this.tempsVol.set(tempsVol);
 	}
 	public Aerodrome getAerodromeDepart() {
@@ -49,6 +64,11 @@ public class Vol {
 		this.aerodromeArrivee = aerodromeArrivee;
 	}
 	public TypeVol getType() {
+		return type;
+	}
+	public StringProperty getTypeProperty(){
+		StringProperty type=new SimpleStringProperty();
+		type.set(this.type.toString());
 		return type;
 	}
 	public void setType(TypeVol type) {

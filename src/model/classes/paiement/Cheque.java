@@ -1,6 +1,10 @@
 package model.classes.paiement;
 
+import java.time.LocalDate;
+
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Cheque extends Paiement{
@@ -8,8 +12,11 @@ public class Cheque extends Paiement{
 	private StringProperty banqueDebiteur;
 	private IntegerProperty numeroCheque;
 	
-	public Cheque(){
-		super();
+	public Cheque(Double montant,LocalDate datePaiement,String nomEmetteur,String banqueDebiteur,Integer numeroCheque){
+		super(montant,datePaiement);
+		this.nomEmetteur=new SimpleStringProperty(nomEmetteur);
+		this.banqueDebiteur=new SimpleStringProperty(banqueDebiteur);
+		this.numeroCheque=new SimpleIntegerProperty(numeroCheque);
 	}
 
 	public StringProperty getNomEmetteurProperty() {

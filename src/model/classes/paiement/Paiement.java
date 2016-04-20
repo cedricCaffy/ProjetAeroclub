@@ -2,26 +2,33 @@ package model.classes.paiement;
 
 import java.time.LocalDate;
 
-import javafx.beans.property.FloatProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Paiement {
-	private FloatProperty montant;
+	private DoubleProperty montant;
 	private ObjectProperty<LocalDate> datePaiement;
 	
-	public Paiement(){
-		
+	public Paiement(Double montant,LocalDate datePaiement){
+		this.montant=new SimpleDoubleProperty(montant);
+		this.datePaiement=new SimpleObjectProperty<LocalDate>(datePaiement);
 	}
-	public FloatProperty getMontantProperty() {
+	public DoubleProperty getMontantProperty() {
 		return montant;
 	}
 	
-	public float getMontant(){
+	public double getMontant(){
 		return montant.get();
 	}
-	public void setMontant(float montant) {
+	
+	public void setMontant(Double montant) {
 		this.montant.set(montant);
 	}
+	
 	public ObjectProperty<LocalDate> getDatePaiementProperty() {
 		return datePaiement;
 	}
