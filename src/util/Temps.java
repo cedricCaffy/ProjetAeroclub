@@ -8,7 +8,11 @@ import javafx.beans.property.StringProperty;
 public class Temps {
 	private IntegerProperty heure;
 	private IntegerProperty min;
-	
+
+	public Temps(){
+		this.heure=new SimpleIntegerProperty(0);
+		this.min=new SimpleIntegerProperty(0);
+	}
 	public Temps(int heure, int min){
 		this.heure=new SimpleIntegerProperty(heure);
 		this.min=new SimpleIntegerProperty(min);
@@ -40,13 +44,30 @@ public class Temps {
 		this.min.set(min);
 	}
 	
+	public Temps getTemps(){
+		return this;
+	}
+	
 	public StringProperty toStringProperty(){
 		StringProperty ret=new SimpleStringProperty();
 		String zeroMinute="";
 		if(this.getMin()<10){
 			zeroMinute="0";
 		}
-		ret.set(this.getHeure()+"h"+zeroMinute+this.getMin()+"min");
+		ret.set(this.getHeure()+"h"+zeroMinute+this.getMin());
 		return ret;
+	}
+	
+	public void stringToTemps(String temps) throws IllegalArgumentException{
+		if(!isValideTemps(temps)){
+			throw new IllegalArgumentException("Le temps de vol saisi doit être de la forme \"1h00\"");
+		}else{
+			this.heure.set(Character.getNumericValue(temps.charAt(0)));
+			this.min.set(Integer.parseInt(""+Character.getNumericValue(temps.charAt(2))+Character.getNumericValue(temps.charAt(3))));
+		}
+	}
+	
+	public boolean isValideTemps(String temps){
+		return temps.matches("[0-9]h[0-5][0-9]");
 	}
 }

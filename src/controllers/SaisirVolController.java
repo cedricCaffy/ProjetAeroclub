@@ -1,6 +1,8 @@
 package controllers;
 
+import util.AcceptOnExitTableCell;
 import util.Temps;
+import view.popup.PopupError;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -60,7 +62,6 @@ public class SaisirVolController {
 	private void initialize(){
 		this.listVols=FXCollections.observableArrayList();
 		tv_etapes.setEditable(true);
-		/*colonne_aerodromeDepart.setCellFactory(TextFieldTableCell.<Vol>forTableColumn());*/
 	}
 	
 	/**
@@ -81,12 +82,7 @@ public class SaisirVolController {
 	 */
 	@FXML
 	private void actionAjouterEtape(){
-		int tailleTableVols=tv_etapes.getItems().size();
-		if(tailleTableVols==0){
-			this.listVols.add(new Vol(null,new Temps(0,0),new Aerodrome("",""),new Aerodrome("",""),null,0));
-		}else{
-			listVols.add(new Vol(null,tv_etapes.getItems().get(tailleTableVols-1).getTempsVol(),tv_etapes.getItems().get(tailleTableVols-1).getAerodromeDepart(),tv_etapes.getItems().get(tailleTableVols-1).getAerodromeArrivee(),null,0));
-		}
+		this.listVols.add(new Vol(null,new Temps(0,0),new Aerodrome("",""),new Aerodrome("",""),null,0));
 		tv_etapes.setItems(listVols);
 	}
 	
@@ -97,10 +93,14 @@ public class SaisirVolController {
 	private void actionBoutonAnnuler(){
 		mainApp.afficherEcranAccueil(this.membre);
 	}
-	
+	//TextFieldTableCell
+	//AcceptOnExitTableCell
 	private void initialiserTableVols(){
+		//On rentre le type de donnee qu'il y aura dans la colonne
 		colonne_aerodromeDepart.setCellValueFactory((cellData)->cellData.getValue().getAerodromeDepart().getIdentifiantProperty());
-		colonne_aerodromeDepart.setCellFactory(TextFieldTableCell.<Vol>forTableColumn());
+		//On change le type chaque cellule dans la colonne (cellule editable)
+		colonne_aerodromeDepart.setCellFactory(AcceptOnExitTableCell.<Vol>forTableColumn());
+		//Apres validation de ce qui a ete rentre, on met a jour l'objet contenu dans la tableview
 		colonne_aerodromeDepart.setOnEditCommit(
 	            (CellEditEvent<Vol, String> t) -> {
 	                ((Vol) t.getTableView().getItems().get(
@@ -108,7 +108,7 @@ public class SaisirVolController {
 	                        ).setAerodromeDepart(new Aerodrome("",t.getNewValue()));
 	        });
 		colonne_aerodromeArrivee.setCellValueFactory((cellData)->cellData.getValue().getAerodromeArrivee().getIdentifiantProperty());
-		colonne_aerodromeArrivee.setCellFactory(TextFieldTableCell.<Vol>forTableColumn());
+		colonne_aerodromeArrivee.setCellFactory(AcceptOnExitTableCell.<Vol>forTableColumn());
 		colonne_aerodromeArrivee.setOnEditCommit(
 	            (CellEditEvent<Vol, String> t) -> {
 	                ((Vol) t.getTableView().getItems().get(
@@ -116,13 +116,21 @@ public class SaisirVolController {
 	                        ).setAerodromeArrivee(new Aerodrome("",t.getNewValue()));
 	        });
 		colonne_tempsVol.setCellValueFactory((cellData)->cellData.getValue().getTempsVol().toStringProperty());
-		colonne_tempsVol.setCellFactory(TextFieldTableCell.<Vol>forTableColumn());
+		colonne_tempsVol.setCellFactory(AcceptOnExitTableCell.<Vol>forTableColumn());
 		colonne_tempsVol.setOnEditCommit(
 	            (CellEditEvent<Vol, String> t) -> {
-	                ((Vol) t.getTableView().getItems().get(
-	                        t.getTablePosition().getRow())
-	                        ).setTempsVol(new Temps(0,Integer.parseInt(t.getNewValue())));
-	        });
+	            	Temps temps=new Temps();
+	            	try{
+	            		temps.stringToTemps(t.getNewValue());
+	            	}catch(IllegalArgumentException e){
+	            		temps=new Temps();
+	            		new PopupError("Erreur de saisie", null, e.getMessage());
+	            	}finally{
+	            		((Vol) t.getTableView().getItems().get(
+		                        t.getTablePosition().getRow())
+		                        ).setTempsVol(temps);
+	            	}
+	            });
 	}
 	/**
 	 * Methode qui gere les actions apres
