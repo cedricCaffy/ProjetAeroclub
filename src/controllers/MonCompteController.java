@@ -63,11 +63,18 @@ public class MonCompteController {
 	
 	}
 	
+	/**
+	 * Action qui suit le click sur le bouton retour
+	 */
 	@FXML
 	private void actionBoutonRetour(){
 		mainApp.afficherEcranAccueil(this.membre);
 	}
 	
+	/**
+	 * Set le membre qui regarde son compte
+	 * @param membre
+	 */
 	public void setMembre(Membre membre){
 		this.membre=membre;
 		actionApresChargement();
@@ -85,6 +92,10 @@ public class MonCompteController {
 		tv_vols.setItems(((Pilote)this.membre).getVols());
 	}
 	
+	/**
+	 * Affiche les differents paiements que le membre connecte
+	 * a effectue
+	 */
 	private void afficherPaiement(){
 		colonne_datePaiement.setCellValueFactory((cellData)->cellData.getValue().getDatePaiementProperty());
 		colonne_montantPaiement.setCellValueFactory((cellData)-> cellData.getValue().getMontantProperty());
@@ -98,6 +109,10 @@ public class MonCompteController {
 		tv_paiements.setItems(this.membre.getPaiements());
 	}
 	
+	/**
+	 * Action qui suit le chargement de la page
+	 * (initialisation des champs)
+	 */
 	private void actionApresChargement(){
 		afficherSolde();
 		if(membre instanceof Pilote){
@@ -106,6 +121,9 @@ public class MonCompteController {
 		afficherPaiement();
 	}
 	
+	/**
+	 * Affiche le solde du membre connecte
+	 */
 	private void afficherSolde(){
 		if(this.membre.getSolde()<0){
 			l_solde.setTextFill(Color.RED);
@@ -115,6 +133,10 @@ public class MonCompteController {
 		l_solde.setText(l_solde.getText()+this.membre.getSolde()+"€");
 	}
 	
+	/**
+	 * Set le mainApp
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}

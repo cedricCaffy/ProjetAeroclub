@@ -75,6 +75,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Affiche l'ecran mon compte
+	 * @param membre le membre qui s'est connecte a l'application
+	 */
 	public void afficherEcranMonCompte(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
@@ -92,6 +96,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * Affiche l'ecran de saisie d'un vol
+	 * @param membre le membre qui saisit son vol
+	 */
 	public void afficherEcranSaisirVol(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
@@ -109,6 +117,10 @@ public class MainApp extends Application {
 		}
 	}
 	
+	/**
+	 * affiche l'ecran de saisie d'un paiement
+	 * @param membre le membre qui va saisir un paiement
+	 */
 	public void afficherEcranSaisirPaiement(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
@@ -125,6 +137,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Quitte le programme
 	 */

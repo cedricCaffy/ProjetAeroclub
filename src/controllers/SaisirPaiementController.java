@@ -1,5 +1,9 @@
 package controllers;
 
+import java.time.LocalDate;
+
+import util.DateUtil;
+import util.TextFieldManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -33,6 +37,9 @@ public class SaisirPaiementController {
 	@FXML
 	private TextField tf_numeroCheque;
 	
+	@FXML
+	private Label l_date;
+	
 	public SaisirPaiementController(){}
 	
 	@FXML
@@ -40,44 +47,84 @@ public class SaisirPaiementController {
 		
 	}
 	
+	/**
+	 * Action qui suit le click sur le bouton annuler
+	 */
 	@FXML
 	private void actionBoutonAnnuler(){
 		mainApp.afficherEcranAccueil(this.membre);
 	}
+	
+	/**
+	 * Set le mainApp
+	 * @param mainApp
+	 */
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}
 	
+	/**
+	 * Actions a faire apres le chargement de la page
+	 * (initialisation des differents champs)
+	 */
 	private void actionApresChargement(){
 		initialiserLabelPilote();
 		initialiserComboBoxTypePaiement();
+		initialiserDate();
 	}
 	
-	private void initialiserTextField(int typePaiement){
-		
+	/**
+	 * Initialise la date
+	 */
+	private void initialiserDate() {
+		LocalDate date=LocalDate.now();
+		l_date.setText(l_date.getText()+DateUtil.format(date));
 	}
 	
+	/**
+	 * Action qui suit la selection du type de paiement
+	 * "Espece"
+	 */
+	private void especeSelected(){
+		TextFieldManager.desactiverTextField(tf_banque);
+		TextFieldManager.desactiverTextField(tf_numeroCheque);
+	}
+	
+	/**
+	 * Action qui suit la selection du type de paiement
+	 * "Cheque"
+	 */
+	private void chequeSelected(){
+		TextFieldManager.activerTextField(tf_banque);
+		TextFieldManager.activerTextField(tf_numeroCheque);
+	}
+	/**
+	 * Initialise le combobox du type de paiement
+	 */
 	private void initialiserComboBoxTypePaiement() {
 		cb_typePaiement.getItems().add(SaisirPaiementController.CHEQUE,"Chèque");
 		cb_typePaiement.getItems().add(SaisirPaiementController.ESPECE,"Espèce");
 		cb_typePaiement.valueProperty().addListener(new ChangeListener<String>() {
 	        @Override public void changed(ObservableValue ov, String t, String t1) {
 	            if(cb_typePaiement.getSelectionModel().getSelectedIndex()==SaisirPaiementController.ESPECE){
-	            	tf_banque.setEditable(false);
-	            	//Background des textfield a changer
-	            	//tf_banque.setBackground(new Background(Fill));
-	            	tf_numeroCheque.setEditable(false);
+	            	especeSelected();
 	            }else{
-	            	tf_banque.setEditable(true);
-	            	tf_numeroCheque.setEditable(true);
+	            	chequeSelected();
 	            }
 	          }    
 	      });
 	}
 
+	/**
+	 * Initialise le label contenant le nom du pilote
+	 */
 	private void initialiserLabelPilote(){
 		l_pilote.setText(l_pilote.getText()+this.membre.getNom()+" "+this.membre.getPrenom());
 	}
+	/**
+	 * Set le membre de l'interface de paiement
+	 * @param membre le membre qui saisit son paiement
+	 */
 	public void setMembre(Membre membre){
 		this.membre=membre;
 		actionApresChargement();

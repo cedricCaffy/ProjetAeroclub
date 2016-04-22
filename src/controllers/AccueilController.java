@@ -31,34 +31,67 @@ public class AccueilController {
 
 	}
 	
+	/**
+	 * Action qui suit le click sur le bouton Mon Compte
+	 */
 	@FXML
 	private void actionBoutonMonCompte(){
 		mainApp.afficherEcranMonCompte(this.membre);
 	}
+	
+	/**
+	 * Action qui suit le click sur le bouton saisir vol
+	 */
 	@FXML
 	private void actionBoutonSaisirVol(){
 		mainApp.afficherEcranSaisirVol(this.membre);
 	}
+	
+	/**
+	 * Action qui suit le click sur le bouton
+	 * saisir paiement
+	 */
 	@FXML
 	private void actionBoutonSaisirPaiement(){
 		mainApp.afficherEcranSaisirPaiement(this.membre);
 	}
+	/**
+	 * Affichage du message "Bonjour + nomMembre"
+	 */
 	private void afficherMessageBienvenue(){
 		l_messageBienvenue.setText(l_messageBienvenue.getText()+" "+membre.getNom()+" "+membre.getPrenom());
 	}
+	
+	/**
+	 * Permet de setter le mainApp
+	 * @param mainApp le mainApp qui utilise le controller
+	 */
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}
 	
+	/**
+	 * Recupere le mainApp
+	 * @return le mainApp actuel
+	 */
 	public MainApp getMainApp(){
 		return this.mainApp;
 	}
 	
+	/**
+	 * Permet de mettre a jour le membre
+	 * qui est sur l'accueil
+	 * @param membre le membre qui utilise la page d'accueil
+	 */
 	public void setMembre(Membre membre){
 		this.membre=membre;
 		afficherMessageBienvenue();
 	}
 	
+	/**
+	 * Retourne le membre qui utilise cette interface
+	 * @return membre le membre qui utilise cette interface
+	 */
 	public Membre getMembre(){
 		return this.membre;
 	}
