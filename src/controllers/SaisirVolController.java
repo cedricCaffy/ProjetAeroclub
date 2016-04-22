@@ -72,6 +72,7 @@ public class SaisirVolController {
 		/**
 		 * Test du combobox (temporaire)
 		 */
+		//A FAIRE : les controles des saisies
 		if(cb_avions.getSelectionModel().getSelectedItem()!=null){
 			System.out.println(cb_avions.getSelectionModel().getSelectedItem().getKey());
 		}

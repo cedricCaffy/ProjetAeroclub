@@ -39,6 +39,10 @@ public class AccueilController {
 	private void actionBoutonSaisirVol(){
 		mainApp.afficherEcranSaisirVol(this.membre);
 	}
+	@FXML
+	private void actionBoutonSaisirPaiement(){
+		mainApp.afficherEcranSaisirPaiement(this.membre);
+	}
 	private void afficherMessageBienvenue(){
 		l_messageBienvenue.setText(l_messageBienvenue.getText()+" "+membre.getNom()+" "+membre.getPrenom());
 	}

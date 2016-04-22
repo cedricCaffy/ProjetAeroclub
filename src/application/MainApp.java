@@ -4,6 +4,7 @@ import model.classes.membres.Membre;
 import controllers.AccueilController;
 import controllers.ConnexionController;
 import controllers.MonCompteController;
+import controllers.SaisirPaiementController;
 import controllers.SaisirVolController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -101,6 +102,23 @@ public class MainApp extends Application {
 			this.primaryStage.setScene(rootScene);
 			this.primaryStage.show();
 			SaisirVolController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.setMembre(membre);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void afficherEcranSaisirPaiement(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/SaisirPaiement.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/SaisirPaiement.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			SaisirPaiementController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.setMembre(membre);
 		}catch(Exception e){

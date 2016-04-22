@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SaisirPaiementController">
+   <children>
+      <Label layoutX="24.0" layoutY="23.0" text="Saisir un paiement" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="105.0" layoutY="98.0" prefHeight="184.0" prefWidth="391.0">
+         <children>
+            <Pane layoutX="2.0" layoutY="14.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label text="Type de paiement">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="cb_typePaiement" layoutY="23.0" prefWidth="150.0" />
+               </children>
+            </Pane>
+            <Pane layoutY="136.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.topAnchor="138.0">
+               <children>
+                  <Label text="Numero de chèque">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_numeroCheque" layoutX="1.0" layoutY="23.0" />
+               </children>
+            </Pane>
+            <Label layoutX="241.0" layoutY="14.0" text="Date : " AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Pane layoutX="2.0" layoutY="74.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.topAnchor="69.0">
+               <children>
+                  <Label text="Montant">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_montant" layoutX="1.0" layoutY="23.0" />
+               </children>
+            </Pane>
+            <Pane layoutX="241.0" layoutY="74.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.topAnchor="69.0">
+               <children>
+                  <Label text="Banque">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_banque" layoutX="1.0" layoutY="23.0" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" layoutY="326.0" prefWidth="600.0">
+         <children>
+            <Pane prefHeight="50.0" prefWidth="287.0">
+               <children>
+                  <Button fx:id="b_annuler" layoutX="167.0" mnemonicParsing="false" onMouseClicked="#actionBoutonAnnuler" prefHeight="50.0" prefWidth="120.0" text="Annuler">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/quitter.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Enregistrer">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/enregistrer.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <Label fx:id="l_pilote" layoutX="48.0" layoutY="67.0" text="Pilote : ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
