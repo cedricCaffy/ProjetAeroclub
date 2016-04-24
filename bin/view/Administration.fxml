@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdministrationController">
+   <children>
+      <HBox alignment="CENTER" layoutY="230.0" prefWidth="800.0">
+         <children>
+            <Pane prefHeight="141.0" prefWidth="376.0">
+               <children>
+                  <Button fx:id="b_gestionMembre" contentDisplay="TOP" mnemonicParsing="false" onMouseClicked="#actionBoutonGestionMembre" text="Gestion des membres">
+                     <graphic>
+                        <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/groupe.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="b_gestionAvion" contentDisplay="TOP" layoutX="248.0" mnemonicParsing="false" onMouseClicked="#actionBoutonGestionAvion" text="Gestion des avions">
+                     <graphic>
+                        <ImageView fitHeight="114.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/iconeAvion.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <Label layoutX="36.0" layoutY="34.0" text="Administration" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="58.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutY="462.0" prefWidth="800.0">
+         <children>
+            <Button fx:id="b_retour" layoutX="374.0" layoutY="462.0" mnemonicParsing="false" onMouseClicked="#actionBoutonRetour" prefHeight="50.0" prefWidth="120.0" text="Retour">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/icone-retour.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

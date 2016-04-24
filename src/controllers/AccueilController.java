@@ -1,5 +1,7 @@
 package controllers;
 
+import view.popup.PopupError;
+import model.classes.membres.Administrateur;
 import model.classes.membres.Membre;
 import application.MainApp;
 import javafx.fxml.FXML;
@@ -54,6 +56,17 @@ public class AccueilController {
 	@FXML
 	private void actionBoutonSaisirPaiement(){
 		mainApp.afficherEcranSaisirPaiement(this.membre);
+	}
+	
+	@FXML
+	private void actionBoutonAdministration(){
+		mainApp.afficherEcranAdministration(membre);
+		//Probleme ici !! Comment on fait pour qu'un membre soit a la fois administrateur et a la fois pilote ??
+		/*if(this.membre instanceof Administrateur){
+			mainApp.afficherEcranAdministration(membre);
+		}else{
+			new PopupError("Interdiction d'accès",null,"Désolé, vous ne possédez pas les droits pour accéder à l'administration");
+		}*/
 	}
 	/**
 	 * Affichage du message "Bonjour + nomMembre"

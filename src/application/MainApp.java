@@ -1,8 +1,12 @@
 package application;
 	
 import model.classes.membres.Membre;
+import model.dao.AeroclubBD;
 import controllers.AccueilController;
+import controllers.AdministrationController;
 import controllers.ConnexionController;
+import controllers.GestionAvionController;
+import controllers.GestionMembreController;
 import controllers.MonCompteController;
 import controllers.SaisirPaiementController;
 import controllers.SaisirVolController;
@@ -22,8 +26,9 @@ public class MainApp extends Application {
 	
 	@Override
 	public void start(Stage primaryStage){
+		AeroclubBD aeroclubBD=new AeroclubBD();
 		this.primaryStage=primaryStage;
-		this.primaryStage.setTitle("Aéroclub Périgueux Bassillac");
+		this.primaryStage.setTitle(aeroclubBD.getAeroclub().getNom());
 		this.primaryStage.setResizable(false);
 		this.primaryStage.setOnCloseRequest((event)->quitterProgramme());
 		afficherFenetrePrincipale();
@@ -68,6 +73,61 @@ public class MainApp extends Application {
 			this.primaryStage.setScene(rootScene);
 			this.primaryStage.show();
 			AccueilController controller = loader.getController();
+			controller.setMembre(membre);
+			controller.setMainApp(this);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void afficherEcranAdministration(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/Administration.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/Administration.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			AdministrationController controller = loader.getController();
+			controller.setMembre(membre);
+			controller.setMainApp(this);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Affiche l'ecran de gestion des membres
+	 * @param membre le membre qui accede a l'ecran de gestion de membres
+	 */
+	public void afficherEcranGestionMembre(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/GestionMembre.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/GestionMembre.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			GestionMembreController controller = loader.getController();
+			controller.setMembre(membre);
+			controller.setMainApp(this);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void afficherEcranGestionAvion(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/GestionAvion.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/GestionAvion.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			GestionAvionController controller = loader.getController();
 			controller.setMembre(membre);
 			controller.setMainApp(this);
 		}catch(Exception e){
