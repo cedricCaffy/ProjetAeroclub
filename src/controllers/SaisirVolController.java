@@ -3,10 +3,12 @@ package controllers;
 import util.AcceptOnExitTableCell;
 import util.Temps;
 import view.popup.PopupError;
+import view.popup.PopupInfoConfirmation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
@@ -91,7 +93,12 @@ public class SaisirVolController {
 	 */
 	@FXML
 	private void actionBoutonAnnuler(){
-		mainApp.afficherEcranAccueil(this.membre);
+		PopupInfoConfirmation popup=new PopupInfoConfirmation();
+		popup.afficherPopup("Confirmation", "Annulation", "Attention, vous allez perdre toute votre saisie si"
+				+ " vous annulez, voulez-vous vraiment continuer ?");
+		if(popup.getButtonClicked().get()==ButtonType.OK){
+			mainApp.afficherEcranAccueil(this.membre);
+		}
 	}
 	//TextFieldTableCell
 	//AcceptOnExitTableCell

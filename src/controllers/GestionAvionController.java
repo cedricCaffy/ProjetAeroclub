@@ -13,6 +13,14 @@ public class GestionAvionController {
 	@FXML
 	private void initialize(){}
 	
+	/**
+	 * Action qui suit le click du bouton retour
+	 */
+	@FXML
+	private void actionBoutonRetour(){
+		this.mainApp.afficherEcranAdministration(membre);
+	}
+	
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}

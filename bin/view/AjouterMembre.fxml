@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="26.0" layoutY="29.0" text="Ajout d'un membre" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="53.0" layoutY="98.0" text="Nom :" />
+      <Label layoutX="217.0" layoutY="98.0" text="Prénom :" />
+      <Label layoutX="53.0" layoutY="128.0" text="Adresse :" />
+      <Label layoutX="53.0" layoutY="158.0" text="Email :" />
+      <Label layoutX="53.0" layoutY="195.0" text="Téléphone :" />
+      <Label layoutX="217.0" layoutY="195.0" text="Mobile :" />
+      <Label layoutX="53.0" layoutY="229.0" text="Date de naissance : " />
+   </children>
+</AnchorPane>

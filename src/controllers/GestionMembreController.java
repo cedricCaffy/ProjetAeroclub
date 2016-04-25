@@ -17,6 +17,14 @@ public class GestionMembreController {
 		this.mainApp=mainApp;
 	}
 	
+	/**
+	 * Action qui suit le click sur le bouton retour
+	 */
+	@FXML
+	private void actionBoutonRetour(){
+		this.mainApp.afficherEcranAdministration(membre);
+	}
+	
 	public void setMembre(Membre membre){
 		this.membre=membre;
 	}
