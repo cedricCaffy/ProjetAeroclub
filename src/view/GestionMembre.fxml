@@ -28,7 +28,7 @@
       </Label>
       <VBox alignment="CENTER" layoutX="614.0" prefHeight="600.0">
          <children>
-            <Button layoutX="614.0" layoutY="213.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="144.0" text="Ajouter Membre">
+            <Button fx:id="b_ajouterMembre" layoutX="614.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#actionBoutonAjouterMembre" prefHeight="50.0" prefWidth="144.0" text="Ajouter Membre">
                <VBox.margin>
                   <Insets bottom="50.0" />
                </VBox.margin>

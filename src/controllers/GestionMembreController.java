@@ -8,6 +8,7 @@ public class GestionMembreController {
 	private MainApp mainApp;
 	private Membre membre;
 	
+	
 	public GestionMembreController(){}
 	
 	@FXML
@@ -25,6 +26,10 @@ public class GestionMembreController {
 		this.mainApp.afficherEcranAdministration(membre);
 	}
 	
+	@FXML
+	private void actionBoutonAjouterMembre(){
+		this.mainApp.afficherEcranAjouterMembre(membre);
+	}
 	public void setMembre(Membre membre){
 		this.membre=membre;
 	}

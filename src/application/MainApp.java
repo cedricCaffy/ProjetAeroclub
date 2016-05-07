@@ -4,6 +4,7 @@ import model.classes.membres.Membre;
 import model.dao.AeroclubBD;
 import controllers.AccueilController;
 import controllers.AdministrationController;
+import controllers.AjouterMembreController;
 import controllers.ConnexionController;
 import controllers.GestionAvionController;
 import controllers.GestionMembreController;
@@ -118,6 +119,22 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void afficherEcranAjouterMembre(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/AjouterMembre.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/AjouterMembre.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			AjouterMembreController controller = loader.getController();
+			controller.setMembre(membre);
+			controller.setMainApp(this);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	public void afficherEcranGestionAvion(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
