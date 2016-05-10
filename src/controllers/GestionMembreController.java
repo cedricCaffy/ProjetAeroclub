@@ -30,6 +30,12 @@ public class GestionMembreController {
 	private void actionBoutonAjouterMembre(){
 		this.mainApp.afficherEcranAjouterMembre(membre);
 	}
+	
+	@FXML
+	private void actionBoutonEditerMembre(){
+		this.mainApp.afficherEcranEditerMembre(membre);
+	}
+	
 	public void setMembre(Membre membre){
 		this.membre=membre;
 	}

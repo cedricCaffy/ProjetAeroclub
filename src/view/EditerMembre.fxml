@@ -7,9 +7,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMembreController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#actionBoutonAnnuler" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EditerMembreController">
    <children>
-      <Label layoutX="26.0" layoutY="29.0" text="Ajout d'un membre" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+      <Label layoutX="26.0" layoutY="29.0" text="Modification d'un membre" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
          <font>
             <Font size="24.0" />
          </font>

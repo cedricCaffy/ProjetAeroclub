@@ -8,6 +8,7 @@ import controllers.AjouterMembreController;
 import controllers.ConnexionController;
 import controllers.GestionAvionController;
 import controllers.GestionMembreController;
+import controllers.EditerMembreController;
 import controllers.MonCompteController;
 import controllers.SaisirPaiementController;
 import controllers.SaisirVolController;
@@ -208,6 +209,27 @@ public class MainApp extends Application {
 			this.primaryStage.setScene(rootScene);
 			this.primaryStage.show();
 			SaisirPaiementController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.setMembre(membre);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Affiche l'ecran de modification d'un membre
+	 * @param membre
+	 */
+	public void afficherEcranEditerMembre(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/EditerMembre.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/AjouterMembre.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			EditerMembreController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.setMembre(membre);
 		}catch(Exception e){
