@@ -4,11 +4,13 @@ import model.classes.membres.Membre;
 import model.dao.AeroclubBD;
 import controllers.AccueilController;
 import controllers.AdministrationController;
+import controllers.AjouterAvionController;
 import controllers.AjouterMembreController;
 import controllers.ConnexionController;
 import controllers.GestionAvionController;
 import controllers.GestionMembreController;
 import controllers.EditerMembreController;
+import controllers.EditerAvionController;
 import controllers.MonCompteController;
 import controllers.SaisirPaiementController;
 import controllers.SaisirVolController;
@@ -230,6 +232,40 @@ public class MainApp extends Application {
 			this.primaryStage.setScene(rootScene);
 			this.primaryStage.show();
 			EditerMembreController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.setMembre(membre);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void afficherEcranAjouterAvion(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/AjouterAvion.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/AjouterModifierAvion.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			AjouterAvionController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.setMembre(membre);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void afficherEcranEditerAvion(Membre membre){
+		try{
+			FXMLLoader loader=new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("../view/EditerAvion.fxml"));
+			this.rootLayout=(AnchorPane) loader.load();
+			Scene rootScene=new Scene(this.rootLayout);
+			rootScene.getStylesheets().add("view/css/AjouterModifierAvion.css");
+			this.primaryStage.setScene(rootScene);
+			this.primaryStage.show();
+			EditerAvionController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.setMembre(membre);
 		}catch(Exception e){

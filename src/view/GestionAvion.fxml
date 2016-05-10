@@ -26,7 +26,7 @@
       </Label>
       <VBox alignment="CENTER" layoutX="614.0" prefHeight="600.0">
          <children>
-            <Button layoutX="614.0" layoutY="213.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="144.0" text="Ajouter Avion">
+            <Button layoutX="614.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#actionBoutonAjouterAvion" prefHeight="50.0" prefWidth="144.0" text="Ajouter Avion">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -38,7 +38,7 @@
                   <Insets bottom="50.0" />
                </VBox.margin>
             </Button>
-            <Button layoutX="614.0" layoutY="275.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="144.0" text="Editer Avion">
+            <Button layoutX="614.0" layoutY="275.0" mnemonicParsing="false" onMouseClicked="#actionBoutonEditerAvion" prefHeight="50.0" prefWidth="144.0" text="Editer Avion">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>

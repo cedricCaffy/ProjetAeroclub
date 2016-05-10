@@ -1,0 +1,9 @@
+.anchorPane{
+	-fx-border-color : rgb(0,0,0);
+	-fx-border-style: segments(1, 1);
+}
+
+.titreSurBordure{
+  -fx-padding: 0 4 0 4;
+  -fx-background-color: -fx-background;
+}

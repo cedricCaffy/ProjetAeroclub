@@ -21,6 +21,16 @@ public class GestionAvionController {
 		this.mainApp.afficherEcranAdministration(membre);
 	}
 	
+	@FXML
+	private void actionBoutonAjouterAvion(){
+		this.mainApp.afficherEcranAjouterAvion(membre);
+	}
+	
+	@FXML
+	private void actionBoutonEditerAvion(){
+		this.mainApp.afficherEcranEditerAvion(membre);
+	}
+	
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}
