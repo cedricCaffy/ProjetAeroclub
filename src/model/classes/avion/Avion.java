@@ -14,7 +14,7 @@ public class Avion {
 	private StringProperty nom;
 	private StringProperty type;
 	private StringProperty immatriculation;
-	private IntegerProperty autonomie;
+	private IntegerProperty consommation;
 	private IntegerProperty capaciteReservoir;
 	private IntegerProperty nombrePlace;
 	private IntegerProperty masseMaximale;
@@ -29,7 +29,7 @@ public class Avion {
 		this.nom=new SimpleStringProperty(nom);
 		this.type=new SimpleStringProperty(type);
 		this.immatriculation=new SimpleStringProperty(immatriculation);
-		this.autonomie=new SimpleIntegerProperty(autonomie);
+		this.consommation=new SimpleIntegerProperty(autonomie);
 		this.capaciteReservoir=new SimpleIntegerProperty(capaciteReservoir);
 		this.nombrePlace=new SimpleIntegerProperty(nombrePlace);
 		this.masseMaximale=new SimpleIntegerProperty(masseMaximale);
@@ -81,15 +81,15 @@ public class Avion {
 	public void setImmatriculation(String immatriculation) {
 		this.immatriculation.set(immatriculation);
 	}
-	public IntegerProperty getAutonomieProperty() {
-		return autonomie;
+	public IntegerProperty getConsommationProperty() {
+		return consommation;
 	}
 	
-	public Integer getAutonomie(){
-		return autonomie.get();
+	public Integer getConsommation(){
+		return consommation.get();
 	}
-	public void setAutonomie(Integer autonomie) {
-		this.autonomie.set(autonomie);
+	public void setConsommation(Integer autonomie) {
+		this.consommation.set(autonomie);
 	}
 	
 	public IntegerProperty getCapaciteReservoirProperty() {
