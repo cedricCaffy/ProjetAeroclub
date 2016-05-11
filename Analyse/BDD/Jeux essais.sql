@@ -17,3 +17,8 @@ VALUES
 ('DR-400','Voyage','F-GIKO',24,110,4,1200,125,'DISPONIBLE',100,1),
 ('Cessna 152','Ecole','F-GCNP',20,180,2,1000,110,'DISPONIBLE',100,1),
 ('Cessna 172','Voyage','F-HPGX',30,110,4,1300,165,'DISPONIBLE',110,1);
+
+INSERT INTO DROITS (idmembre,instructeur,administrateur,mecanicien,pilote)
+VALUES
+(1,1,1,1,1),
+(2,0,0,0,1);
