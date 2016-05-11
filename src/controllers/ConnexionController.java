@@ -1,7 +1,6 @@
 package controllers;
 
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javafx.fxml.FXML;
@@ -11,12 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.classes.membres.Membre;
-import model.dao.MembresBD;
+import model.dao.MembresDAO;
 import view.popup.PopupError;
 import application.MainApp;
-import bd.ConnexionBD;
-
-import com.mysql.jdbc.Statement;
 
 public class ConnexionController {
 	@FXML
@@ -55,30 +51,22 @@ public class ConnexionController {
 	 */
 	@FXML
 	private void actionBoutonValider(){
-		ResultSet rs;
-		ConnexionBD connexion=ConnexionBD.getInstance();
-		try {
-			java.sql.Statement statement=connexion.getConnexion().createStatement();
-			String sql = "SELECT * FROM MEMBRE";
-			rs=statement.executeQuery(sql);
-			while(rs.next()){
-				System.out.println(rs.getString("nom"));
-			}
-			connexion.close();
-		} catch (SQLException e) {
-			new PopupError("Base de données","Erreur de base de données",e.getMessage());
-		}
+		MembresDAO membreDAO=new MembresDAO();
 		Membre membre;
-		MembresBD bd=new MembresBD();
-		membre=bd.getMembreByLogin(tf_login.getText());
-		if(membre!=null){
-			if(membre.getMotDePasse().equals(pf_password.getText())){
-				mainApp.afficherEcranAccueil(membre);
+		try{
+			membre=membreDAO.getMembreByLogin(tf_login.getText());
+			if(membre!=null){
+				if(membre.getMotDePasse().equals(pf_password.getText())){
+					mainApp.afficherEcranAccueil(membre);
+				}else{
+					new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
+				}
 			}else{
 				new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
 			}
-		}else{
-			new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
+		}catch(SQLException e){
+			/*new PopupError("Erreur BD",null,e.getMessage());*/
+			e.printStackTrace();
 		}
 	}
 	

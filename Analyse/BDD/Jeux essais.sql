@@ -4,9 +4,9 @@ VALUES
 ('Chez Michelet','Mauzens et Miremont',24260,NULL),
 ('rue de maxime','Saint-Flour',15100,3);
 
-INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,datenaissance,solde,idaeroclub) VALUES
-('CAFFY','Cédric',1,'cedric.caffy@hotmail.fr','0553058803','1993-05-24',50,1),
-('AUZANNEAU','Maxime',2,'maauzannea@poste.isima.fr','0102030405','1994-12-31',-5,1);
+INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,datenaissance,solde,idaeroclub,login,mdp) VALUES
+('CAFFY','Cédric',1,'cedric.caffy@hotmail.fr','0553058803','1993-05-24',50,1,'cedric','cedric'),
+('AUZANNEAU','Maxime',2,'maauzannea@poste.isima.fr','0102030405','1994-12-31',-5,1,'maxime','maxime');
 
 INSERT INTO AVION (nomavion,typeavion,immatriculation,consommation,capacitereservoir,nbplace,massemaximale,couthoraire,disponibilite,vitessecroisiere,idaeroclub)
 VALUES
@@ -16,8 +16,8 @@ VALUES
 
 INSERT INTO DROITS (idmembre,instructeur,administrateur,mecanicien,pilote)
 VALUES
-(1,1,1,1,1),
-(2,0,0,0,1);
+(1,'INSTRUCTEUR','ADMIN','MECANICIEN','PILOTE'),
+(2,NULL,NULL,NULL,'PILOTE');
 
 INSERT INTO PILOTE(idmembre,datevaliditevisitemedicale)
 VALUES

@@ -134,10 +134,10 @@ CREATE TABLE IF NOT EXISTS vol (
 
 CREATE TABLE IF NOT EXISTS droits (
   idmembre int PRIMARY KEY,
-  instructeur tinyint(1),
-  administrateur tinyint(1),
-  mecanicien tinyint(1),
-  pilote tinyint(1),
+  instructeur VARCHAR(20),
+  administrateur VARCHAR(20),
+  mecanicien VARCHAR(20),
+  pilote VARCHAR(20),
   CONSTRAINT fk_droitsmembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

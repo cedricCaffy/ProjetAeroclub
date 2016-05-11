@@ -1,6 +1,8 @@
 package model.classes.membres;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.classes.paiement.Paiement;
 import javafx.beans.property.DoubleProperty;
@@ -28,8 +30,18 @@ public class Membre {
 	private Image photo;
 	private Adresse adresse;
 	private ObservableList<Paiement> paiements;
+	private List<String> droits;
 	
 	public Membre(){}
+	
+	public Membre(int idMembre,String nom, String prenom,String motDePasse, List<String> droits){
+		this.idMembre=new SimpleIntegerProperty(idMembre);
+		this.nom=new SimpleStringProperty(nom);
+		this.prenom=new SimpleStringProperty(prenom);
+		this.motDePasse=new SimpleStringProperty(motDePasse);
+		this.droits=droits;
+	}
+	
 	public Membre(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,LocalDate dateNaissance,double solde,Image photo,Adresse adresse){
 		this.idMembre=new SimpleIntegerProperty(idMembre);
 		this.nom=new SimpleStringProperty(nom);
@@ -43,6 +55,7 @@ public class Membre {
 		this.photo=photo;
 		this.adresse=adresse;
 		this.paiements=FXCollections.observableArrayList();
+		this.droits=new ArrayList<String>();
 	}
 	/*Getters and setters*/
 	public IntegerProperty getIdMembreProperty() {
@@ -165,6 +178,21 @@ public class Membre {
 	}
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+	
+	public void setDroits(List<String> droits){
+		this.droits=droits;
+	}
+	
+	public List<String> getDroits(){
+		return this.droits;
+	}
+	
+	public void ajouterDroit(String droit){
+		this.droits.add(droit);
+	}
+	public boolean hasRole(String droit){
+		return this.droits.contains(droit);
 	}
 	
 	/**Autres methodes**/

@@ -2,6 +2,7 @@ package controllers;
 
 import view.popup.PopupError;
 import model.classes.membres.Administrateur;
+import model.classes.membres.Droits;
 import model.classes.membres.Membre;
 import application.MainApp;
 import javafx.fxml.FXML;
@@ -99,6 +100,13 @@ public class AccueilController {
 	public void setMembre(Membre membre){
 		this.membre=membre;
 		afficherMessageBienvenue();
+		affichageSelonDroits();
+	}
+	
+	private void affichageSelonDroits(){
+		if(!this.membre.hasRole(Droits.ADMIN.toString())){
+			b_administration.setVisible(false);
+		}
 	}
 	
 	/**
