@@ -17,134 +17,158 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données :  `aeroclub`
+-- Base de données :  aeroclub
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `adresse`
+-- Structure de la table adresse
 --
 
-CREATE TABLE IF NOT EXISTS `adresse` (
-  `idadr` int(4) NOT NULL,
-  `rue` varchar(50) COLLATE utf8_bin NOT NULL,
-  `ville` varchar(30) COLLATE utf8_bin NOT NULL,
-  `codepostal` int(5) NOT NULL,
-  `numero` int(3) NOT NULL,
-  PRIMARY KEY (`idadr`)
+CREATE TABLE IF NOT EXISTS adresse (
+  idadr int PRIMARY KEY AUTO_INCREMENT,
+  rue varchar(50) COLLATE utf8_bin NOT NULL,
+  ville varchar(30) COLLATE utf8_bin NOT NULL,
+  codepostal char(5) NOT NULL,
+  numero int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `aerodrome`
+-- Structure de la table aerodrome
 --
 
-CREATE TABLE IF NOT EXISTS `aerodrome` (
-  `idaerodrome` char(4) COLLATE utf8_bin NOT NULL,
-  `nom` varchar(30) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`idaerodrome`)
+CREATE TABLE IF NOT EXISTS aeroclub (
+  idaeroclub int PRIMARY KEY AUTO_INCREMENT,
+  nom varchar(30) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `avion`
+-- Structure de la table avion
 --
 
-CREATE TABLE IF NOT EXISTS `avion` (
-  `idavion` char(4) COLLATE utf8_bin NOT NULL,
-  `nomavion` varchar(20) COLLATE utf8_bin NOT NULL,
-  `typeavion` varchar(20) COLLATE utf8_bin NOT NULL,
-  `immatriculation` char(5) COLLATE utf8_bin NOT NULL,
-  `autonomie` int(3) NOT NULL,
-  `capacitereservoir` int(3) NOT NULL,
-  `nbplace` int(2) NOT NULL,
-  `massemaximale` int(3) NOT NULL,
-  `couthoraire` float(5,2) NOT NULL,
-  `disponibilte` varchar(20) COLLATE utf8_bin NOT NULL,
-  `vitessecroisiere` float(5,2) NOT NULL,
-  PRIMARY KEY (`idavion`)
+CREATE TABLE IF NOT EXISTS avion (
+  idavion int PRIMARY KEY AUTO_INCREMENT,
+  nomavion varchar(20) COLLATE utf8_bin NOT NULL,
+  typeavion varchar(20) COLLATE utf8_bin NOT NULL,
+  immatriculation char(5) COLLATE utf8_bin NOT NULL,
+  consommation int(3) NOT NULL,
+  capacitereservoir int(3) NOT NULL,
+  nbplace int(2) NOT NULL,
+  massemaximale int(3) NOT NULL,
+  couthoraire float(5,2) NOT NULL,
+  disponibilite varchar(20) COLLATE utf8_bin NOT NULL,
+  vitessecroisiere float(5,2) NOT NULL,
+  idaeroclub int NOT NULL,
+  CONSTRAINT fk_avionaero FOREIGN KEY (idaeroclub) REFERENCES aeroclub(idaeroclub)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `membre`
+-- Structure de la table membre
 --
 
-CREATE TABLE IF NOT EXISTS `membre` (
-  `idmembre` char(5) COLLATE utf8_bin NOT NULL,
-  `nom` varchar(20) COLLATE utf8_bin NOT NULL,
-  `prenom` varchar(20) COLLATE utf8_bin NOT NULL,
-  `idadr` int(4) NOT NULL,
-  `email` varchar(40) COLLATE utf8_bin NOT NULL,
-  `numtel` int(10) NOT NULL,
-  `datenaissance` date NOT NULL,
-  `solde` float(6,2) NOT NULL,
-  `isinstructeur` tinyint(1) NOT NULL,
-  `ismecanicien` tinyint(1) NOT NULL,
-  `ispilote` tinyint(1) NOT NULL,
-  `isadministrateur` tinyint(1) NOT NULL,
-  PRIMARY KEY (`idmembre`)
+CREATE TABLE IF NOT EXISTS membre (
+  idmembre int PRIMARY KEY AUTO_INCREMENT,
+  nom varchar(20) COLLATE utf8_bin NOT NULL,
+  prenom varchar(20) COLLATE utf8_bin NOT NULL,
+  idadr int NOT NULL,
+  email varchar(40) COLLATE utf8_bin NOT NULL,
+  numtel char(10) COLLATE utf8_bin NOT NULL,
+  datenaissance date NOT NULL,
+  solde float(6,2) NOT NULL,
+  idaeroclub int NOT NULL,
+  CONSTRAINT fk_membreadr FOREIGN KEY (idadr) REFERENCES adresse(idadr),
+  CONSTRAINT fk_membreaero FOREIGN KEY (idaeroclub) REFERENCES aeroclub(idaeroclub)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `paiement`
+-- Structure de la table paiement
 --
 
-CREATE TABLE IF NOT EXISTS `paiement` (
-  `idpaiement` char(4) COLLATE utf8_bin NOT NULL,
-  `idmembre` int(5) NOT NULL,
-  `montant` float(6,2) NOT NULL,
-  `datepaiement` date NOT NULL,
-  `ischeque` tinyint(1) NOT NULL,
-  `isespece` tinyint(1) NOT NULL,
-  `nomemetteur` varchar(30) COLLATE utf8_bin NOT NULL,
-  `banquedebiteur` varchar(30) COLLATE utf8_bin NOT NULL,
-  `numerocheque` int(4) NOT NULL,
-  PRIMARY KEY (`idpaiement`),
-  KEY `fk_paimembre` (`idmembre`)
+CREATE TABLE IF NOT EXISTS paiement (
+  idpaiement int PRIMARY KEY AUTO_INCREMENT,
+  idmembre int NOT NULL,
+  montant float(6,2) NOT NULL,
+  datepaiement date NOT NULL,
+  ischeque tinyint(1) NOT NULL,
+  isespece tinyint(1) NOT NULL,
+  nomemetteur varchar(30) COLLATE utf8_bin NOT NULL,
+  banquedebiteur varchar(30) COLLATE utf8_bin NOT NULL,
+  numerocheque int(4) NOT NULL,
+  CONSTRAINT fk_paimembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `vol`
+-- Structure de la table vol
 --
 
-CREATE TABLE IF NOT EXISTS `vol` (
-  `idvol` char(4) COLLATE utf8_bin NOT NULL,
-  `typevol` varchar(10) COLLATE utf8_bin NOT NULL,
-  `nbpassagers` int(2) NOT NULL,
-  `datevol` date NOT NULL,
-  `tempsvol` time(4) NOT NULL,
-  `aerodromedepart` char(4) COLLATE utf8_bin NOT NULL,
-  `aerodromearrivee` char(4) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`idvol`),
-  KEY `fk_volaero1` (`aerodromedepart`),
-  KEY `fk_volaero2` (`aerodromearrivee`)
+CREATE TABLE IF NOT EXISTS vol (
+  idvol int PRIMARY KEY AUTO_INCREMENT,
+  typevol varchar(10) COLLATE utf8_bin NOT NULL,
+  nbpassagers int(2) NOT NULL,
+  datevol date NOT NULL,
+  tempsvol time(4) NOT NULL,
+  aeroclubdepart int NOT NULL,
+  aeroclubarrivee int NOT NULL,
+  CONSTRAINT fk_volaero1 FOREIGN KEY (aeroclubdepart) REFERENCES aeroclub(idaeroclub),
+  CONSTRAINT fk_volaero2 FOREIGN KEY (aeroclubarrivee) REFERENCES aeroclub(idaeroclub)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contraintes pour les tables exportées
+-- Structure de la table droits
 --
 
+CREATE TABLE IF NOT EXISTS droits (
+  idmembre int PRIMARY KEY,
+  instructeur tinyint(1),
+  administrateur tinyint(1),
+  mecanicien tinyint(1),
+  pilote tinyint(1),
+  CONSTRAINT fk_droitsmembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 --
--- Contraintes pour la table `vol`
+-- Structure de la table pilote
 --
-ALTER TABLE `vol`
-  ADD CONSTRAINT `fk_volaero1` FOREIGN KEY (`aerodromedepart`) REFERENCES `aerodrome` (`idaerodrome`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_volaero2` FOREIGN KEY (`aerodromearrivee`) REFERENCES `aerodrome` (`idaerodrome`) ON DELETE CASCADE;
-  
- ALTER TABLE `membre`
- ADD CONSTRAINT `fk_memadr` FOREIGN KEY (`idadr`) REFERENCES `membre` (`idadr`) ON DELETE CASCADE;
- 
- ALTER TABLE `paiement`
- ADD CONSTRAINT `fk_paimembre` FOREIGN KEY (`idmembre`) REFERENCES `membre`(`idmembre`) ON DELETE CASCADE;
+
+CREATE TABLE IF NOT EXISTS pilote (
+  idpilote int PRIMARY KEY AUTO_INCREMENT,
+  idmembre int NOT NULL,
+  datevalvm date NOT NULL,
+  CONSTRAINT fk_pilotemembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Structure de la table instructeur
+--
+
+CREATE TABLE IF NOT EXISTS instructeur (
+  numeroinstructeur varchar(20) COLLATE utf8_bin PRIMARY KEY,
+  couthoraire float,
+  idpilote int NOT NULL,
+  CONSTRAINT fk_instrucpilote FOREIGN KEY (idpilote) REFERENCES pilote(idpilote)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Structure de la table instructeur
+--
+
+CREATE TABLE IF NOT EXISTS brevet (
+  idbrevet int PRIMARY KEY AUTO_INCREMENT,
+  nombrevet varchar(10) COLLATE utf8_bin NOT NULL,
+  datevalidite date NOT NULL,
+  dateObtention date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
