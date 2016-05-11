@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS avion (
   idavion int PRIMARY KEY AUTO_INCREMENT,
   nomavion varchar(20) COLLATE utf8_bin NOT NULL,
   typeavion varchar(20) COLLATE utf8_bin NOT NULL,
-  immatriculation char(5) COLLATE utf8_bin NOT NULL,
+  immatriculation char(6) COLLATE utf8_bin NOT NULL,
   consommation int(3) NOT NULL,
   capacitereservoir int(3) NOT NULL,
   nbplace int(2) NOT NULL,
