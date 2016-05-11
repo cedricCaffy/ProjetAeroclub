@@ -58,15 +58,15 @@ public class ConnexionController {
 		ResultSet rs;
 		ConnexionBD connexion=ConnexionBD.getInstance();
 		try {
-			java.sql.Statement st=connexion.getConnexion().createStatement();
+			java.sql.Statement statement=connexion.getConnexion().createStatement();
 			String sql = "SELECT * FROM MEMBRE";
-			rs=st.executeQuery(sql);
+			rs=statement.executeQuery(sql);
 			while(rs.next()){
 				System.out.println(rs.getString("nom"));
 			}
 			connexion.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			new PopupError("Base de données","Erreur de base de données",e.getMessage());
 		}
 		Membre membre;
 		MembresBD bd=new MembresBD();
