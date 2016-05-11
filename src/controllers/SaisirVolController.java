@@ -23,14 +23,14 @@ import model.classes.membres.Membre;
 import model.classes.vol.Aerodrome;
 import model.classes.vol.TypeVol;
 import model.classes.vol.Vol;
-import model.dao.AeroclubBD;
+import model.dao.AeroclubDAO;
 import model.dao.AvionBD;
 import application.MainApp;
 
 public class SaisirVolController {
 	private ObservableList<Vol> listVols;
 	private Membre membre;
-	private AeroclubBD aeroclubBD;
+	private AeroclubDAO aeroclubBD;
 	private MainApp mainApp;
 	@SuppressWarnings("rawtypes")
 	@FXML
@@ -144,7 +144,7 @@ public class SaisirVolController {
 	 * le chargement de la page
 	 */
 	private void actionChargement(){
-		aeroclubBD=new AeroclubBD();
+		aeroclubBD=new AeroclubDAO();
 		ajouterAvionsComboBox();
 		ajouterTypeVolComboBox();
 		initialiserTableVols();
@@ -212,9 +212,9 @@ public class SaisirVolController {
 		/**
 		 * Ajout des valeurs dans le combobox
 		 */
-		for(Avion avion : aeroclubBD.getAeroclub().getAvions()){
+		/*for(Avion avion : aeroclubBD.getAeroclub().getAvions()){
 			cb_avions.getItems().add(new Pair<Integer,String>(avion.getId(),avion.getImmatriculation()+" - "+avion.getNom()));
-		}
+		}*/
 	}
 	
 	public void setMainApp(MainApp mainApp){

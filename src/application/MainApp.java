@@ -1,7 +1,7 @@
 package application;
 	
 import model.classes.membres.Membre;
-import model.dao.AeroclubBD;
+import model.dao.AeroclubDAO;
 import controllers.AccueilController;
 import controllers.AdministrationController;
 import controllers.AjouterAvionController;
@@ -30,9 +30,9 @@ public class MainApp extends Application {
 	
 	@Override
 	public void start(Stage primaryStage){
-		AeroclubBD aeroclubBD=new AeroclubBD();
+		AeroclubDAO aeroclubDAO=new AeroclubDAO();
 		this.primaryStage=primaryStage;
-		this.primaryStage.setTitle(aeroclubBD.getAeroclub().getNom());
+		this.primaryStage.setTitle(aeroclubDAO.getNomAeroclub());
 		this.primaryStage.setResizable(false);
 		this.primaryStage.setOnCloseRequest((event)->quitterProgramme());
 		afficherFenetrePrincipale();

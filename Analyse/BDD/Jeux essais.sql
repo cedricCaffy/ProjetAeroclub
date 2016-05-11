@@ -1,4 +1,4 @@
-INSERT INTO AEROCLUB (idaeroclub,nom) VALUES (1,'Aeroclub Périgueux Bassillac');
+INSERT INTO AEROCLUB (idaeroclub,nom) VALUES (1,'Aéroclub Périgueux Bassillac');
 INSERT INTO ADRESSE (rue,ville,codepostal,numero)
 VALUES
 ('Chez Michelet','Mauzens et Miremont',24260,NULL),
@@ -19,7 +19,7 @@ VALUES
 (1,1,1,1,1),
 (2,0,0,0,1);
 
-INSERT INTO PILOTE(idmembre,datevalvm)
+INSERT INTO PILOTE(idmembre,datevaliditevisitemedicale)
 VALUES
 (1,'2016-08-09'),
 (2,'2016-12-24');
