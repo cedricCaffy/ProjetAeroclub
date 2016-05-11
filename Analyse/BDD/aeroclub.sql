@@ -144,8 +144,7 @@ CREATE TABLE IF NOT EXISTS droits (
 CREATE TABLE IF NOT EXISTS pilote (
   idpilote int PRIMARY KEY AUTO_INCREMENT,
   idmembre int NOT NULL,
-  datevalvm date NOT NULL,
-  CONSTRAINT fk_pilotemembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
+  datevaliditevisitemedicale date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -165,9 +164,11 @@ CREATE TABLE IF NOT EXISTS instructeur (
 
 CREATE TABLE IF NOT EXISTS brevet (
   idbrevet int PRIMARY KEY AUTO_INCREMENT,
+  idpilote int,
   nombrevet varchar(10) COLLATE utf8_bin NOT NULL,
   datevalidite date NOT NULL,
-  dateObtention date NOT NULL
+  dateobtention date NOT NULL,
+  CONSTRAINT fk_pilote FOREIGN KEY (idpilote) REFERENCES pilote(idpilote)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
