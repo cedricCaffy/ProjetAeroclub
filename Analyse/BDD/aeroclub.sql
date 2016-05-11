@@ -82,6 +82,8 @@ CREATE TABLE IF NOT EXISTS membre (
   numtel char(10) COLLATE utf8_bin NOT NULL,
   datenaissance date NOT NULL,
   solde float(6,2) NOT NULL,
+  login varchar(20) COLLATE utf8_bin NOT NULL,
+  mdp varchar(20) COLLATE utf8_bin NOT NULL,
   idaeroclub int NOT NULL,
   CONSTRAINT fk_membreadr FOREIGN KEY (idadr) REFERENCES adresse(idadr),
   CONSTRAINT fk_membreaero FOREIGN KEY (idaeroclub) REFERENCES aeroclub(idaeroclub)
