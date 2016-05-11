@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS adresse (
   rue varchar(50) COLLATE utf8_bin NOT NULL,
   ville varchar(30) COLLATE utf8_bin NOT NULL,
   codepostal char(5) NOT NULL,
-  numero int(4) NOT NULL
+  numero int(4)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
