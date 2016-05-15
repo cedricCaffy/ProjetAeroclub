@@ -114,6 +114,7 @@ public class MonCompteController {
 	 * (initialisation des champs)
 	 */
 	private void actionApresChargement(){
+		/**A FAIRE**/
 		afficherSolde();
 		if(membre instanceof Pilote){
 			afficherVols();
