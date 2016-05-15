@@ -3,6 +3,9 @@ package controllers;
 
 import java.sql.SQLException;
 
+import exceptions.DAOConfigurationException;
+import exceptions.DAOException;
+import bd.ConnexionBD;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -11,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.classes.membres.Membre;
 import model.dao.MembresDAO;
+import model.dao.MembresDAOImpl;
 import view.popup.PopupError;
 import application.MainApp;
 
@@ -51,10 +55,11 @@ public class ConnexionController {
 	 */
 	@FXML
 	private void actionBoutonValider(){
-		MembresDAO membreDAO=new MembresDAO();
-		Membre membre;
+		Membre membre=null;
 		try{
-			membre=membreDAO.getMembreByLogin(tf_login.getText());
+			ConnexionBD connexion=ConnexionBD.getInstance();
+			MembresDAO membresDAO=connexion.getMembreDAO();
+			membre=membresDAO.getMembreByLogin(tf_login.getText());
 			if(membre!=null){
 				if(membre.getMotDePasse().equals(pf_password.getText())){
 					mainApp.afficherEcranAccueil(membre);
@@ -64,9 +69,10 @@ public class ConnexionController {
 			}else{
 				new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
 			}
-		}catch(SQLException e){
-			/*new PopupError("Erreur BD",null,e.getMessage());*/
-			e.printStackTrace();
+		}catch(DAOException e){
+			new PopupError("Erreur","Erreur de requete",e.getMessage());
+		}catch(DAOConfigurationException e){
+			new PopupError("Erreur","Erreur de connexion à la base de données",e.getMessage());
 		}
 	}
 	

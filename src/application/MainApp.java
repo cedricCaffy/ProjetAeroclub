@@ -1,7 +1,10 @@
 package application;
 	
+import view.popup.PopupError;
+import bd.ConnexionBD;
 import model.classes.membres.Membre;
 import model.dao.AeroclubDAO;
+import model.dao.AeroclubDAOImpl;
 import controllers.AccueilController;
 import controllers.AdministrationController;
 import controllers.AjouterAvionController;
@@ -14,6 +17,7 @@ import controllers.EditerAvionController;
 import controllers.MonCompteController;
 import controllers.SaisirPaiementController;
 import controllers.SaisirVolController;
+import exceptions.DAOConfigurationException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -30,12 +34,17 @@ public class MainApp extends Application {
 	
 	@Override
 	public void start(Stage primaryStage){
-		AeroclubDAO aeroclubDAO=new AeroclubDAO();
 		this.primaryStage=primaryStage;
-		this.primaryStage.setTitle(aeroclubDAO.getNomAeroclub());
 		this.primaryStage.setResizable(false);
 		this.primaryStage.setOnCloseRequest((event)->quitterProgramme());
-		afficherFenetrePrincipale();
+		try{
+			ConnexionBD connexion=ConnexionBD.getInstance();
+			AeroclubDAO aeroclubDAO=connexion.getAeroclubDAO();
+			this.primaryStage.setTitle(aeroclubDAO.getNomAeroclub());
+			afficherFenetrePrincipale();
+		}catch(DAOConfigurationException e){
+			new PopupError("Erreur de connexion à la base de données","Erreur",e.getMessage());
+		}
 	}
 	
 	/**

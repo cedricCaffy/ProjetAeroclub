@@ -1,0 +1,4 @@
+url=jdbc:mysql://localhost/aeroclub?useSSL=false
+login=root
+password=
+driver=com.mysql.jdbc.Driver

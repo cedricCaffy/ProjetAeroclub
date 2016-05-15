@@ -23,14 +23,14 @@ import model.classes.membres.Membre;
 import model.classes.vol.Aerodrome;
 import model.classes.vol.TypeVol;
 import model.classes.vol.Vol;
-import model.dao.AeroclubDAO;
+import model.dao.AeroclubDAOImpl;
 import model.dao.AvionBD;
 import application.MainApp;
 
 public class SaisirVolController {
 	private ObservableList<Vol> listVols;
 	private Membre membre;
-	private AeroclubDAO aeroclubBD;
+	private AeroclubDAOImpl aeroclubBD;
 	private MainApp mainApp;
 	@SuppressWarnings("rawtypes")
 	@FXML
@@ -144,10 +144,10 @@ public class SaisirVolController {
 	 * le chargement de la page
 	 */
 	private void actionChargement(){
-		aeroclubBD=new AeroclubDAO();
+		/*aeroclubBD=new AeroclubDAOImpl();
 		ajouterAvionsComboBox();
 		ajouterTypeVolComboBox();
-		initialiserTableVols();
+		initialiserTableVols();*/
 	}
 	
 	/**
