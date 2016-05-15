@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Base de données :  aeroclub
 --
 
-DROP TABLE IF EXISTS adresse, aeroclub, avion, instructeur, brevet, pilote, droits, paiement, vol, membre;
+DROP TABLE IF EXISTS adresse, avion, aeroclub, instructeur, brevet, pilote, droits, paiement, vol, membre;
 
 -- --------------------------------------------------------
 

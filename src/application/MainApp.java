@@ -1,5 +1,5 @@
 package application;
-	
+
 import view.popup.PopupError;
 import bd.ConnexionBD;
 import model.classes.membres.Membre;
@@ -26,12 +26,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 
 
+@SuppressWarnings("unused")
 public class MainApp extends Application {
 	private Stage primaryStage;
 	private AnchorPane rootLayout;
-	
+
 	public MainApp(){}
-	
+
 	@Override
 	public void start(Stage primaryStage){
 		this.primaryStage=primaryStage;
@@ -46,7 +47,7 @@ public class MainApp extends Application {
 			new PopupError("Erreur de connexion à la base de données","Erreur",e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Affiche l'ecran de connexion
 	 */
@@ -71,7 +72,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Affichage de l'ecran d'accueil
 	 * @param membre le membre qui s'est loggé
@@ -92,7 +93,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void afficherEcranAdministration(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
@@ -109,7 +110,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Affiche l'ecran de gestion des membres
 	 * @param membre le membre qui accede a l'ecran de gestion de membres
@@ -130,7 +131,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void afficherEcranAjouterMembre(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
@@ -163,7 +164,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Affiche l'ecran mon compte
 	 * @param membre le membre qui s'est connecte a l'application
@@ -184,7 +185,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Affiche l'ecran de saisie d'un vol
 	 * @param membre le membre qui saisit son vol
@@ -205,7 +206,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * affiche l'ecran de saisie d'un paiement
 	 * @param membre le membre qui va saisir un paiement
@@ -226,7 +227,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Affiche l'ecran de modification d'un membre
 	 * @param membre
@@ -247,7 +248,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void afficherEcranAjouterAvion(Membre membre){
 		try{
 			FXMLLoader loader=new FXMLLoader();
@@ -281,15 +282,15 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Quitte le programme
 	 */
 	public void quitterProgramme(){
 		Platform.exit();
 	}
-	
-	
+
+
 	public static void main(String[] args) {
 		launch(args);
 	}
