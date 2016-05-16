@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.DAOException;
+import javafx.beans.property.DoubleProperty;
 import model.classes.membres.Membre;
 import bd.ConnexionBD;
 
@@ -15,11 +16,11 @@ public class MembresDAOImpl implements MembresDAO{
 	private static final String GET_MEMBRE_BY_LOGIN = "SELECT * FROM MEMBRE WHERE login=?";
 	private static final String GET_DROITS_BY_IDMEMBRE = "SELECT * FROM DROITS WHERE idmembre=?";
 	private ConnexionBD connexion;
-	
+
 	public MembresDAOImpl(ConnexionBD connexion){
 		this.connexion = ConnexionBD.getInstance();
 	}
-	
+
 	/**
 	 * Recupere un membre par son login
 	 */
@@ -33,6 +34,7 @@ public class MembresDAOImpl implements MembresDAO{
 		String prenom=null;
 		String motDePasse=null;
 		List<String> droits;
+		double solde;
 		try{
 			connexion=this.connexion.getConnexion();
 			preparedStatement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.GET_MEMBRE_BY_LOGIN,true,login);
@@ -43,7 +45,8 @@ public class MembresDAOImpl implements MembresDAO{
 				prenom=resultSet.getString("prenom");
 				motDePasse=resultSet.getString("mdp");
 				droits=getDroitsByIdMembre(idMembre);
-				membre=new Membre(idMembre,nom,prenom,motDePasse,droits);
+				solde=resultSet.getDouble("solde");
+				membre=new Membre(idMembre,nom,prenom,motDePasse,droits,solde);
 			}
 		}catch(SQLException e){
 			throw new DAOException(e);
@@ -52,7 +55,7 @@ public class MembresDAOImpl implements MembresDAO{
 		}
 		return membre;
 	}
-	
+
 	/**
 	 * Recupere les droits pour l'identifiant du membre passe en parametre
 	 */
@@ -71,12 +74,12 @@ public class MembresDAOImpl implements MembresDAO{
 				droits.add(resultSet.getString("mecanicien"));
 				droits.add(resultSet.getString("pilote"));
 				droits.add(resultSet.getString("instructeur"));
-			}		
+			}
 		}catch(SQLException e){
 			throw new DAOException(e);
 		}finally{
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
 		}
 		return droits;
-	}	
+	}
 }
