@@ -75,7 +75,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Enregistrer">
+                  <Button mnemonicParsing="false" onMouseClicked="#actionBoutonEnregistrer" prefHeight="50.0" prefWidth="120.0" text="Enregistrer">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

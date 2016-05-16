@@ -2,6 +2,7 @@ package controllers;
 
 import java.time.LocalDate;
 
+import exceptions.FormulaireException;
 import util.DateUtil;
 import util.TextFieldManager;
 import javafx.beans.value.ChangeListener;
@@ -11,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
 import model.classes.membres.Membre;
 import model.classes.paiement.Paiement;
 import application.MainApp;
@@ -38,6 +38,9 @@ public class SaisirPaiementController {
 	private TextField tf_numeroCheque;
 	
 	@FXML
+	private TextField tf_montant;
+	
+	@FXML
 	private Label l_date;
 	
 	public SaisirPaiementController(){}
@@ -55,6 +58,33 @@ public class SaisirPaiementController {
 		mainApp.afficherEcranAccueil(this.membre);
 	}
 	
+	@FXML
+	private void actionBoutonEnregistrer(){
+		Paiement paiement;
+		try {
+			/*** A CONTINUER ****/
+			if(cb_typePaiement.getSelectionModel().getSelectedItem()!=""){
+				controlerMontant(tf_montant.getText());
+			}
+		} catch (FormulaireException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void controlerMontant(String montant) throws FormulaireException{
+		Double montantParse;
+		try{
+			montantParse=Double.parseDouble(montant);
+		}catch(NumberFormatException nfe){
+			throw new FormulaireException("Saisie du montant incorrect : veuillez saisir un chiffre");
+		}catch(NullPointerException e){
+			throw new FormulaireException("Veuillez saisir un montant");
+		}
+		if(montantParse<0){
+			throw new FormulaireException("Le montant saisi doit être un nombre positif");
+		}
+	}
 	/**
 	 * Set le mainApp
 	 * @param mainApp
