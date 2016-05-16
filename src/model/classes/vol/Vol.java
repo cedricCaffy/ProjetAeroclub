@@ -27,27 +27,27 @@ public class Vol {
 		this.type=type;
 		this.nombrePassager=new SimpleIntegerProperty(nombrePassager);
 	}
-	
+
 	public ObjectProperty<LocalDate> getDateVolProperty() {
 		return dateVol;
 	}
-	
+
 	public LocalDate getDateVol(){
 		return dateVol.get();
 	}
-	
+
 	public void setDateVol(LocalDate dateVol) {
 		this.dateVol.set(dateVol);
 	}
-	
+
 	public ObjectProperty<Temps> getTempsVolProperty() {
 		return tempsVol;
 	}
-	
+
 	public Temps getTempsVol(){
 		return tempsVol.get();
 	}
-	
+
 	public void setTempsVol(Temps tempsVol) {
 		this.tempsVol.set(tempsVol);
 	}
@@ -77,13 +77,13 @@ public class Vol {
 	public IntegerProperty getNombrePassagerProperty() {
 		return nombrePassager;
 	}
-	
+
 	public Integer getNombrePassager(){
 		return nombrePassager.get();
 	}
 	public void setNombrePassager(Integer nombrePassager) {
 		this.nombrePassager.set(nombrePassager);
 	}
-	
-	
+
+
 }

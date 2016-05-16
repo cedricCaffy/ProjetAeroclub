@@ -4,15 +4,28 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
 public class Adresse {
+	private IntegerProperty idAdresse;
 	private StringProperty rue;
 	private StringProperty ville;
 	private StringProperty codePostal;
 	private IntegerProperty numero;
-	
+
 	public Adresse(){
-		
+
 	}
-	
+
+	public IntegerProperty getIdAdresseProperty() {
+		return idAdresse;
+	}
+
+	public Integer getIdAdresse() {
+		return idAdresse.get();
+	}
+
+	public void setIdAdresse(IntegerProperty idAdresse) {
+		this.idAdresse = idAdresse;
+	}
+
 	public StringProperty getRueProperty() {
 		return rue;
 	}
@@ -22,7 +35,7 @@ public class Adresse {
 	public void setRue(String rue) {
 		this.rue.set(rue);
 	}
-	
+
 	public StringProperty getVilleProperty() {
 		return ville;
 	}

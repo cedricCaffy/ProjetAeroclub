@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Base de données :  aeroclub
 --
 
-DROP TABLE IF EXISTS adresse, avion, aeroclub, instructeur, brevet, pilote, droits, paiement, vol, membre;
+DROP TABLE IF EXISTS adresse, avion, aeroclub, instructeur, brevet, pilote, droits, paiement, vol, membre, espece, cheque;
 
 -- --------------------------------------------------------
 
@@ -133,8 +133,10 @@ CREATE TABLE IF NOT EXISTS vol (
   tempsvol time(4) NOT NULL,
   aeroclubdepart int NOT NULL,
   aeroclubarrivee int NOT NULL,
+  idavion int NOT NULL,
   CONSTRAINT fk_volaero1 FOREIGN KEY (aeroclubdepart) REFERENCES aeroclub(idaeroclub),
-  CONSTRAINT fk_volaero2 FOREIGN KEY (aeroclubarrivee) REFERENCES aeroclub(idaeroclub)
+  CONSTRAINT fk_volaero2 FOREIGN KEY (aeroclubarrivee) REFERENCES aeroclub(idaeroclub),
+  CONSTRAINT fk_volavion FOREIGN KEY (idavion) REFERENCES avion(idavion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -157,7 +159,8 @@ CREATE TABLE IF NOT EXISTS droits (
 CREATE TABLE IF NOT EXISTS pilote (
   idpilote int PRIMARY KEY AUTO_INCREMENT,
   idmembre int NOT NULL,
-  datevaliditevisitemedicale date NOT NULL
+  datevaliditevisitemedicale date NOT NULL,
+  CONSTRAINT fk_pilotemembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
