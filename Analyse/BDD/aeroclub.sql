@@ -102,14 +102,23 @@ CREATE TABLE IF NOT EXISTS paiement (
   idmembre int NOT NULL,
   montant float(6,2) NOT NULL,
   datepaiement date NOT NULL,
-  ischeque tinyint(1) NOT NULL,
-  isespece tinyint(1) NOT NULL,
-  nomemetteur varchar(30) COLLATE utf8_bin NOT NULL,
-  banquedebiteur varchar(30) COLLATE utf8_bin NOT NULL,
-  numerocheque int(4) NOT NULL,
   CONSTRAINT fk_paimembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+CREATE TABLE IF NOT EXISTS espece(
+	idespece INT PRIMARY KEY AUTO_INCREMENT,
+	idpaiement INT NOT NULL,
+	CONSTRAINT fk_espece FOREIGN KEY (idpaiement) REFERENCES paiement(idpaiement)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TABLE IF NOT EXISTS cheque(
+	idcheque INT PRIMARY KEY AUTO_INCREMENT,
+	idpaiement INT NOT NULL,
+	nomemetteur varchar(30),
+	banquedebiteur varchar(30),
+	numerocheque int(4) NOT NULL,
+	CONSTRAINT fk_cheque FOREIGN KEY (idpaiement) REFERENCES paiement(idpaiement)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 -- --------------------------------------------------------
 
 --
