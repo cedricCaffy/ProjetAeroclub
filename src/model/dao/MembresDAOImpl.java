@@ -14,8 +14,8 @@ import bd.ConnexionBD;
 public class MembresDAOImpl implements MembresDAO{
 	private static final String GET_MEMBRE_BY_LOGIN = "SELECT * FROM MEMBRE WHERE login=?";
 	private static final String GET_DROITS_BY_IDMEMBRE = "SELECT * FROM DROITS WHERE idmembre=?";
-	private static final String AJOUTER_MEMBRE = "INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,datenaissance,idaeroclub,login,mdp) VALUES (?,?,?,?,?,?,1,?,?)";
-	private static final String EDITER_MEMBRE = "UPDATE MEMBRE SET nom=?, prenom=?, idadr=?, email=?, numtel=?, datenaissance=?, login=?, mdp=? WHERE idmembre=?";
+	private static final String AJOUTER_MEMBRE = "INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,nummobile,datenaissance,idaeroclub,login,mdp) VALUES (?,?,?,?,?,?,1,?,?)";
+	private static final String EDITER_MEMBRE = "UPDATE MEMBRE SET nom=?, prenom=?, idadr=?, email=?, numtel=?, nummobile=?, datenaissance=?, login=?, mdp=? WHERE idmembre=?";
 	private static final String SUPPRIMER_MEMBRE = "DELETE FROM MEMBRE WHERE idmembre=?";
 	private ConnexionBD connexion;
 
@@ -98,7 +98,7 @@ public class MembresDAOImpl implements MembresDAO{
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.EDITER_MEMBRE,true,
 					membre.getNom(),membre.getPrenom(),null,membre.getEmail(),membre.getNumeroTelephone(),
-					membre.getDateNaissance(),membre.getLogin(),membre.getMotDePasse());
+					membre.getNumeroMobile(),membre.getDateNaissance(),membre.getLogin(),membre.getMotDePasse());
 			resultSet=statement.executeQuery();
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -121,7 +121,7 @@ public class MembresDAOImpl implements MembresDAO{
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.AJOUTER_MEMBRE,true,
 					nouvMembre.getNom(),nouvMembre.getPrenom(),null,nouvMembre.getEmail(),nouvMembre.getNumeroTelephone(),
-					nouvMembre.getDateNaissance(),nouvMembre.getLogin(),nouvMembre.getMotDePasse(),idMembre);
+					nouvMembre.getNumeroMobile(),nouvMembre.getDateNaissance(),nouvMembre.getLogin(),nouvMembre.getMotDePasse(),idMembre);
 			resultSet=statement.executeQuery();
 		} catch (SQLException e) {
 			throw new DAOException(e);

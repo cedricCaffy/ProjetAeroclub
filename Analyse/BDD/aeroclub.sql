@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS membre (
   idadr int NOT NULL,
   email varchar(40) COLLATE utf8_bin NOT NULL,
   numtel char(10) COLLATE utf8_bin NOT NULL,
+  nummobile char(10) COLLATE utf8_bin NOT NULL,
   datenaissance date NOT NULL,
   solde float(6,2) NOT NULL,
   login varchar(20) COLLATE utf8_bin NOT NULL,

@@ -5,10 +5,10 @@ VALUES
 ('rue de maxime','Saint-Flour',15100,3),
 ('rue des instructeurs','Sarlat',24260,NULL);
 
-INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,datenaissance,solde,idaeroclub,login,mdp) VALUES
-('CAFFY','Cédric',1,'cedric.caffy@hotmail.fr','0553058803','1993-05-24',50,1,'cedric','cedric'),
-('AUZANNEAU','Maxime',2,'maauzannea@poste.isima.fr','0102030405','1994-12-31',-5,1,'maxime','maxime'),
-('DELPECH','Jean-Michel',3,'jm_delpech@hotmail.fr','0102030405','1980-10-05',0,1,'DPH','DPH');
+INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,nummobile,datenaissance,solde,idaeroclub,login,mdp) VALUES
+('CAFFY','Cédric',1,'cedric.caffy@hotmail.fr','0553058803','0612345678','1993-05-24',50,1,'cedric','cedric'),
+('AUZANNEAU','Maxime',2,'maauzannea@poste.isima.fr','0102030405','0601020304','1994-12-31',-5,1,'maxime','maxime'),
+('DELPECH','Jean-Michel',3,'jm_delpech@hotmail.fr','0102030405','0698765432','1980-10-05',0,1,'DPH','DPH');
 
 INSERT INTO AVION (nomavion,typeavion,immatriculation,consommation,capacitereservoir,nbplace,massemaximale,couthoraire,disponibilite,vitessecroisiere,idaeroclub)
 VALUES

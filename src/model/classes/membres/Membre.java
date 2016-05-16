@@ -25,6 +25,7 @@ public class Membre {
 	private StringProperty motDePasse;
 	private StringProperty email;
 	private StringProperty numeroTelephone;
+	private StringProperty numeroMobile;
 	private ObjectProperty<LocalDate> dateNaissance;
 	private DoubleProperty solde;
 	private Image photo;
@@ -43,7 +44,7 @@ public class Membre {
 		this.solde=new SimpleDoubleProperty(solde);
 	}
 
-	public Membre(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,LocalDate dateNaissance,double solde,Image photo,Adresse adresse){
+	public Membre(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,String numeroMobile,LocalDate dateNaissance,double solde,Image photo,Adresse adresse){
 		this.idMembre=new SimpleIntegerProperty(idMembre);
 		this.nom=new SimpleStringProperty(nom);
 		this.prenom=new SimpleStringProperty(prenom);
@@ -51,6 +52,7 @@ public class Membre {
 		this.motDePasse=new SimpleStringProperty(motDePasse);
 		this.email=new SimpleStringProperty(email);
 		this.numeroTelephone=new SimpleStringProperty(numeroTelephone);
+		this.setNumeroMobile(new SimpleStringProperty(numeroMobile));
 		this.dateNaissance=new SimpleObjectProperty<LocalDate>(dateNaissance);
 		this.solde=new SimpleDoubleProperty(solde);
 		this.photo=photo;
@@ -145,6 +147,18 @@ public class Membre {
 
 	public void setNumeroTelephone(String numeroTelephone) {
 		this.numeroTelephone.set(numeroTelephone);
+	}
+
+	public StringProperty getNumeroMobileProperty() {
+		return numeroMobile;
+	}
+
+	public String getNumeroMobile(){
+		return numeroMobile.get();
+	}
+
+	public void setNumeroMobile(StringProperty numeroMobile) {
+		this.numeroMobile = numeroMobile;
 	}
 
 	public ObjectProperty<LocalDate> getDateNaissanceProperty() {
