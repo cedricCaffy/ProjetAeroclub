@@ -1,6 +1,8 @@
 package model.classes.membres;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Adresse {
@@ -10,8 +12,13 @@ public class Adresse {
 	private StringProperty codePostal;
 	private IntegerProperty numero;
 
-	public Adresse(){
+	public Adresse(){}
 
+	public Adresse(String rue, String ville, String codePostal, Integer numero) {
+		this.rue = new SimpleStringProperty(rue);
+		this.ville = new SimpleStringProperty(ville);
+		this.codePostal = new SimpleStringProperty(codePostal);
+		this.numero = new SimpleIntegerProperty(numero);
 	}
 
 	public IntegerProperty getIdAdresseProperty() {
@@ -22,8 +29,8 @@ public class Adresse {
 		return idAdresse.get();
 	}
 
-	public void setIdAdresse(IntegerProperty idAdresse) {
-		this.idAdresse = idAdresse;
+	public void setIdAdresse(Integer idAdresse) {
+		this.idAdresse.set(idAdresse);
 	}
 
 	public StringProperty getRueProperty() {

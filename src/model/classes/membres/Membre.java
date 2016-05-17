@@ -33,7 +33,7 @@ public class Membre {
 	private ObservableList<Paiement> paiements;
 	private List<String> droits;
 
-	public Membre(){}
+	public Membre() {}
 
 	public Membre(int idMembre,String nom, String prenom,String motDePasse, List<String> droits, double solde){
 		this.idMembre=new SimpleIntegerProperty(idMembre);
@@ -60,6 +60,14 @@ public class Membre {
 		this.paiements=FXCollections.observableArrayList();
 		this.droits=new ArrayList<String>();
 	}
+	public Membre(Integer idMembre, String nom, String prenom, String numtel, String email) {
+		this.idMembre = new SimpleIntegerProperty(idMembre);
+		this.nom = new SimpleStringProperty(nom);
+		this.prenom=new SimpleStringProperty(prenom);
+		this.numeroTelephone=new SimpleStringProperty(numtel);
+		this.email=new SimpleStringProperty(email);
+	}
+
 	/*Getters and setters*/
 	public IntegerProperty getIdMembreProperty() {
 		return idMembre;

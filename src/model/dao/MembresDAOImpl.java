@@ -14,6 +14,7 @@ import bd.ConnexionBD;
 public class MembresDAOImpl implements MembresDAO{
 	private static final String GET_MEMBRE_BY_LOGIN = "SELECT * FROM MEMBRE WHERE login=?";
 	private static final String GET_DROITS_BY_IDMEMBRE = "SELECT * FROM DROITS WHERE idmembre=?";
+	private static final String GET_ALL_MEMBRE= "SELECT idmembre,nom, prenom, numtel, email FROM MEMBRE";
 	private static final String AJOUTER_MEMBRE = "INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,nummobile,datenaissance,idaeroclub,login,mdp) VALUES (?,?,?,?,?,?,1,?,?)";
 	private static final String EDITER_MEMBRE = "UPDATE MEMBRE SET nom=?, prenom=?, idadr=?, email=?, numtel=?, nummobile=?, datenaissance=?, login=?, mdp=? WHERE idmembre=?";
 	private static final String SUPPRIMER_MEMBRE = "DELETE FROM MEMBRE WHERE idmembre=?";
@@ -86,18 +87,61 @@ public class MembresDAOImpl implements MembresDAO{
 	}
 
 	/**
+	 * Recupere la liste de tous les membres
+	 * @return la liste des membres
+	 * @throws DAOException
+	 */
+	public List<Membre> getAllMembre() throws DAOException {
+		List<Membre> listMembre;
+		listMembre = new ArrayList<Membre>();
+		Membre membre = null;
+		Connection connexion = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		Integer idMembre;
+		String nom = null;
+		String prenom = null;
+		String numtel = null;
+		String email = null;
+		try {
+			connexion=this.connexion.getConnexion();
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.GET_ALL_MEMBRE,true);
+			resultSet=statement.executeQuery();
+			while(resultSet.next()) {
+				idMembre = resultSet.getInt("idmembre");
+				nom = resultSet.getString("nom");
+				prenom = resultSet.getString("prenom");
+				numtel = resultSet.getString("numtel");
+				email = resultSet.getString("email");
+				membre = new Membre(idMembre, nom, prenom, numtel, email);
+				listMembre.add(membre);
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+		}
+		return listMembre;
+	}
+
+	/**
 	 * Ajoute un nouveau membre a la bdd
-	 * @param membre le mebre que l'on veu ajouter
+	 * @param membre le mebre que l'on veut ajouter
 	 * @throws DAOException si une erreur d'sql survient
 	 */
 	public void ajouterMembre(Membre membre) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
+		AdresseDAO adresse = new AdresseDAOImpl(this.connexion);
+		Integer idAdresse;
 		try {
+			adresse.ajouterAdresse(membre.getAdresse());
+			idAdresse = adresse.getIdFromAdresse(membre.getAdresse());
+			membre.getAdresse().setIdAdresse(idAdresse);
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.EDITER_MEMBRE,true,
-					membre.getNom(),membre.getPrenom(),null,membre.getEmail(),membre.getNumeroTelephone(),
+					membre.getNom(),membre.getPrenom(),membre.getAdresse().getIdAdresse(),membre.getEmail(),membre.getNumeroTelephone(),
 					membre.getNumeroMobile(),membre.getDateNaissance(),membre.getLogin(),membre.getMotDePasse());
 			resultSet=statement.executeQuery();
 		} catch (SQLException e) {
@@ -120,7 +164,7 @@ public class MembresDAOImpl implements MembresDAO{
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.AJOUTER_MEMBRE,true,
-					nouvMembre.getNom(),nouvMembre.getPrenom(),null,nouvMembre.getEmail(),nouvMembre.getNumeroTelephone(),
+					nouvMembre.getNom(),nouvMembre.getPrenom(),nouvMembre.getAdresse().getIdAdresse(),nouvMembre.getEmail(),nouvMembre.getNumeroTelephone(),
 					nouvMembre.getNumeroMobile(),nouvMembre.getDateNaissance(),nouvMembre.getLogin(),nouvMembre.getMotDePasse(),idMembre);
 			resultSet=statement.executeQuery();
 		} catch (SQLException e) {

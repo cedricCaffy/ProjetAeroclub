@@ -23,6 +23,13 @@ public interface MembresDAO {
 	List<String> getDroitsByIdMembre(Integer idMembre) throws DAOException;
 
 	/**
+	 * Recupere la liste de tous les membres
+	 * @return la liste des membres
+	 * @throws DAOException
+	 */
+	List<Membre> getAllMembre() throws DAOException;
+
+	/**
 	 * Ajoute un nouveau membre a la bdd
 	 * @param membre le mebre que l'on veu ajouter
 	 * @throws DAOException si une erreur d'sql survient
