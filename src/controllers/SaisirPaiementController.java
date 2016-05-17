@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import exceptions.FormulaireException;
 import util.DateUtil;
 import util.TextFieldManager;
+import view.popup.PopupError;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -63,11 +64,12 @@ public class SaisirPaiementController {
 		Paiement paiement;
 		try {
 			/*** A CONTINUER ****/
-			if(cb_typePaiement.getSelectionModel().getSelectedItem()!=""){
+			if(cb_typePaiement.getSelectionModel().getSelectedItem()!=null){
 				controlerMontant(tf_montant.getText());
+				System.out.println(tf_montant.getText());
 			}
 		} catch (FormulaireException e) {
-			e.printStackTrace();
+			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		}
 		
 	}
@@ -77,7 +79,7 @@ public class SaisirPaiementController {
 		try{
 			montantParse=Double.parseDouble(montant);
 		}catch(NumberFormatException nfe){
-			throw new FormulaireException("Saisie du montant incorrect : veuillez saisir un chiffre");
+			throw new FormulaireException("Saisie du montant incorrecte : veuillez saisir un chiffre");
 		}catch(NullPointerException e){
 			throw new FormulaireException("Veuillez saisir un montant");
 		}
