@@ -123,6 +123,17 @@ CREATE TABLE IF NOT EXISTS cheque(
 -- --------------------------------------------------------
 
 --
+-- Structure de la table pilote
+--
+
+CREATE TABLE IF NOT EXISTS pilote (
+  idpilote int PRIMARY KEY AUTO_INCREMENT,
+  idmembre int NOT NULL,
+  datevaliditevisitemedicale date NOT NULL,
+  CONSTRAINT fk_pilotemembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
 -- Structure de la table vol
 --
 
@@ -135,9 +146,11 @@ CREATE TABLE IF NOT EXISTS vol (
   aeroclubdepart int NOT NULL,
   aeroclubarrivee int NOT NULL,
   idavion int NOT NULL,
+  idpilote int NOT NULL,
   CONSTRAINT fk_volaero1 FOREIGN KEY (aeroclubdepart) REFERENCES aeroclub(idaeroclub),
   CONSTRAINT fk_volaero2 FOREIGN KEY (aeroclubarrivee) REFERENCES aeroclub(idaeroclub),
-  CONSTRAINT fk_volavion FOREIGN KEY (idavion) REFERENCES avion(idavion)
+  CONSTRAINT fk_volavion FOREIGN KEY (idavion) REFERENCES avion(idavion),
+  CONSTRAINT fk_volpilote FOREIGN KEY (idpilote) REFERENCES pilote(idpilote)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -151,17 +164,6 @@ CREATE TABLE IF NOT EXISTS droits (
   mecanicien VARCHAR(20),
   pilote VARCHAR(20),
   CONSTRAINT fk_droitsmembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Structure de la table pilote
---
-
-CREATE TABLE IF NOT EXISTS pilote (
-  idpilote int PRIMARY KEY AUTO_INCREMENT,
-  idmembre int NOT NULL,
-  datevaliditevisitemedicale date NOT NULL,
-  CONSTRAINT fk_pilotemembre FOREIGN KEY (idmembre) REFERENCES membre(idmembre)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --

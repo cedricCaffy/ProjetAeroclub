@@ -14,11 +14,10 @@ public interface AdresseDAO {
 
 	/**
 	 * Retrouve l'id le plus recent de l'adresse passee en parametre
-	 * @param adresse l'adresse dont on veut l'id
 	 * @return l'id le plus recent de l'adresse
 	 * @throws DAOException si une erreur d'sql survient
 	 */
-	Integer getIdFromAdresse(Adresse adresse) throws DAOException;
+	Integer getIdDerniereAdresse() throws DAOException;
 
 	/**
 	 * Modifie une adresse connu par son id avec une nouvelle adresse

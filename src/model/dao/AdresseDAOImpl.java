@@ -11,7 +11,7 @@ import model.classes.membres.Adresse;
 
 public class AdresseDAOImpl implements AdresseDAO {
 	private static final String AJOUTER_ADRESSE="INSERT INTO ADRESSE (rue, ville, codepostal, numero) VALUES (?,?,?,?)";
-	private static final String GET_ID_FROM_ADRESSE="SELECT idadresse FROM ADRESSE WHERE rue=? AND ville=? AND codepostal=? AND numero=?";
+	private static final String GET_ID_FROM_ADRESSE="SELECT MAX(idadresse) FROM ADRESSE";
 	private static final String EDITER_ADRESSE = "UPDATE MEMBRE SET rue=?, ville=?, codepostal=?, numero=? WHERE idadresse=?";
 	private static final String SUPPRIMER_ADRESSE = "DELETE FROM ADRESSE WHERE idadresse=?";
 	private ConnexionBD connexion;
@@ -48,7 +48,8 @@ public class AdresseDAOImpl implements AdresseDAO {
 	 * @return l'id le plus recent de l'adresse
 	 * @throws DAOException si une erreur d'sql survient
 	 */
-	public Integer getIdFromAdresse(Adresse adresse) throws DAOException {
+	@Override
+	public Integer getIdDerniereAdresse() throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
@@ -56,14 +57,9 @@ public class AdresseDAOImpl implements AdresseDAO {
 		try {
 			//ajouterAdresse(membre.getAdresse());
 			connexion=this.connexion.getConnexion();
-			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,AdresseDAOImpl.GET_ID_FROM_ADRESSE,true,
-					adresse.getRue(), adresse.getVille(), adresse.getCodePostal(), adresse.getNumero());
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,AdresseDAOImpl.GET_ID_FROM_ADRESSE,true);
 			resultSet=statement.executeQuery();
-			while (resultSet.next()) {
-				if (idAdresse < resultSet.getInt("idadresse")) {
-					idAdresse = resultSet.getInt("idadresse");
-				}
-			}
+			idAdresse = resultSet.getInt("idadresse");
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
@@ -115,5 +111,4 @@ public class AdresseDAOImpl implements AdresseDAO {
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
 		}
 	}
-
 }

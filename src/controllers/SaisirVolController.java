@@ -20,6 +20,7 @@ import javafx.util.Pair;
 import javafx.util.StringConverter;
 import model.classes.avion.Avion;
 import model.classes.membres.Membre;
+import model.classes.membres.Pilote;
 import model.classes.vol.Aerodrome;
 import model.classes.vol.TypeVol;
 import model.classes.vol.Vol;
@@ -35,36 +36,36 @@ public class SaisirVolController {
 	@SuppressWarnings("rawtypes")
 	@FXML
 	private ComboBox<Pair> cb_avions;
-	
+
 	@FXML
 	private DatePicker dp_dateVol;
-	
+
 	@FXML
 	private ComboBox<TypeVol> cb_typeVol;
-	
+
 	@FXML
 	private Button b_ajouterEtape;
-	
+
 	@FXML
 	private TableView<Vol> tv_etapes;
-	
+
 	@FXML
 	private TableColumn<Vol,String> colonne_aerodromeDepart;
-	
+
 	@FXML
 	private TableColumn<Vol,String> colonne_aerodromeArrivee;
-	
+
 	@FXML
 	private TableColumn<Vol,String> colonne_tempsVol;
-	
+
 	public SaisirVolController(){}
-	
+
 	@FXML
 	private void initialize(){
 		this.listVols=FXCollections.observableArrayList();
 		tv_etapes.setEditable(true);
 	}
-	
+
 	/**
 	 * Action qui suit le click sur le bouton enregistrer
 	 */
@@ -78,16 +79,16 @@ public class SaisirVolController {
 			System.out.println(cb_avions.getSelectionModel().getSelectedItem().getKey());
 		}
 	}
-	
+
 	/**
 	 * Action qui suit le click sur le bouton Ajouter Etape
 	 */
 	@FXML
 	private void actionAjouterEtape(){
-		this.listVols.add(new Vol(null,new Temps(0,0),new Aerodrome("",""),new Aerodrome("",""),null,0));
+		this.listVols.add(new Vol(null,new Temps(0,0),new Aerodrome("",""),new Aerodrome("",""),null,0,new Pilote()));
 		tv_etapes.setItems(listVols);
 	}
-	
+
 	/**
 	 * Action qui suit le clic sur le bouton annuler
 	 */
@@ -149,15 +150,15 @@ public class SaisirVolController {
 		ajouterTypeVolComboBox();
 		initialiserTableVols();*/
 	}
-	
+
 	/**
-	 * Ajoute les types vol dans la 
+	 * Ajoute les types vol dans la
 	 * combobox Type Vol
 	 */
 	private void ajouterTypeVolComboBox(){
 		cb_typeVol.getItems().addAll(TypeVol.values());
 	}
-	
+
 	/**
 	 * Ajoute les avions a la combobox
 	 */
@@ -208,7 +209,7 @@ public class SaisirVolController {
                 return null; // No conversion fromString needed.
             }
         });
-		
+
 		/**
 		 * Ajout des valeurs dans le combobox
 		 */
@@ -216,11 +217,11 @@ public class SaisirVolController {
 			cb_avions.getItems().add(new Pair<Integer,String>(avion.getId(),avion.getImmatriculation()+" - "+avion.getNom()));
 		}*/
 	}
-	
+
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}
-	
+
 	public void setMembre(Membre membre){
 		this.membre=membre;
 		actionChargement();

@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +15,9 @@ import bd.ConnexionBD;
 
 public class MembresDAOImpl implements MembresDAO{
 	private static final String GET_MEMBRE_BY_LOGIN = "SELECT * FROM MEMBRE WHERE login=?";
-
 	private static final String GET_ALL_MEMBRE= "SELECT idmembre,nom, prenom, numtel, email FROM MEMBRE";
 	private static final String AJOUTER_MEMBRE = "INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,nummobile,datenaissance,idaeroclub,login,mdp) VALUES (?,?,?,?,?,?,1,?,?)";
+	private static final String GET_ID_DERNIER_MEMBRE = "SELECT MAX(idmembre) FROM MEMBRE";
 	private static final String EDITER_MEMBRE = "UPDATE MEMBRE SET nom=?, prenom=?, idadr=?, email=?, numtel=?, nummobile=?, datenaissance=?, login=?, mdp=? WHERE idmembre=?";
 	private static final String SUPPRIMER_MEMBRE = "DELETE FROM MEMBRE WHERE idmembre=?";
 	private ConnexionBD connexion;
@@ -102,25 +103,55 @@ public class MembresDAOImpl implements MembresDAO{
 	}
 
 	/**
+	 * Renvoie l'id du membre que l'on vient d'insérer
+	 * @return l'id du membre
+	 * @throws DAOException si une erreur de requete survient
+	 */
+	public Integer getIdDernierMembre() throws DAOException {
+		Connection connexion=null;
+		PreparedStatement statement=null;
+		ResultSet resultSet=null;
+		Integer idMembre;
+		try {
+			connexion=this.connexion.getConnexion();
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.GET_ID_DERNIER_MEMBRE,true);
+			resultSet=statement.executeQuery();
+			idMembre = resultSet.getInt("idmembre");
+		} catch(SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+		}
+		return idMembre;
+	}
+
+	/**
 	 * Ajoute un nouveau membre a la bdd
 	 * @param membre le mebre que l'on veut ajouter
 	 * @throws DAOException si une erreur d'sql survient
 	 */
-	public void ajouterMembre(Membre membre) throws DAOException {
+	public void ajouterMembre(Membre membre, Date dateVVM) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
 		AdresseDAO adresse = new AdresseDAOImpl(this.connexion);
+		DroitsDAO droit = new DroitsDAOImpl(this.connexion);
+		PiloteDAO pilote = new PiloteDAOImpl(this.connexion);
 		Integer idAdresse;
+		Integer idMembre;
 		try {
 			adresse.ajouterAdresse(membre.getAdresse());
-			idAdresse = adresse.getIdFromAdresse(membre.getAdresse());
+			idAdresse = adresse.getIdDerniereAdresse();
 			membre.getAdresse().setIdAdresse(idAdresse);
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.EDITER_MEMBRE,true,
 					membre.getNom(),membre.getPrenom(),membre.getAdresse().getIdAdresse(),membre.getEmail(),membre.getNumeroTelephone(),
 					membre.getNumeroMobile(),membre.getDateNaissance(),membre.getLogin(),membre.getMotDePasse());
 			resultSet=statement.executeQuery();
+			idMembre = getIdDernierMembre();
+			droit.ajouterDroits(idMembre, membre.getDroits());
+			// A faire que si la date existe
+			pilote.ajouterPilote(idMembre, dateVVM);
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
@@ -134,16 +165,20 @@ public class MembresDAOImpl implements MembresDAO{
 	 * @param nouvMembre nouveau membre pour remplacer l'ancien
 	 * @throws DAOException si une erreur d'sql survient
 	 */
-	public void editerMembre(Integer idMembre, Membre nouvMembre) throws DAOException {
+	public void editerMembre(Integer idMembre, Membre nouvMembre, Date nouvDateVVM) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
+		DroitsDAO droit = new DroitsDAOImpl(this.connexion);
+		PiloteDAO pilote = new PiloteDAOImpl(this.connexion);
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.AJOUTER_MEMBRE,true,
 					nouvMembre.getNom(),nouvMembre.getPrenom(),nouvMembre.getAdresse().getIdAdresse(),nouvMembre.getEmail(),nouvMembre.getNumeroTelephone(),
 					nouvMembre.getNumeroMobile(),nouvMembre.getDateNaissance(),nouvMembre.getLogin(),nouvMembre.getMotDePasse(),idMembre);
 			resultSet=statement.executeQuery();
+			droit.editerDroits(idMembre, nouvMembre.getDroits());
+			pilote.editerPilote(idMembre, nouvDateVVM);
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
@@ -160,7 +195,9 @@ public class MembresDAOImpl implements MembresDAO{
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
+		DroitsDAO droit = new DroitsDAOImpl(this.connexion);
 		try {
+			droit.supprimerDroits(idMembre);
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.SUPPRIMER_MEMBRE,true,idMembre);
 			resultSet=statement.executeQuery();

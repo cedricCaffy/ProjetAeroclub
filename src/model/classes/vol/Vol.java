@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import model.classes.membres.Pilote;
 
 public class Vol {
 	private ObjectProperty<LocalDate> dateVol;
@@ -19,13 +20,15 @@ public class Vol {
 	private Aerodrome aerodromeArrivee;
 	private TypeVol type;
 	private IntegerProperty nombrePassager;
-	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,TypeVol type,int nombrePassager){
+	private Pilote pilote;
+	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,TypeVol type,int nombrePassager,Pilote pilote){
 		this.dateVol=new SimpleObjectProperty<LocalDate>(dateVol);
 		this.tempsVol=new SimpleObjectProperty<Temps>(tempsVol);
 		this.aerodromeDepart=aerodromeDepart;
 		this.aerodromeArrivee=aerodromeArrivee;
 		this.type=type;
 		this.nombrePassager=new SimpleIntegerProperty(nombrePassager);
+		this.setPilote(pilote);
 	}
 
 	public ObjectProperty<LocalDate> getDateVolProperty() {
@@ -83,6 +86,14 @@ public class Vol {
 	}
 	public void setNombrePassager(Integer nombrePassager) {
 		this.nombrePassager.set(nombrePassager);
+	}
+
+	public Pilote getPilote() {
+		return pilote;
+	}
+
+	public void setPilote(Pilote pilote) {
+		this.pilote = pilote;
 	}
 
 

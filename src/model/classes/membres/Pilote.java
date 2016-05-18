@@ -11,6 +11,8 @@ public class Pilote extends Membre{
 	private ObservableList<Brevet> brevets;
 	private ObservableList<Vol> vols;
 
+	public Pilote(){}
+
 	public Pilote(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,String numeroMobile,LocalDate dateNaissance,double solde,Image photo,Adresse adresse){
 		super(idMembre,nom,prenom,login,motDePasse,email,numeroTelephone,numeroMobile,dateNaissance,solde,photo,adresse);
 		vols=FXCollections.observableArrayList();
