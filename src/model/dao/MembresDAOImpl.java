@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.DAOException;
+import model.classes.membres.Droits;
 import model.classes.membres.Membre;
 import bd.ConnexionBD;
 
 public class MembresDAOImpl implements MembresDAO{
 	private static final String GET_MEMBRE_BY_LOGIN = "SELECT * FROM MEMBRE WHERE login=?";
-	private static final String GET_DROITS_BY_IDMEMBRE = "SELECT * FROM DROITS WHERE idmembre=?";
+
 	private static final String GET_ALL_MEMBRE= "SELECT idmembre,nom, prenom, numtel, email FROM MEMBRE";
 	private static final String AJOUTER_MEMBRE = "INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,nummobile,datenaissance,idaeroclub,login,mdp) VALUES (?,?,?,?,?,?,1,?,?)";
 	private static final String EDITER_MEMBRE = "UPDATE MEMBRE SET nom=?, prenom=?, idadr=?, email=?, numtel=?, nummobile=?, datenaissance=?, login=?, mdp=? WHERE idmembre=?";
@@ -37,6 +38,7 @@ public class MembresDAOImpl implements MembresDAO{
 		String prenom=null;
 		String motDePasse=null;
 		List<String> droits;
+		DroitsDAO droit = new DroitsDAOImpl(this.connexion);
 		double solde;
 		try{
 			connexion=this.connexion.getConnexion();
@@ -47,7 +49,7 @@ public class MembresDAOImpl implements MembresDAO{
 				nom=resultSet.getString("nom");
 				prenom=resultSet.getString("prenom");
 				motDePasse=resultSet.getString("mdp");
-				droits=getDroitsByIdMembre(idMembre);
+				droits=droit.getDroitsByIdMembre(idMembre);
 				solde=resultSet.getDouble("solde");
 				membre=new Membre(idMembre,nom,prenom,motDePasse,droits,solde);
 			}
@@ -59,32 +61,7 @@ public class MembresDAOImpl implements MembresDAO{
 		return membre;
 	}
 
-	/**
-	 * Recupere les droits pour l'identifiant du membre passe en parametre
-	 */
-	public List<String> getDroitsByIdMembre(Integer idMembre) throws DAOException{
-		List<String> droits;
-		droits=new ArrayList<String>();
-		Connection connexion=null;
-		PreparedStatement statement=null;
-		ResultSet resultSet=null;
-		try{
-			connexion=this.connexion.getConnexion();
-			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.GET_DROITS_BY_IDMEMBRE,true,idMembre);
-			resultSet=statement.executeQuery();
-			if(resultSet.next()){
-				droits.add(resultSet.getString("administrateur"));
-				droits.add(resultSet.getString("mecanicien"));
-				droits.add(resultSet.getString("pilote"));
-				droits.add(resultSet.getString("instructeur"));
-			}
-		}catch(SQLException e){
-			throw new DAOException(e);
-		}finally{
-			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
-		}
-		return droits;
-	}
+
 
 	/**
 	 * Recupere la liste de tous les membres
