@@ -92,6 +92,10 @@ public class SaisirPaiementController {
 			mainApp.afficherEcranAccueil(membre);
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
+		} catch (DAOException e){
+			new PopupError("Erreur","Erreur de base de données",e.getMessage());
+		} catch(DAOConfigurationException e){
+			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}
 		
 	}
@@ -105,8 +109,7 @@ public class SaisirPaiementController {
 		}
 	}
 	
-	/** A CONTINUER : gerer une exception de type BDD**/
-	private void enregistrerDonnees(){
+	private void enregistrerDonnees() throws DAOException,DAOConfigurationException{
 		Integer idPaiement=null;
 		idPaiement=enregistrerPaiement();
 		if(isCheque()){
@@ -116,44 +119,26 @@ public class SaisirPaiementController {
 		}
 	}
 	
-	private Integer enregistrerPaiement(){
+	private Integer enregistrerPaiement() throws DAOException,DAOConfigurationException{
 		Integer idPaiement=null;
 		Paiement paiement=new Paiement(getMontant(),getDatePaiement());
-		try{
-			ConnexionBD connexion=ConnexionBD.getInstance();
-			PaiementDAO paiementDAO=new PaiementDAOImpl(connexion);
-			idPaiement=paiementDAO.insererPaiement(paiement,this.membre.getIdMembre());
-		}catch(DAOConfigurationException e){
-			new PopupError("Erreur","Erreur de connexion à la base de données", e.getMessage());
-		}catch(DAOException e){
-			new PopupError("Erreur","Erreur de requête SQL",e.getMessage());
-		}
+		ConnexionBD connexion=ConnexionBD.getInstance();
+		PaiementDAO paiementDAO=new PaiementDAOImpl(connexion);
+		idPaiement=paiementDAO.insererPaiement(paiement,this.membre.getIdMembre());
 		return idPaiement;
 	}
 	
-	private void enregistrerCheque(Integer idPaiement){
-		try{
-			ConnexionBD connexion=ConnexionBD.getInstance();
-			ChequeDAO chequeDAO=new ChequeDAOImpl(connexion);
-			Cheque cheque=new Cheque(getMontant(),getDatePaiement(), getNomEmetteur(),getBanqueDebiteur(),getNumeroCheque());
-			chequeDAO.enregistrerCheque(idPaiement,cheque);
-		}catch(DAOConfigurationException e){
-			new PopupError("Erreur","Erreur de connexion à la base de données", e.getMessage());
-		}catch(DAOException e){
-			new PopupError("Erreur","Erreur SQL",e.getMessage());
-		}
+	private void enregistrerCheque(Integer idPaiement) throws DAOException,DAOConfigurationException{
+		ConnexionBD connexion=ConnexionBD.getInstance();
+		ChequeDAO chequeDAO=new ChequeDAOImpl(connexion);
+		Cheque cheque=new Cheque(getMontant(),getDatePaiement(), getNomEmetteur(),getBanqueDebiteur(),getNumeroCheque());
+		chequeDAO.enregistrerCheque(idPaiement,cheque);
 	}
 	
-	private void enregistrerEspece(Integer idPaiement){
-		try{
-			ConnexionBD connexion=ConnexionBD.getInstance();
-			EspeceDAO especeDAO=new EspeceDAOImpl(connexion);
-			especeDAO.ajouterEspece(idPaiement);
-		}catch(DAOConfigurationException e){
-			new PopupError("Erreur","Erreur de connexion à la base de données", e.getMessage());
-		}catch(DAOException e){
-			new PopupError("Erreur","Erreur SQL",e.getMessage());
-		}
+	private void enregistrerEspece(Integer idPaiement) throws DAOException,DAOConfigurationException{
+		ConnexionBD connexion=ConnexionBD.getInstance();
+		EspeceDAO especeDAO=new EspeceDAOImpl(connexion);
+		especeDAO.ajouterEspece(idPaiement);
 	}
 	
 	private Double getMontant(){
