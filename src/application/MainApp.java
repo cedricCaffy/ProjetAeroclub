@@ -1,29 +1,28 @@
 package application;
 
-import view.popup.PopupError;
-import bd.ConnexionBD;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import model.classes.membres.Membre;
 import model.dao.AeroclubDAO;
-import model.dao.AeroclubDAOImpl;
+import view.popup.PopupError;
+import bd.ConnexionBD;
 import controllers.AccueilController;
 import controllers.AdministrationController;
 import controllers.AjouterAvionController;
 import controllers.AjouterMembreController;
 import controllers.ConnexionController;
+import controllers.EditerAvionController;
+import controllers.EditerMembreController;
 import controllers.GestionAvionController;
 import controllers.GestionMembreController;
-import controllers.EditerMembreController;
-import controllers.EditerAvionController;
 import controllers.MonCompteController;
 import controllers.SaisirPaiementController;
 import controllers.SaisirVolController;
 import exceptions.DAOConfigurationException;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 
 
 @SuppressWarnings("unused")
