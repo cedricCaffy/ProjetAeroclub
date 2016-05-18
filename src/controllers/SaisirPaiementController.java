@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.classes.membres.Membre;
+import model.classes.paiement.Cheque;
 import model.classes.paiement.Paiement;
 import application.MainApp;
 
@@ -41,14 +42,19 @@ public class SaisirPaiementController {
 	@FXML
 	private TextField tf_montant;
 	
+	@FXML 
+	private TextField tf_nomEmetteur;
+	
 	@FXML
 	private Label l_date;
+	
+	LocalDate datePaiement;
 	
 	public SaisirPaiementController(){}
 	
 	@FXML
 	public void initialize(){
-		
+		this.datePaiement=LocalDate.now();
 	}
 	
 	/**
@@ -61,19 +67,88 @@ public class SaisirPaiementController {
 	
 	@FXML
 	private void actionBoutonEnregistrer(){
-		Paiement paiement;
 		try {
-			/*** A CONTINUER ****/
-			if(cb_typePaiement.getSelectionModel().getSelectedItem()!=null){
-				controlerMontant(tf_montant.getText());
-				System.out.println(tf_montant.getText());
+			controlerComboboxPaiement();
+			controlerMontant(tf_montant.getText());
+			if(isCheque()){
+				controlerBanque();
+				controlerNumeroCheque();
+				controlerNomEmetteur();
 			}
+			enregistrerDonnees();
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		}
 		
 	}
 	
+	private void controlerNomEmetteur() throws FormulaireException{
+		if(tf_nomEmetteur.getText().trim().isEmpty()){
+			throw new FormulaireException("Veuillez saisir un nom d'émetteur");
+		}
+		if(tf_nomEmetteur.getText().length()>30){
+			throw new FormulaireException("Le nom de l'émetteur ne doit pas dépasser 30 caractères");
+		}
+	}
+	
+	private void enregistrerDonnees(){
+		if(isCheque()){
+			enregistrerCheque();
+		}
+	}
+	
+	private Double getMontant(){
+		return Double.parseDouble(tf_montant.getText());
+	}
+	
+	private LocalDate getDatePaiement(){
+		return this.datePaiement;
+	}
+	
+	private String getNomEmetteur(){
+		return this.tf_nomEmetteur.getText();
+	}
+	
+	private String getBanqueDebiteur(){
+		return this.tf_banque.getText();
+	}
+	
+	private Integer getNumeroCheque(){
+		return Integer.parseInt(tf_numeroCheque.getText());
+	}
+	private void enregistrerCheque(){
+		Cheque cheque=new Cheque(getMontant(),getDatePaiement(), getNomEmetteur(),getBanqueDebiteur(),getNumeroCheque());
+	}
+	
+	private boolean isCheque(){
+		if(cb_typePaiement.getSelectionModel().getSelectedIndex()==CHEQUE){
+			return true;
+		}
+		return false;
+	}
+	
+	private void controlerBanque() throws FormulaireException{
+		if(tf_banque.getText().trim().isEmpty()){
+			throw new FormulaireException("Veuillez saisir un nom de banque");
+		}
+		if(tf_banque.getText().length()>30){
+			throw new FormulaireException("Le nom de la banque saisie ne doit pas dépasser 30 caractères");
+		}
+	}
+	
+	private void controlerNumeroCheque() throws FormulaireException{
+		try{
+			Integer.parseInt(tf_numeroCheque.getText());
+		}catch(NumberFormatException nfe){
+			throw new FormulaireException("Saisie du numéro de chèque incorrecte : veuillez saisir un chiffre");
+		}
+	}
+	
+	private void controlerComboboxPaiement() throws FormulaireException{
+		if(cb_typePaiement.getSelectionModel().getSelectedItem()==null){
+			throw new FormulaireException("Veuillez saisir un moyen de paiement");
+		}
+	}
 	private void controlerMontant(String montant) throws FormulaireException{
 		Double montantParse;
 		try{
@@ -109,8 +184,7 @@ public class SaisirPaiementController {
 	 * Initialise la date
 	 */
 	private void initialiserDate() {
-		LocalDate date=LocalDate.now();
-		l_date.setText(l_date.getText()+DateUtil.format(date));
+		l_date.setText(l_date.getText()+DateUtil.format(getDatePaiement()));
 	}
 	
 	/**
@@ -120,6 +194,7 @@ public class SaisirPaiementController {
 	private void especeSelected(){
 		TextFieldManager.desactiverTextField(tf_banque);
 		TextFieldManager.desactiverTextField(tf_numeroCheque);
+		TextFieldManager.desactiverTextField(tf_nomEmetteur);
 	}
 	
 	/**
@@ -129,6 +204,7 @@ public class SaisirPaiementController {
 	private void chequeSelected(){
 		TextFieldManager.activerTextField(tf_banque);
 		TextFieldManager.activerTextField(tf_numeroCheque);
+		TextFieldManager.activerTextField(tf_nomEmetteur);
 	}
 	/**
 	 * Initialise le combobox du type de paiement
