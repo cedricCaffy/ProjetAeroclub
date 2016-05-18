@@ -23,6 +23,7 @@ import controllers.MonCompteController;
 import controllers.SaisirPaiementController;
 import controllers.SaisirVolController;
 import exceptions.DAOConfigurationException;
+import exceptions.DAOException;
 
 
 @SuppressWarnings("unused")
@@ -44,6 +45,8 @@ public class MainApp extends Application {
 			afficherFenetrePrincipale();
 		}catch(DAOConfigurationException e){
 			new PopupError("Erreur de connexion à la base de données","Erreur",e.getMessage());
+		}catch(DAOException e){
+			new PopupError("Erreur de requête SQL","Erreur",e.getMessage());
 		}
 	}
 

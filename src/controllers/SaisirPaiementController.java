@@ -2,10 +2,14 @@ package controllers;
 
 import java.time.LocalDate;
 
+import bd.ConnexionBD;
+import exceptions.DAOConfigurationException;
+import exceptions.DAOException;
 import exceptions.FormulaireException;
 import util.DateUtil;
 import util.TextFieldManager;
 import view.popup.PopupError;
+import view.popup.PopupInfo;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -16,6 +20,12 @@ import javafx.scene.control.TextField;
 import model.classes.membres.Membre;
 import model.classes.paiement.Cheque;
 import model.classes.paiement.Paiement;
+import model.dao.ChequeDAO;
+import model.dao.ChequeDAOImpl;
+import model.dao.EspeceDAO;
+import model.dao.EspeceDAOImpl;
+import model.dao.PaiementDAO;
+import model.dao.PaiementDAOImpl;
 import application.MainApp;
 
 public class SaisirPaiementController {
@@ -50,6 +60,8 @@ public class SaisirPaiementController {
 	
 	LocalDate datePaiement;
 	
+	private ChequeDAO chequeDAO;
+	
 	public SaisirPaiementController(){}
 	
 	@FXML
@@ -76,6 +88,8 @@ public class SaisirPaiementController {
 				controlerNomEmetteur();
 			}
 			enregistrerDonnees();
+			new PopupInfo().afficherPopup("Confirmation", "Confirmation de paiement","Votre paiement a bien été effectué, merci.");
+			mainApp.afficherEcranAccueil(membre);
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		}
@@ -91,9 +105,54 @@ public class SaisirPaiementController {
 		}
 	}
 	
+	/** A CONTINUER : gerer une exception de type BDD**/
 	private void enregistrerDonnees(){
+		Integer idPaiement=null;
+		idPaiement=enregistrerPaiement();
 		if(isCheque()){
-			enregistrerCheque();
+			enregistrerCheque(idPaiement);
+		}else{
+			enregistrerEspece(idPaiement);
+		}
+	}
+	
+	private Integer enregistrerPaiement(){
+		Integer idPaiement=null;
+		Paiement paiement=new Paiement(getMontant(),getDatePaiement());
+		try{
+			ConnexionBD connexion=ConnexionBD.getInstance();
+			PaiementDAO paiementDAO=new PaiementDAOImpl(connexion);
+			idPaiement=paiementDAO.insererPaiement(paiement,this.membre.getIdMembre());
+		}catch(DAOConfigurationException e){
+			new PopupError("Erreur","Erreur de connexion à la base de données", e.getMessage());
+		}catch(DAOException e){
+			new PopupError("Erreur","Erreur de requête SQL",e.getMessage());
+		}
+		return idPaiement;
+	}
+	
+	private void enregistrerCheque(Integer idPaiement){
+		try{
+			ConnexionBD connexion=ConnexionBD.getInstance();
+			ChequeDAO chequeDAO=new ChequeDAOImpl(connexion);
+			Cheque cheque=new Cheque(getMontant(),getDatePaiement(), getNomEmetteur(),getBanqueDebiteur(),getNumeroCheque());
+			chequeDAO.enregistrerCheque(idPaiement,cheque);
+		}catch(DAOConfigurationException e){
+			new PopupError("Erreur","Erreur de connexion à la base de données", e.getMessage());
+		}catch(DAOException e){
+			new PopupError("Erreur","Erreur SQL",e.getMessage());
+		}
+	}
+	
+	private void enregistrerEspece(Integer idPaiement){
+		try{
+			ConnexionBD connexion=ConnexionBD.getInstance();
+			EspeceDAO especeDAO=new EspeceDAOImpl(connexion);
+			especeDAO.ajouterEspece(idPaiement);
+		}catch(DAOConfigurationException e){
+			new PopupError("Erreur","Erreur de connexion à la base de données", e.getMessage());
+		}catch(DAOException e){
+			new PopupError("Erreur","Erreur SQL",e.getMessage());
 		}
 	}
 	
@@ -115,9 +174,6 @@ public class SaisirPaiementController {
 	
 	private Integer getNumeroCheque(){
 		return Integer.parseInt(tf_numeroCheque.getText());
-	}
-	private void enregistrerCheque(){
-		Cheque cheque=new Cheque(getMontant(),getDatePaiement(), getNomEmetteur(),getBanqueDebiteur(),getNumeroCheque());
 	}
 	
 	private boolean isCheque(){
