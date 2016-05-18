@@ -1,9 +1,5 @@
 package controllers;
 
-import util.AcceptOnExitTableCell;
-import util.Temps;
-import view.popup.PopupError;
-import view.popup.PopupInfoConfirmation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,14 +14,16 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
-import model.classes.avion.Avion;
 import model.classes.membres.Membre;
 import model.classes.membres.Pilote;
 import model.classes.vol.Aerodrome;
 import model.classes.vol.TypeVol;
 import model.classes.vol.Vol;
 import model.dao.AeroclubDAOImpl;
-import model.dao.AvionBD;
+import util.AcceptOnExitTableCell;
+import util.Temps;
+import view.popup.PopupError;
+import view.popup.PopupInfoConfirmation;
 import application.MainApp;
 
 public class SaisirVolController {
@@ -85,7 +83,7 @@ public class SaisirVolController {
 	 */
 	@FXML
 	private void actionAjouterEtape(){
-		this.listVols.add(new Vol(null,new Temps(0,0),new Aerodrome("",""),new Aerodrome("",""),null,0,new Pilote()));
+		this.listVols.add(new Vol(null,new Temps(0,0),new Aerodrome("",""),new Aerodrome("",""),null,0));
 		tv_etapes.setItems(listVols);
 	}
 

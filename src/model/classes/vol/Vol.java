@@ -21,14 +21,13 @@ public class Vol {
 	private TypeVol type;
 	private IntegerProperty nombrePassager;
 	private Pilote pilote;
-	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,TypeVol type,int nombrePassager,Pilote pilote){
+	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,TypeVol type,int nombrePassager){
 		this.dateVol=new SimpleObjectProperty<LocalDate>(dateVol);
 		this.tempsVol=new SimpleObjectProperty<Temps>(tempsVol);
 		this.aerodromeDepart=aerodromeDepart;
 		this.aerodromeArrivee=aerodromeArrivee;
 		this.type=type;
 		this.nombrePassager=new SimpleIntegerProperty(nombrePassager);
-		this.setPilote(pilote);
 	}
 
 	public ObjectProperty<LocalDate> getDateVolProperty() {

@@ -25,21 +25,6 @@
                   <ComboBox fx:id="cb_typePaiement" layoutY="23.0" prefWidth="150.0" />
                </children>
             </Pane>
-            <Pane layoutY="136.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.topAnchor="138.0">
-               <children>
-                  <Label text="Numero de chèque">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="tf_numeroCheque" layoutX="1.0" layoutY="23.0" />
-               </children>
-            </Pane>
-            <Label fx:id="l_date" layoutX="241.0" layoutY="14.0" text="Date : " AnchorPane.topAnchor="0.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
             <Pane layoutX="2.0" layoutY="74.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.topAnchor="69.0">
                <children>
                   <Label text="Montant">
@@ -60,26 +45,51 @@
                   <TextField fx:id="tf_banque" layoutX="1.0" layoutY="23.0" />
                </children>
             </Pane>
+            <Pane layoutY="136.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.topAnchor="138.0">
+               <children>
+                  <Label text="Numero de chèque">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_numeroCheque" layoutX="1.0" layoutY="23.0" />
+               </children>
+            </Pane>
+            <Label fx:id="l_date" layoutX="241.0" layoutY="14.0" text="Date : " AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Pane layoutX="241.0" layoutY="138.0" prefHeight="49.0" prefWidth="150.0" AnchorPane.topAnchor="138.0">
+               <children>
+                  <Label text="Nom emetteur">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_nomEmetteur" layoutX="1.0" layoutY="23.0" />
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
       <HBox alignment="CENTER" layoutY="326.0" prefWidth="600.0">
          <children>
             <Pane prefHeight="50.0" prefWidth="287.0">
                <children>
-                  <Button fx:id="b_annuler" layoutX="167.0" mnemonicParsing="false" onMouseClicked="#actionBoutonAnnuler" prefHeight="50.0" prefWidth="120.0" text="Annuler">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/quitter.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <Button mnemonicParsing="false" onMouseClicked="#actionBoutonEnregistrer" prefHeight="50.0" prefWidth="120.0" text="Enregistrer">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/enregistrer.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="b_annuler" layoutX="167.0" mnemonicParsing="false" onMouseClicked="#actionBoutonAnnuler" prefHeight="50.0" prefWidth="120.0" text="Annuler">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/quitter.png" />
                            </image>
                         </ImageView>
                      </graphic>
