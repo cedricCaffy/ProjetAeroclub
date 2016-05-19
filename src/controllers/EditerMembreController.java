@@ -9,12 +9,13 @@ import javafx.scene.control.ButtonType;
 public class EditerMembreController {
 	private Membre membre;
 	private MainApp mainApp;
-	
+	private Membre membreSelec;
+
 	public EditerMembreController(){}
-	
+
 	@FXML
 	private void initialize(){}
-	
+
 	@FXML
 	private void actionBoutonAnnuler(){
 		PopupInfoConfirmation popup=new PopupInfoConfirmation();
@@ -38,5 +39,9 @@ public class EditerMembreController {
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
+	}
+
+	public void setMembreSelec(Membre membreSelec) {
+		this.membreSelec = membreSelec;
 	}
 }

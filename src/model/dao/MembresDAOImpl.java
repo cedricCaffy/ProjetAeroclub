@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.DAOException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.classes.avion.Avion;
 import model.classes.membres.Membre;
 import bd.ConnexionBD;
 
@@ -68,7 +71,7 @@ public class MembresDAOImpl implements MembresDAO{
 	 * @return la liste des membres
 	 * @throws DAOException
 	 */
-	public List<Membre> getAllMembre() throws DAOException {
+	public ObservableList<Membre> getAllMembre() throws DAOException {
 		List<Membre> listMembre;
 		listMembre = new ArrayList<Membre>();
 		Membre membre = null;
@@ -80,9 +83,10 @@ public class MembresDAOImpl implements MembresDAO{
 		String prenom = null;
 		String numtel = null;
 		String email = null;
+		ObservableList<Membre> list = FXCollections.observableList(listMembre);
 		try {
 			connexion=this.connexion.getConnexion();
-			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.GET_ALL_MEMBRE,true);
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.GET_ALL_MEMBRE,true,(Object)null);
 			resultSet=statement.executeQuery();
 			while(resultSet.next()) {
 				idMembre = resultSet.getInt("idmembre");
@@ -91,14 +95,14 @@ public class MembresDAOImpl implements MembresDAO{
 				numtel = resultSet.getString("numtel");
 				email = resultSet.getString("email");
 				membre = new Membre(idMembre, nom, prenom, numtel, email);
-				listMembre.add(membre);
+				list.add(membre);
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
 		}
-		return listMembre;
+		return list;
 	}
 
 	/**

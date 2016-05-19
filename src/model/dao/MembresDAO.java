@@ -1,9 +1,9 @@
 package model.dao;
 
 import java.sql.Date;
-import java.util.List;
 
 import exceptions.DAOException;
+import javafx.collections.ObservableList;
 import model.classes.membres.Membre;
 
 public interface MembresDAO {
@@ -20,7 +20,7 @@ public interface MembresDAO {
 	 * @return la liste des membres
 	 * @throws DAOException si une erreur de requete survient
 	 */
-	List<Membre> getAllMembre() throws DAOException;
+	ObservableList<Membre> getAllMembre() throws DAOException;
 
 	/**
 	 * Renvoie l'id du membre que l'on vient d'insérer

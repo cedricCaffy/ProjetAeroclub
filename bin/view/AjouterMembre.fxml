@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMembreController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMembreController">
    <children>
       <Label layoutX="26.0" layoutY="29.0" text="Ajout d'un membre" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
          <font>
@@ -22,7 +29,7 @@
                   <TextField layoutX="119.0" AnchorPane.leftAnchor="119.0" AnchorPane.topAnchor="0.0" />
                   <TextField layoutX="479.0" AnchorPane.leftAnchor="479.0" AnchorPane.topAnchor="0.0" />
                   <DatePicker layoutX="119.0" layoutY="39.0" prefHeight="25.0" prefWidth="149.0" AnchorPane.leftAnchor="119.0" AnchorPane.topAnchor="37.0" />
-                  <Label layoutX="396.0" layoutY="175.0" text="Mobile :" AnchorPane.topAnchor="184.0" />
+                  <Label layoutX="389.0" layoutY="184.0" text="Mobile :" AnchorPane.topAnchor="184.0" />
                   <TextField layoutX="119.0" layoutY="82.0" prefHeight="25.0" prefWidth="238.0" AnchorPane.leftAnchor="119.0" AnchorPane.topAnchor="74.0" />
                   <TextField layoutX="119.0" layoutY="108.0" AnchorPane.leftAnchor="119.0" AnchorPane.topAnchor="108.0" />
                   <TextField layoutX="479.0" layoutY="106.0" AnchorPane.topAnchor="108.0" />
@@ -34,12 +41,14 @@
                   <TextField layoutX="479.0" layoutY="216.0" AnchorPane.topAnchor="219.0" />
                   <Label layoutX="4.0" layoutY="4.0" text="Nom :" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0" />
                   <Label layoutX="390.0" layoutY="219.0" text="Mot de passe :" AnchorPane.topAnchor="220.0" />
-                  <Label layoutX="4.0" layoutY="86.0" text="Adresse :" AnchorPane.topAnchor="76.0" />
+                  <Label layoutX="4.0" layoutY="86.0" text="Rue :" AnchorPane.topAnchor="76.0" />
                   <Label layoutX="1.0" layoutY="235.0" text="Login :" AnchorPane.leftAnchor="1.0" AnchorPane.topAnchor="220.0" />
                   <Label layoutX="4.0" layoutY="145.0" text="Email :" AnchorPane.topAnchor="148.0" />
                   <Label layoutX="4.0" layoutY="43.0" text="Date de naissance : " AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0" />
-                  <Label layoutX="400.0" layoutY="110.0" text="Ville : " AnchorPane.topAnchor="112.0" />
-                  <Label layoutX="390.0" layoutY="5.0" text="Prénom :" AnchorPane.leftAnchor="390.0" AnchorPane.topAnchor="4.0" />
+                  <Label layoutX="394.0" layoutY="115.0" text="Ville : " AnchorPane.topAnchor="115.0" />
+                  <Label layoutX="394.0" layoutY="6.0" text="Prénom :" AnchorPane.leftAnchor="394.0" AnchorPane.topAnchor="6.0" />
+                  <TextField layoutX="479.0" layoutY="74.0" />
+                  <Label layoutX="394.0" layoutY="76.0" text="Numéro :" />
                </children>
             </AnchorPane>
          </children>
@@ -72,7 +81,7 @@
                   <CheckBox layoutX="230.0" layoutY="134.0" mnemonicParsing="false" text="Instructeur" />
                   <CheckBox layoutY="163.0" mnemonicParsing="false" text="Administrateur" />
                   <TextField layoutX="479.0" layoutY="130.0" />
-                  <Label layoutX="351.0" layoutY="134.0" text="Numéro d'instructeur" />
+                  <Label layoutX="351.0" layoutY="134.0" text="Numéro d'instructeur :" />
                   <Label layoutX="1.0" layoutY="94.0" text="Date de fin de visite médicale : " />
                   <TableView prefHeight="81.0" prefWidth="280.0">
                     <columns>
@@ -81,6 +90,8 @@
                         <TableColumn prefWidth="102.0" text="Date de validité" />
                     </columns>
                   </TableView>
+                  <TextField layoutX="479.0" layoutY="163.0" />
+                  <Label layoutX="351.0" layoutY="166.0" text="Coût horaire :" />
                </children>
             </AnchorPane>
          </children>

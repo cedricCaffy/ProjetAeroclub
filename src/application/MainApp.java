@@ -235,7 +235,7 @@ public class MainApp extends Application {
 	 * Affiche l'ecran de modification d'un membre
 	 * @param membre
 	 */
-	public void afficherEcranEditerMembre(Membre membre){
+	public void afficherEcranEditerMembre(Membre membre, Membre membreSelec){
 		try{
 			FXMLLoader loader=new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/EditerMembre.fxml"));
@@ -247,6 +247,7 @@ public class MainApp extends Application {
 			EditerMembreController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.setMembre(membre);
+			controller.setMembreSelec(membreSelec);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
