@@ -1,7 +1,6 @@
 package model.classes.avion;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -23,7 +22,13 @@ public class Avion {
 	private DoubleProperty vitesseCroisiere;
 	private Image photo;
 	private Centrage centrage;
-	
+
+	public Avion(Integer id, String nom, String immatriculation) {
+		this.id=new SimpleIntegerProperty(id);
+		this.nom=new SimpleStringProperty(nom);
+		this.immatriculation=new SimpleStringProperty(immatriculation);
+	}
+
 	public Avion(Integer id,String nom, String type, String immatriculation,Integer autonomie,Integer capaciteReservoir,Integer nombrePlace, Integer masseMaximale,Double coutHoraire,Disponibilite disponibilite,Double vitesseCroisiere,Image photo,Centrage centrage){
 		this.id=new SimpleIntegerProperty(id);
 		this.nom=new SimpleStringProperty(nom);
@@ -39,26 +44,26 @@ public class Avion {
 		this.photo=photo;
 		this.centrage=centrage;
 	}
-	
+
 	public IntegerProperty getIdProperty(){
 		return this.id;
 	}
-	
+
 	public Integer getId(){
 		return this.id.get();
 	}
-	
+
 	public void setId(Integer id){
 		this.id.set(id);
 	}
 	public StringProperty getNomProperty() {
 		return nom;
 	}
-	
+
 	public String getNom(){
 		return nom.get();
 	}
-	
+
 	public void setNom(String nom) {
 		this.nom.set(nom);
 	}
@@ -68,7 +73,7 @@ public class Avion {
 	public String getType() {
 		return type.get();
 	}
-	
+
 	public void setType(String type) {
 		this.type.set(type);
 	}
@@ -84,18 +89,18 @@ public class Avion {
 	public IntegerProperty getConsommationProperty() {
 		return consommation;
 	}
-	
+
 	public Integer getConsommation(){
 		return consommation.get();
 	}
 	public void setConsommation(Integer autonomie) {
 		this.consommation.set(autonomie);
 	}
-	
+
 	public IntegerProperty getCapaciteReservoirProperty() {
 		return capaciteReservoir;
 	}
-	
+
 	public Integer getCapaciteReservoir(){
 		return capaciteReservoir.get();
 	}
@@ -141,7 +146,7 @@ public class Avion {
 	public Double getVitesseCroisiere(){
 		return vitesseCroisiere.get();
 	}
-	
+
 	public void setVitesseCroisiere(Double vitesseCroisiere) {
 		this.vitesseCroisiere.set(vitesseCroisiere);
 	}

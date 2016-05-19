@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.classes.avion.Avion;
 import model.classes.membres.Membre;
 import model.dao.AeroclubDAO;
 import view.popup.PopupError;
@@ -268,7 +269,7 @@ public class MainApp extends Application {
 		}
 	}
 
-	public void afficherEcranEditerAvion(Membre membre){
+	public void afficherEcranEditerAvion(Membre membre, Avion avionAEditer){
 		try{
 			FXMLLoader loader=new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("../view/EditerAvion.fxml"));
@@ -280,6 +281,7 @@ public class MainApp extends Application {
 			EditerAvionController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.setMembre(membre);
+			controller.setAvionAEditer(avionAEditer);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

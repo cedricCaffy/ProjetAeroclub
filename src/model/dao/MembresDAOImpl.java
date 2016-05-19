@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.DAOException;
-import model.classes.membres.Droits;
 import model.classes.membres.Membre;
 import bd.ConnexionBD;
 
