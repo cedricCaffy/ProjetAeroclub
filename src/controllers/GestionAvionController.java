@@ -55,7 +55,7 @@ public class GestionAvionController {
 	@FXML
 	private void actionBoutonEditerAvion(){
 		if (avion != null) {
-			this.mainApp.afficherEcranEditerAvion(membre, avion);
+			this.mainApp.afficherEcranEditerAvion(membre,avion);
 		} else {
 			new PopupError("Avion non sélectionné","","Veuillez sélectionner un avion pour pouvoir l'éditer");
 		}
