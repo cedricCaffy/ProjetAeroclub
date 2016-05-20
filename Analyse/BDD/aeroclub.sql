@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS droits (
 --
 
 CREATE TABLE IF NOT EXISTS instructeur (
-  numeroinstructeur varchar(20) COLLATE utf8_bin PRIMARY KEY,
+  numeroinstructeur varchar(9) COLLATE utf8_bin PRIMARY KEY,
   couthoraire float,
   idpilote int NOT NULL,
   CONSTRAINT fk_instrucpilote FOREIGN KEY (idpilote) REFERENCES pilote(idpilote)

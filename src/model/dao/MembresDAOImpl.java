@@ -11,8 +11,9 @@ import java.util.List;
 import exceptions.DAOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.classes.avion.Avion;
+import model.classes.membres.Instructeur;
 import model.classes.membres.Membre;
+import model.classes.membres.Pilote;
 import bd.ConnexionBD;
 
 public class MembresDAOImpl implements MembresDAO{
@@ -140,8 +141,10 @@ public class MembresDAOImpl implements MembresDAO{
 		AdresseDAO adresse = new AdresseDAOImpl(this.connexion);
 		DroitsDAO droit = new DroitsDAOImpl(this.connexion);
 		PiloteDAO pilote = new PiloteDAOImpl(this.connexion);
+		InstructeurDAO instructeur = new InstructeurDAOImpl(this.connexion);
 		Integer idAdresse;
 		Integer idMembre;
+		Integer idPilote;
 		try {
 			adresse.ajouterAdresse(membre.getAdresse());
 			idAdresse = adresse.getIdDerniereAdresse();
@@ -153,8 +156,13 @@ public class MembresDAOImpl implements MembresDAO{
 			resultSet=statement.executeQuery();
 			idMembre = getIdDernierMembre();
 			droit.ajouterDroits(idMembre, membre.getDroits());
-			// A faire que si la date existe
-			pilote.ajouterPilote(idMembre, dateVVM);
+			if (membre instanceof Pilote) {
+				pilote.ajouterPilote(idMembre, dateVVM);
+				if (membre instanceof Instructeur) {
+					idPilote = pilote.getIdDernierPilote();
+					instructeur.ajouterInstructeur(idPilote, ((Instructeur) membre).getNumeroInstructeur(), ((Instructeur) membre).getCoutHoraire());
+				}
+			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
@@ -174,6 +182,8 @@ public class MembresDAOImpl implements MembresDAO{
 		ResultSet resultSet=null;
 		DroitsDAO droit = new DroitsDAOImpl(this.connexion);
 		PiloteDAO pilote = new PiloteDAOImpl(this.connexion);
+		InstructeurDAO instructeur = new InstructeurDAOImpl(this.connexion);
+		Integer idPilote;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.AJOUTER_MEMBRE,true,
@@ -181,7 +191,13 @@ public class MembresDAOImpl implements MembresDAO{
 					nouvMembre.getNumeroMobile(),nouvMembre.getDateNaissance(),nouvMembre.getLogin(),nouvMembre.getMotDePasse(),idMembre);
 			resultSet=statement.executeQuery();
 			droit.editerDroits(idMembre, nouvMembre.getDroits());
-			pilote.editerPilote(idMembre, nouvDateVVM);
+			if (nouvMembre instanceof Pilote) {
+				pilote.editerPilote(idMembre, nouvDateVVM);
+				if (nouvMembre instanceof Instructeur) {
+					idPilote = pilote.getIdDernierPilote();
+					instructeur.editerInstructeur(idPilote, ((Instructeur) nouvMembre).getNumeroInstructeur(), ((Instructeur) nouvMembre).getCoutHoraire());
+				}
+			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {

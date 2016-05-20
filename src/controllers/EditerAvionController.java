@@ -27,7 +27,7 @@ public class EditerAvionController {
 	private Membre membre;
 	private Avion avionAEditer;
 
-	private static final String REGEX_IMMATRICULATION = "F-[A-Z]{4}";
+	private static final String REGEX_IMMATRICULATION = "^F-[A-Z]{4}$";
 	private static final int VOYAGE = 0;
 	private static final int ECOLE = 1;
 	private static final int VOLTIGE = 2;

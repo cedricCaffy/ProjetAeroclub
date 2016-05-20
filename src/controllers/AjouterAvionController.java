@@ -3,18 +3,13 @@ package controllers;
 import view.popup.PopupError;
 import view.popup.PopupInfo;
 import view.popup.PopupInfoConfirmation;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import model.classes.avion.Avion;
-import model.classes.avion.Centrage;
 import model.classes.avion.Disponibilite;
 import model.classes.membres.Membre;
-import model.classes.vol.TypeVol;
 import model.dao.AvionDAO;
 import model.dao.AvionDAOImpl;
 
@@ -31,7 +26,7 @@ public class AjouterAvionController {
 	private MainApp mainApp;
 	private Membre membre;
 
-	private static final String REGEX_IMMATRICULATION = "F-[A-Z]{4}";
+	private static final String REGEX_IMMATRICULATION = "^F-[A-Z]{4}$";
 	private static final int VOYAGE = 0;
 	private static final int ECOLE = 1;
 	private static final int VOLTIGE = 2;
@@ -119,7 +114,7 @@ public class AjouterAvionController {
 		}
 		m = p.matcher(tf_immatriculation.getText());
 		if(!m.matches()){
-			throw new FormulaireException("Le format de l'immatriculation est incorrecte (F-XXXX)");
+			throw new FormulaireException("Le format de l'immatriculation est incorrect (F-XXXX)");
 		}
 	}
 

@@ -58,20 +58,28 @@ public class PiloteDAOImpl implements PiloteDAO {
 	}
 
 	@Override
-	public void editerPilote(Integer idMembre, Date nouvDateVVM) throws DAOException {
+	public Integer editerPilote(Integer idMembre, Date nouvDateVVM) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
+		Integer idPilote;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,PiloteDAOImpl.EDITER_PILOTE,true,
 					nouvDateVVM, idMembre);
 			resultSet=statement.executeQuery();
+			resultSet=statement.getGeneratedKeys();
+			if(resultSet.next()){
+				idPilote=resultSet.getInt(1);
+			}else{
+				throw new DAOException("Aucun utilisateur n'a été modifié en base, ID non récupéré");
+			}
 		} catch(SQLException e){
 			throw new DAOException(e);
 		} finally {
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
 		}
+		return idPilote;
 	}
 
 	@Override

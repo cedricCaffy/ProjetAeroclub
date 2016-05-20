@@ -10,7 +10,7 @@ public interface PiloteDAO {
 
 	Integer getIdDernierPilote() throws DAOException;
 
-	void editerPilote(Integer idMembre, Date nouvDateVVM) throws DAOException;
+	Integer editerPilote(Integer idMembre, Date nouvDateVVM) throws DAOException;
 
 	void supprimerPilote(Integer idMembre) throws DAOException;
 
