@@ -79,7 +79,7 @@
                   <CheckBox fx:id="cb_pilote" layoutX="1.0" layoutY="134.0" mnemonicParsing="false" text="Pilote" />
                   <CheckBox fx:id="cb_mecanicien" layoutX="109.0" layoutY="134.0" mnemonicParsing="false" text="Mécanicien" />
                   <CheckBox fx:id="cb_instructeur" layoutX="230.0" layoutY="134.0" mnemonicParsing="false" text="Instructeur" />
-                  <CheckBox fx:id="cd_administeur" layoutY="163.0" mnemonicParsing="false" text="Administrateur" />
+                  <CheckBox fx:id="cb_administrateur" layoutY="163.0" mnemonicParsing="false" text="Administrateur" />
                   <TextField fx:id="tf_numeroinstructeur" layoutX="479.0" layoutY="130.0" />
                   <Label layoutX="351.0" layoutY="134.0" text="Numéro d'instructeur :" />
                   <Label layoutX="1.0" layoutY="94.0" text="Date de fin de visite médicale : " />

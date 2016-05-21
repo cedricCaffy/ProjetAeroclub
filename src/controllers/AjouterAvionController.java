@@ -87,7 +87,7 @@ public class AjouterAvionController {
 			controlerConsommation();
 			enregistrerAvion();
 			new PopupInfo().afficherPopup("Confirmation", "Confirmation d'ajout","L'avion a bien été ajouté, merci.");
-			mainApp.afficherEcranAccueil(membre);
+			mainApp.afficherEcranGestionAvion(membre);
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		} catch (DAOException e) {

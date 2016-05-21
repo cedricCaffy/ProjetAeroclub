@@ -10,12 +10,24 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import model.classes.membres.Adresse;
+import model.classes.membres.Instructeur;
 import model.classes.membres.Membre;
+import model.classes.membres.Pilote;
+import model.dao.AdresseDAO;
+import model.dao.AdresseDAOImpl;
+import model.dao.DroitsDAO;
+import model.dao.DroitsDAOImpl;
+import model.dao.InstructeurDAO;
+import model.dao.InstructeurDAOImpl;
 import model.dao.MembresDAO;
 import model.dao.MembresDAOImpl;
+import model.dao.PiloteDAO;
+import model.dao.PiloteDAOImpl;
 import util.TextFieldManager;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,9 +140,9 @@ public class AjouterMembreController {
 					controlerCoutHoraire();
 				}
 			}
-			enregistrerMembre();
+			enregistrerDonnees();
 			new PopupInfo().afficherPopup("Confirmation", "Confirmation d'ajout","L'avion a bien été ajouté, merci.");
-			mainApp.afficherEcranAccueil(membre);
+			mainApp.afficherEcranGestionMembre(membre);
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		} catch (DAOException e) {
@@ -176,12 +188,12 @@ public class AjouterMembreController {
 	private void controlerNumeroRue() throws FormulaireException{
 		Integer numeroRueParse = 0;
 		try{
-			if (!tf_rue.getText().trim().isEmpty())
+			if (!tf_numerorue.getText().trim().isEmpty())
 				numeroRueParse=Integer.parseInt(tf_numerorue.getText());
 		}catch(NumberFormatException nfe){
 			throw new FormulaireException("Saisie du numéro de rue incorrecte : veuillez saisir un nombre entier");
 		}
-		if (!tf_rue.getText().trim().isEmpty()) {
+		if (!tf_numerorue.getText().trim().isEmpty()) {
 			if(numeroRueParse<0){
 				throw new FormulaireException("Le numéro de rue saisi doit être un nombre positif");
 			}
@@ -295,10 +307,76 @@ public class AjouterMembreController {
 		}
 	}
 
-	private void enregistrerMembre() throws DAOException,DAOConfigurationException {
+	private void enregistrerDonnees() throws DAOException,DAOConfigurationException {
+		Integer idAdresse = null;
+		Integer idMembre = null;
+		Integer idPilote = null;
+		idAdresse = enregistrerAdresse();
+		idMembre = enregistrerMembre(idAdresse);
+		enregistrerDroits(idMembre);
+		if (cb_pilote.isSelected()) {
+			idPilote = enregistrerPilote(idMembre);
+			if (cb_instructeur.isSelected())
+				enregistrerInstructeur(idPilote);
+		}
+	}
+
+	private Integer enregistrerMembre(Integer idAdresse) throws DAOException,DAOConfigurationException {
 		MembresDAO membreDao;
+		Membre membreAAjouter;
+		Integer idMembre = null;
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		membreDao = new MembresDAOImpl(connexion);
+
+		membreAAjouter = new Membre(0,tf_nom.getText(),tf_prenom.getText(),tf_login.getText(),tf_motdepasse.getText(),
+				tf_email.getText(),tf_numtel.getText(),tf_nummobile.getText(),dp_datenaissance.getValue(),0,null,null,null);
+
+		idMembre = membreDao.ajouterMembre(membreAAjouter, idAdresse);
+		return idMembre;
+	}
+
+	private Integer enregistrerAdresse() throws DAOException,DAOConfigurationException {
+		Adresse adresseAAjouter;
+		AdresseDAO adresseDao;
+		Integer idAdresse = null;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		adresseDao = new AdresseDAOImpl(connexion);
+		Integer numeroRue = (!tf_numerorue.getText().trim().isEmpty()) ? Integer.parseInt(tf_numerorue.getText()) : 0;
+		adresseAAjouter = new Adresse(tf_rue.getText(), tf_ville.getText(), tf_codepostal.getText(), numeroRue);
+		idAdresse = adresseDao.ajouterAdresse(adresseAAjouter);
+		return idAdresse;
+	}
+
+	private void enregistrerDroits(Integer idMembre) throws DAOException,DAOConfigurationException {
+		DroitsDAO droitsDao;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		droitsDao = new DroitsDAOImpl(connexion);
+		List<String> droits = new ArrayList<String>();
+		droits.add(cb_instructeur.isSelected() ? "INSTRUCTEUR" : null);
+	    droits.add(cb_administrateur.isSelected() ? "ADMINISTRATEUR" : null);
+	    droits.add(cb_mecanicien.isSelected() ? "MECANICIEN" : null);
+	    droits.add(cb_pilote.isSelected() ? "PILOTE" : null);
+	    droitsDao.ajouterDroits(idMembre, droits);
+	}
+
+	private Integer enregistrerPilote(Integer idMembre) throws DAOException,DAOConfigurationException {
+		Pilote piloteAAjouter;
+		PiloteDAO piloteDao;
+		Integer idPilote = null;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		piloteDao = new PiloteDAOImpl(connexion);
+		piloteAAjouter = new Pilote(dp_datevvm.getValue());
+		idPilote = piloteDao.ajouterPilote(idMembre, piloteAAjouter);
+		return idPilote;
+	}
+
+	private void enregistrerInstructeur(Integer idPilote) throws DAOException,DAOConfigurationException {
+		Instructeur instructeurAAjouter;
+		InstructeurDAO instructeurDao;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		instructeurDao = new InstructeurDAOImpl(connexion);
+		instructeurAAjouter = new Instructeur(tf_numeroinstructeur.getText(), Double.parseDouble(tf_couthoraire.getText()));
+		instructeurDao.ajouterInstructeur(idPilote, instructeurAAjouter);
 	}
 
 	private void initialiserCheckBoxInstructeur() {

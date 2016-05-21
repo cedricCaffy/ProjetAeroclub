@@ -1,8 +1,11 @@
 package util;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 public class DateUtil {
 	/** The date pattern that is used for conversion. Change as you wish. */
@@ -52,5 +55,15 @@ public class DateUtil {
     public static boolean validDate(String dateString) {
         // Try to parse the String.
         return DateUtil.parse(dateString) != null;
+    }
+
+    /**
+     * Convertit une Date en une LocalDate
+     * @param date date a convertir
+     * @return
+     */
+    public static LocalDate parse(Date date) {
+    	LocalDate localDate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+    	return localDate;
     }
 }

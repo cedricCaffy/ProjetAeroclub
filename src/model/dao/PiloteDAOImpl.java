@@ -5,14 +5,17 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import bd.ConnexionBD;
 import exceptions.DAOException;
+import model.classes.membres.Pilote;
+import util.DateUtil;
 
 public class PiloteDAOImpl implements PiloteDAO {
 
+	private static final String GET_PILOTE_FROM_ID = "SELECT * FROM PILOTE WHERE idmembre=?";
 	private static final String AJOUTER_PILOTE = "INSERT INTO PILOTE (idmembre, datevaliditevisitemedicale) VALUES (?,?)";
-	private static final String GET_ID_DERNIER_PILOTE = "SELECT MAX(idpilote) FROM PILOTE";
 	private static final String EDITER_PILOTE = "UPDATE PILOTE SET datevaliditevisitemedicale=? WHERE idmembre=?";
 	private static final String SUPPRIMER_PILOTE = "DELETE FROM PILOTE WHERE idmembre=?";
 	private ConnexionBD connexion;
@@ -22,34 +25,54 @@ public class PiloteDAOImpl implements PiloteDAO {
 	}
 
 	@Override
-	public void ajouterPilote(Integer idMembre, Date dateVVM) throws DAOException {
-		Connection connexion=null;
-		PreparedStatement statement=null;
-		ResultSet resultSet=null;
+	public Pilote getPiloteFromId(Integer idMembre) throws DAOException {
+		Pilote pilote = null;
+		Connection connexion = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		Integer idPilote = null;
+		Date dateVVM = null;
+		LocalDate localDateVVM = null;
 		try {
 			connexion=this.connexion.getConnexion();
-			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,PiloteDAOImpl.AJOUTER_PILOTE,true,
-					idMembre, dateVVM);
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,PiloteDAOImpl.GET_PILOTE_FROM_ID,true,idMembre);
 			resultSet=statement.executeQuery();
-		} catch(SQLException e){
+			while(resultSet.next()) {
+				idPilote = resultSet.getInt("idpilote");
+				dateVVM = resultSet.getDate("datevaliditevisitemedicale");
+				localDateVVM = DateUtil.parse(dateVVM);
+				pilote = new Pilote(idPilote, localDateVVM);
+			}
+		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
 		}
+		return pilote;
 	}
 
 	@Override
-	public Integer getIdDernierPilote() throws DAOException {
+	public Integer ajouterPilote(Integer idMembre, Pilote pilote) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
-		Integer idPilote;
+		Integer statut = null;
+		Integer idPilote = null;
 		try {
 			connexion=this.connexion.getConnexion();
-			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,PiloteDAOImpl.GET_ID_DERNIER_PILOTE,true);
-			resultSet=statement.executeQuery();
-			idPilote = resultSet.getInt("idpilote");
-		} catch(SQLException e) {
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,PiloteDAOImpl.AJOUTER_PILOTE,true,
+					idMembre, pilote.getDateVVM());
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de l'insertion du pilote, aucune ligne n'a été modifiée");
+			}
+			resultSet=statement.getGeneratedKeys();
+			if(resultSet.next()){
+				idPilote=resultSet.getInt(1);
+			}else{
+				throw new DAOException("Aucun pilote n'a ete créée en base, ID non récupéré");
+			}
+		} catch(SQLException e){
 			throw new DAOException(e);
 		} finally {
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
@@ -58,26 +81,23 @@ public class PiloteDAOImpl implements PiloteDAO {
 	}
 
 	@Override
-	public Integer editerPilote(Integer idMembre, Date nouvDateVVM) throws DAOException {
+	public Integer editerPilote(Integer idMembre, Pilote nouvPilote) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
-		ResultSet resultSet=null;
-		Integer idPilote;
+		Integer idPilote = null;
+		Integer statut = null;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,PiloteDAOImpl.EDITER_PILOTE,true,
-					nouvDateVVM, idMembre);
-			resultSet=statement.executeQuery();
-			resultSet=statement.getGeneratedKeys();
-			if(resultSet.next()){
-				idPilote=resultSet.getInt(1);
-			}else{
-				throw new DAOException("Aucun utilisateur n'a été modifié en base, ID non récupéré");
+					nouvPilote.getDateVVM(), idMembre);
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de la modification du pilote, aucune ligne n'a été modifiée");
 			}
 		} catch(SQLException e){
 			throw new DAOException(e);
 		} finally {
-			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+			DAOUtilitaire.fermeturesSilencieuses(statement,connexion);
 		}
 		return idPilote;
 	}

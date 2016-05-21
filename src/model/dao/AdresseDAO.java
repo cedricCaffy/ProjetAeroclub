@@ -10,14 +10,15 @@ public interface AdresseDAO {
 	 * @param adresse l'adresse a inserer
 	 * @throws DAOException si une erreur d'sql survient
 	 */
-	void ajouterAdresse(Adresse adresse) throws DAOException;
+	Integer ajouterAdresse(Adresse adresse) throws DAOException;
 
 	/**
-	 * Retrouve l'id le plus recent de l'adresse passee en parametre
-	 * @return l'id le plus recent de l'adresse
-	 * @throws DAOException si une erreur d'sql survient
+	 * Retrouve l'adresse a partir de son identifiant
+	 * @param idMembre id du membre de l'adresse recherchee
+	 * @return adresse recherchee
+	 * @throws DAOException
 	 */
-	Integer getIdDerniereAdresse() throws DAOException;
+	Adresse getAdrFromId(Integer idMembre) throws DAOException;
 
 	/**
 	 * Modifie une adresse connu par son id avec une nouvelle adresse

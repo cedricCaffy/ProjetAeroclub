@@ -1,16 +1,15 @@
 package model.dao;
 
-import java.sql.Date;
-
 import exceptions.DAOException;
+import model.classes.membres.Pilote;
 
 public interface PiloteDAO {
 
-	void ajouterPilote(Integer idMembre, Date dateValiditeVisiteMedicale) throws DAOException;
+	Pilote getPiloteFromId(Integer idMembre) throws DAOException;
 
-	Integer getIdDernierPilote() throws DAOException;
+	Integer ajouterPilote(Integer idMembre, Pilote pilote) throws DAOException;
 
-	Integer editerPilote(Integer idMembre, Date nouvDateVVM) throws DAOException;
+	Integer editerPilote(Integer idMembre, Pilote nouvPilote) throws DAOException;
 
 	void supprimerPilote(Integer idMembre) throws DAOException;
 

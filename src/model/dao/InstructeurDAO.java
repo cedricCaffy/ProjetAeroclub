@@ -1,12 +1,15 @@
 package model.dao;
 
 import exceptions.DAOException;
+import model.classes.membres.Instructeur;
 
 public interface InstructeurDAO {
 
-	void ajouterInstructeur(Integer idPilote, String numeroInstructeur, Double coutHoraire) throws DAOException;
+	Instructeur getInstructeurFromId(Integer idPilote) throws DAOException;
 
-	void editerInstructeur(Integer idPilote, String numeroInstructeur, Double coutHoraire) throws DAOException;
+	void ajouterInstructeur(Integer idPilote, Instructeur instructeur) throws DAOException;
+
+	void editerInstructeur(Integer idPilote, Instructeur nouvInstruct) throws DAOException;
 
 	void supprimerInstructeur(Integer idPilote) throws DAOException;
 

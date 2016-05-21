@@ -14,7 +14,19 @@ public class Adresse {
 
 	public Adresse(){}
 
+	public Adresse(Integer idAdresse) {
+		this.idAdresse = new SimpleIntegerProperty(idAdresse);
+	}
+
 	public Adresse(String rue, String ville, String codePostal, Integer numero) {
+		this.rue = new SimpleStringProperty(rue);
+		this.ville = new SimpleStringProperty(ville);
+		this.codePostal = new SimpleStringProperty(codePostal);
+		this.numero = new SimpleIntegerProperty(numero);
+	}
+
+	public Adresse(Integer idAdresse, String rue, String ville, String codePostal, Integer numero) {
+		this.idAdresse = new SimpleIntegerProperty(idAdresse);
 		this.rue = new SimpleStringProperty(rue);
 		this.ville = new SimpleStringProperty(ville);
 		this.codePostal = new SimpleStringProperty(codePostal);

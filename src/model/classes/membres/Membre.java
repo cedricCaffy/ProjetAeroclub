@@ -1,7 +1,6 @@
 package model.classes.membres;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import model.classes.paiement.Paiement;
@@ -44,7 +43,7 @@ public class Membre {
 		this.solde=new SimpleDoubleProperty(solde);
 	}
 
-	public Membre(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,String numeroMobile,LocalDate dateNaissance,double solde,Image photo,Adresse adresse){
+	public Membre(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,String numeroMobile,LocalDate dateNaissance,double solde,Image photo,Adresse adresse,List<String> droits){
 		this.idMembre=new SimpleIntegerProperty(idMembre);
 		this.nom=new SimpleStringProperty(nom);
 		this.prenom=new SimpleStringProperty(prenom);
@@ -52,13 +51,13 @@ public class Membre {
 		this.motDePasse=new SimpleStringProperty(motDePasse);
 		this.email=new SimpleStringProperty(email);
 		this.numeroTelephone=new SimpleStringProperty(numeroTelephone);
-		this.setNumeroMobile(new SimpleStringProperty(numeroMobile));
+		this.numeroMobile=new SimpleStringProperty(numeroMobile);
 		this.dateNaissance=new SimpleObjectProperty<LocalDate>(dateNaissance);
 		this.solde=new SimpleDoubleProperty(solde);
 		this.photo=photo;
 		this.adresse=adresse;
 		this.paiements=FXCollections.observableArrayList();
-		this.droits=new ArrayList<String>();
+		this.droits=droits;
 	}
 	public Membre(Integer idMembre, String nom, String prenom, String numtel, String email) {
 		this.idMembre = new SimpleIntegerProperty(idMembre);
@@ -165,8 +164,8 @@ public class Membre {
 		return numeroMobile.get();
 	}
 
-	public void setNumeroMobile(StringProperty numeroMobile) {
-		this.numeroMobile = numeroMobile;
+	public void setNumeroMobile(String numeroMobile) {
+		this.numeroMobile.set(numeroMobile);
 	}
 
 	public ObjectProperty<LocalDate> getDateNaissanceProperty() {

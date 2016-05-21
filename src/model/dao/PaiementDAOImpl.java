@@ -43,7 +43,7 @@ public class PaiementDAOImpl implements PaiementDAO{
 			if(resultSet.next()){
 				lastInsertId=resultSet.getInt(1);
 			}else{
-				throw new DAOException("Aucun utilisateur n'a ete crée en base, ID non récupéré");
+				throw new DAOException("Aucun paiement n'a ete crée en base, ID non récupéré");
 			}
 		}catch(SQLException e){
 			throw new DAOException(e);

@@ -36,10 +36,10 @@ public class DroitsDAOImpl implements DroitsDAO {
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,DroitsDAOImpl.GET_DROITS_BY_IDMEMBRE,true,idMembre);
 			resultSet=statement.executeQuery();
 			if(resultSet.next()){
+				droits.add(resultSet.getString("instructeur"));
 				droits.add(resultSet.getString("administrateur"));
 				droits.add(resultSet.getString("mecanicien"));
 				droits.add(resultSet.getString("pilote"));
-				droits.add(resultSet.getString("instructeur"));
 			}
 		}catch(SQLException e){
 			throw new DAOException(e);
@@ -53,16 +53,19 @@ public class DroitsDAOImpl implements DroitsDAO {
 	public void ajouterDroits(Integer idMembre, List<String> droits) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
-		ResultSet resultSet=null;
+		Integer statut = null;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,DroitsDAOImpl.AJOUTER_DROITS,true,
 					idMembre, droits.get(0), droits.get(1), droits.get(2), droits.get(3));
-			resultSet=statement.executeQuery();
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de l'insertion des droits, aucune ligne n'a été modifiée");
+			}
 		} catch(SQLException e){
 			throw new DAOException(e);
 		} finally {
-			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+			DAOUtilitaire.fermeturesSilencieuses(statement,connexion);
 		}
 	}
 
@@ -70,16 +73,19 @@ public class DroitsDAOImpl implements DroitsDAO {
 	public void editerDroits(Integer idMembre, List<String> nouvDroits) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
-		ResultSet resultSet=null;
+		Integer statut = null;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,DroitsDAOImpl.EDITER_DROITS,true,
 					nouvDroits.get(0), nouvDroits.get(1), nouvDroits.get(2), nouvDroits.get(3), idMembre);
-			resultSet=statement.executeQuery();
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de l'insertion des droits, aucune ligne n'a été modifiée");
+			}
 		} catch(SQLException e){
 			throw new DAOException(e);
 		} finally {
-			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+			DAOUtilitaire.fermeturesSilencieuses(statement,connexion);
 		}
 	}
 

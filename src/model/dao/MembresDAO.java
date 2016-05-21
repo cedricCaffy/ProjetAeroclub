@@ -1,7 +1,5 @@
 package model.dao;
 
-import java.sql.Date;
-
 import exceptions.DAOException;
 import javafx.collections.ObservableList;
 import model.classes.membres.Membre;
@@ -23,18 +21,21 @@ public interface MembresDAO {
 	ObservableList<Membre> getAllMembre() throws DAOException;
 
 	/**
-	 * Renvoie l'id du membre que l'on vient d'insérer
-	 * @return l'id du membre
-	 * @throws DAOException si une erreur de requete survient
+	 * Recupere le membre a partir de son identifiant
+	 * @param idMembre id du membre recherche
+	 * @return le membre recherche
+	 * @throws DAOException
 	 */
-	Integer getIdDernierMembre() throws DAOException;
+	Membre getMembreFromId(Integer idMembre) throws DAOException;
 
 	/**
 	 * Ajoute un nouveau membre a la bdd
 	 * @param membre le mebre que l'on veu ajouter
+	 * @param idAdresse id de l'adresse correspondant au membre
+	 * @return l'id du membre que l'on vient d'ajouter
 	 * @throws DAOException si une erreur d'sql survient
 	 */
-	void ajouterMembre(Membre membre, Date dateVVM) throws DAOException;
+	Integer ajouterMembre(Membre membre, Integer idAdresse) throws DAOException;
 
 	/**
 	 * Modifie un membre connu par son idMembre avec un nouveau membre passe en parametre
@@ -42,7 +43,7 @@ public interface MembresDAO {
 	 * @param nouvMembre nouveau membre pour remplacer l'ancien
 	 * @throws DAOException si une erreur d'sql survient
 	 */
-	void editerMembre(Integer idMembre, Membre nouvMembre, Date nouvDateVVM) throws DAOException;
+	void editerMembre(Integer idMembre, Membre nouvMembre) throws DAOException;
 
 	/**
 	 * Supprime un membre a partir de son idpasse en parametre

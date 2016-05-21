@@ -27,7 +27,6 @@ import exceptions.DAOConfigurationException;
 import exceptions.DAOException;
 
 
-@SuppressWarnings("unused")
 public class MainApp extends Application {
 	private Stage primaryStage;
 	private AnchorPane rootLayout;
