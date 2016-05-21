@@ -23,7 +23,8 @@ public class ConnexionBD {
     private static final String PROPERTY_NOM_UTILISATEUR = "login";
     private static final String PROPERTY_MOT_DE_PASSE    = "password";
 	private java.sql.Connection connexion;
-	public ConnexionBD(String url,String login, String passwd){
+	
+	private ConnexionBD(String url,String login, String passwd){
 		this.url=url;
 		this.login=login;
 		this.passwd=passwd;
