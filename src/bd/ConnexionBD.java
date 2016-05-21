@@ -77,7 +77,7 @@ public class ConnexionBD {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.connexion=DriverManager.getConnection(url,login,passwd);
 		}catch(ClassNotFoundException e){
-			e.printStackTrace();
+			throw new SQLException("Erreur de connexion à la base de données");
 		}
 		return this.connexion;
 	}
