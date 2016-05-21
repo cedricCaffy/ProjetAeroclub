@@ -16,6 +16,7 @@ import model.classes.membres.Membre;
 import model.dao.MembresDAO;
 import model.dao.MembresDAOImpl;
 import view.popup.PopupError;
+import view.popup.PopupException;
 import application.MainApp;
 
 public class ConnexionController {
@@ -70,7 +71,7 @@ public class ConnexionController {
 				new PopupError("Erreur de connexion",null,"Identifiant ou mot de passe incorrect");
 			}
 		}catch(DAOException e){
-			new PopupError("Erreur","Erreur de requete",e.getMessage());
+			new PopupException(e);
 		}catch(DAOConfigurationException e){
 			new PopupError("Erreur","Erreur de connexion à la base de données",e.getMessage());
 		}

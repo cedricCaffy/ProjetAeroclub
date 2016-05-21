@@ -9,6 +9,7 @@ import exceptions.FormulaireException;
 import util.DateUtil;
 import util.TextFieldManager;
 import view.popup.PopupError;
+import view.popup.PopupException;
 import view.popup.PopupInfo;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -93,7 +94,7 @@ public class SaisirPaiementController {
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		} catch (DAOException e){
-			new PopupError("Erreur","Erreur de base de données",e.getMessage());
+			new PopupException(e);
 		} catch(DAOConfigurationException e){
 			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}

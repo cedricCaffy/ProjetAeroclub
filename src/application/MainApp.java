@@ -10,6 +10,7 @@ import model.classes.avion.Avion;
 import model.classes.membres.Membre;
 import model.dao.AeroclubDAO;
 import view.popup.PopupError;
+import view.popup.PopupException;
 import bd.ConnexionBD;
 import controllers.AccueilController;
 import controllers.AdministrationController;
@@ -46,7 +47,7 @@ public class MainApp extends Application {
 		}catch(DAOConfigurationException e){
 			new PopupError("Erreur de connexion à la base de données","Erreur",e.getMessage());
 		}catch(DAOException e){
-			new PopupError("Erreur de requête SQL","Erreur",e.getMessage());
+			new PopupException(e);
 		}
 	}
 

@@ -5,6 +5,7 @@ import model.classes.membres.Membre;
 import model.dao.AvionDAO;
 import model.dao.AvionDAOImpl;
 import view.popup.PopupError;
+import view.popup.PopupException;
 import view.popup.PopupInfoConfirmation;
 
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class GestionAvionController {
 					initialiserListeAvion();
 				}
 			} catch (DAOException e) {
-				new PopupError("Erreur de base de données","",e.getMessage());
+				new PopupException(e);
 			} catch(DAOConfigurationException e){
 				new PopupError("Erreur","Erreur de configuration",e.getMessage());
 			}

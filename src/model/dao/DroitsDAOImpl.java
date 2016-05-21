@@ -74,10 +74,12 @@ public class DroitsDAOImpl implements DroitsDAO {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		Integer statut = null;
+		int i=0;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,DroitsDAOImpl.EDITER_DROITS,true,
 					nouvDroits.get(0), nouvDroits.get(1), nouvDroits.get(2), nouvDroits.get(3), idMembre);
+			setNullIfNecessary(statement,nouvDroits);
 			statut = statement.executeUpdate();
 			if(statut==0){
 				throw new DAOException("Echec de l'insertion des droits, aucune ligne n'a été modifiée");
@@ -89,6 +91,15 @@ public class DroitsDAOImpl implements DroitsDAO {
 		}
 	}
 
+	private void setNullIfNecessary(PreparedStatement ps,List<String> droits) throws SQLException{
+		int i=0;
+		for(String droit : droits){
+			if(droit.equals("NULL")){
+				ps.setNull(i+1,java.sql.Types.VARCHAR);
+			}
+			i++;
+		}
+	}
 	@Override
 	public void supprimerDroits(Integer idMembre) throws DAOException {
 		Connection connexion=null;

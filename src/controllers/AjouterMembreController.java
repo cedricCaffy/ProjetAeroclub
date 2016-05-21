@@ -1,6 +1,7 @@
 package controllers;
 
 import view.popup.PopupError;
+import view.popup.PopupException;
 import view.popup.PopupInfo;
 import view.popup.PopupInfoConfirmation;
 import javafx.beans.value.ChangeListener;
@@ -146,7 +147,7 @@ public class AjouterMembreController {
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		} catch (DAOException e) {
-			new PopupError("Erreur de base de données","",e.getMessage());
+			new PopupException(e);
 		} catch(DAOConfigurationException e){
 			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}
@@ -352,10 +353,10 @@ public class AjouterMembreController {
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		droitsDao = new DroitsDAOImpl(connexion);
 		List<String> droits = new ArrayList<String>();
-		droits.add(cb_instructeur.isSelected() ? "INSTRUCTEUR" : null);
-	    droits.add(cb_administrateur.isSelected() ? "ADMINISTRATEUR" : null);
-	    droits.add(cb_mecanicien.isSelected() ? "MECANICIEN" : null);
-	    droits.add(cb_pilote.isSelected() ? "PILOTE" : null);
+		droits.add(cb_instructeur.isSelected() ? "INSTRUCTEUR" : "NULL");
+	    droits.add(cb_administrateur.isSelected() ? "ADMINISTRATEUR" : "NULL");
+	    droits.add(cb_mecanicien.isSelected() ? "MECANICIEN" : "NULL");
+	    droits.add(cb_pilote.isSelected() ? "PILOTE" : "NULL");
 	    droitsDao.ajouterDroits(idMembre, droits);
 	}
 

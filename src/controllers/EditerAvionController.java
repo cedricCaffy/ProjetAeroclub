@@ -1,6 +1,7 @@
 package controllers;
 
 import view.popup.PopupError;
+import view.popup.PopupException;
 import view.popup.PopupInfo;
 import view.popup.PopupInfoConfirmation;
 import javafx.fxml.FXML;
@@ -93,7 +94,7 @@ public class EditerAvionController {
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
 		} catch (DAOException e) {
-			new PopupError("Erreur de base de données","",e.getMessage());
+			new PopupException(e);
 		} catch(DAOConfigurationException e){
 			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}
