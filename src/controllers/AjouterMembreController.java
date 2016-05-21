@@ -142,7 +142,7 @@ public class AjouterMembreController {
 				}
 			}
 			enregistrerDonnees();
-			new PopupInfo().afficherPopup("Confirmation", "Confirmation d'ajout","L'avion a bien été ajouté, merci.");
+			new PopupInfo().afficherPopup("Confirmation", "Confirmation d'ajout","Le membre a bien été ajouté, merci.");
 			mainApp.afficherEcranGestionMembre(membre);
 		} catch (FormulaireException e) {
 			new PopupError("Erreur de saisie du formulaire","",e.getMessage());

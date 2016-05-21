@@ -13,7 +13,7 @@ import exceptions.DAOException;
 public class DroitsDAOImpl implements DroitsDAO {
 
 	private static final String GET_DROITS_BY_IDMEMBRE = "SELECT * FROM DROITS WHERE idmembre=?";
-	private static final String AJOUTER_DROITS = "INSERT INTO DROITS VALUES (?,?,?,?,?)";
+	private static final String AJOUTER_DROITS = "INSERT INTO DROITS (instructeur,administrateur,mecanicien,pilote,idmembre)VALUES (?,?,?,?,?)";
 	private static final String EDITER_DROITS = "UPDATE DROITS SET instructeur=?, administrateur=?, mecanicien=?, pilote=? WHERE idmembre=?";
 	private static final String SUPPRIMER_DROITS = "DELETE FROM DROITS WHERE idmembre=?";
 	private ConnexionBD connexion;
@@ -54,10 +54,12 @@ public class DroitsDAOImpl implements DroitsDAO {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		Integer statut = null;
+		System.out.println(idMembre);
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,DroitsDAOImpl.AJOUTER_DROITS,true,
-					idMembre, droits.get(0), droits.get(1), droits.get(2), droits.get(3));
+					droits.get(0), droits.get(1), droits.get(2), droits.get(3),idMembre);
+			setNullIfNecessary(statement,droits);
 			statut = statement.executeUpdate();
 			if(statut==0){
 				throw new DAOException("Echec de l'insertion des droits, aucune ligne n'a été modifiée");
@@ -74,7 +76,6 @@ public class DroitsDAOImpl implements DroitsDAO {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		Integer statut = null;
-		int i=0;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,DroitsDAOImpl.EDITER_DROITS,true,
