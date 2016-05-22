@@ -52,7 +52,7 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 					nouvInstruct.getNumeroInstructeur(), nouvInstruct.getCoutHoraire(), idPilote);
 			statut = statement.executeUpdate();
 			if(statut==0){
-				throw new DAOException("Echec de l'insertion de l'instructeur, aucune ligne n'a été modifiée");
+				throw new DAOException("Echec de la modification de l'instructeur, aucune ligne n'a été modifiée");
 			}
 		} catch(SQLException e){
 			throw new DAOException(e);
@@ -65,15 +65,18 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 	public void supprimerInstructeur(Integer idPilote) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
-		ResultSet resultSet=null;
+		Integer statut = null;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,InstructeurDAOImpl.SUPPRIMER_INSTRUCTEUR,true,idPilote);
-			resultSet=statement.executeQuery();
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de la suppression de l'instructeur, aucune ligne n'a été supprimée");
+			}
 		} catch(SQLException e){
 			throw new DAOException(e);
 		} finally {
-			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+			DAOUtilitaire.fermeturesSilencieuses(statement,connexion);
 		}
 	}
 

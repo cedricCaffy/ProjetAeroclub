@@ -308,7 +308,7 @@ public class AjouterMembreController {
 		}
 	}
 
-	private void enregistrerDonnees() throws DAOException,DAOConfigurationException {
+	private void enregistrerDonnees() throws DAOException,DAOConfigurationException,FormulaireException {
 		Integer idAdresse = null;
 		Integer idMembre = null;
 		Integer idPilote = null;
@@ -322,12 +322,16 @@ public class AjouterMembreController {
 		}
 	}
 
-	private Integer enregistrerMembre(Integer idAdresse) throws DAOException,DAOConfigurationException {
+	private Integer enregistrerMembre(Integer idAdresse) throws DAOException,DAOConfigurationException,FormulaireException {
 		MembresDAO membreDao;
 		Membre membreAAjouter;
 		Integer idMembre = null;
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		membreDao = new MembresDAOImpl(connexion);
+
+		if (membreDao.loginIsPresent(tf_login.getText())) {
+			throw new FormulaireException("Ce login est déjà utilisé");
+		}
 
 		membreAAjouter = new Membre(0,tf_nom.getText(),tf_prenom.getText(),tf_login.getText(),tf_motdepasse.getText(),
 				tf_email.getText(),tf_numtel.getText(),tf_nummobile.getText(),dp_datenaissance.getValue(),0,null,null,null);
@@ -435,7 +439,7 @@ public class AjouterMembreController {
 		cb_pilote.setDisable(false);
 		cb_pilote.setMouseTransparent(false);
 		cb_pilote.setFocusTraversable(true);
-		cb_pilote.setSelected(false);
+		cb_pilote.setSelected(true);
 	}
 
 	private void activerDateVVM() {

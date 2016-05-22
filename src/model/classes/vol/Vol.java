@@ -1,8 +1,6 @@
 package model.classes.vol;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 import util.Temps;
 import javafx.beans.property.IntegerProperty;
@@ -18,15 +16,15 @@ public class Vol {
 	private ObjectProperty<Temps> tempsVol;
 	private Aerodrome aerodromeDepart;
 	private Aerodrome aerodromeArrivee;
-	private TypeVol type;
+	private StringProperty type;
 	private IntegerProperty nombrePassager;
 	private Pilote pilote;
-	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,TypeVol type,int nombrePassager){
+	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,String type,int nombrePassager){
 		this.dateVol=new SimpleObjectProperty<LocalDate>(dateVol);
 		this.tempsVol=new SimpleObjectProperty<Temps>(tempsVol);
 		this.aerodromeDepart=aerodromeDepart;
 		this.aerodromeArrivee=aerodromeArrivee;
-		this.type=type;
+		this.type=new SimpleStringProperty(type);
 		this.nombrePassager=new SimpleIntegerProperty(nombrePassager);
 	}
 
@@ -65,16 +63,16 @@ public class Vol {
 	public void setAerodromeArrivee(Aerodrome aerodromeArrivee) {
 		this.aerodromeArrivee = aerodromeArrivee;
 	}
-	public TypeVol getType() {
-		return type;
+	public String getType() {
+		return type.get();
 	}
 	public StringProperty getTypeProperty(){
 		StringProperty type=new SimpleStringProperty();
 		type.set(this.type.toString());
 		return type;
 	}
-	public void setType(TypeVol type) {
-		this.type = type;
+	public void setType(String type) {
+		this.type.set(type);
 	}
 	public IntegerProperty getNombrePassagerProperty() {
 		return nombrePassager;

@@ -5,6 +5,16 @@ import javafx.collections.ObservableList;
 import model.classes.membres.Membre;
 
 public interface MembresDAO {
+
+	/**
+	 * Prédicat de test de présence du login passe en parametre dan la table membre
+	 * @param login le login a rechercher
+	 * @return true si le login est present dans la table
+	 * 		   false sinon
+	 * @throws DAOException
+	 */
+	boolean loginIsPresent(String login) throws DAOException;
+
 	/**
 	 * Recupere le membre par le login
 	 * @param login le login du membre a recuperer

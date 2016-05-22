@@ -1,8 +1,5 @@
 package controllers;
 
-
-import java.sql.SQLException;
-
 import exceptions.DAOConfigurationException;
 import exceptions.DAOException;
 import bd.ConnexionBD;
@@ -14,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.classes.membres.Membre;
 import model.dao.MembresDAO;
-import model.dao.MembresDAOImpl;
 import view.popup.PopupError;
 import view.popup.PopupException;
 import application.MainApp;
@@ -30,11 +26,11 @@ public class ConnexionController {
 	private Button b_quitter;
 	@FXML
 	private Button b_valider;
-	
+
 	private MainApp mainApp;
-	
+
 	public ConnexionController(){}
-	
+
 	@FXML
 	private void initialize(){
 		/*Valeurs pour tests*/
@@ -42,7 +38,7 @@ public class ConnexionController {
 		pf_password.setText("cedric");
 		iv_photoAccueil.setImage(new Image("view/images/cessna-f-gcnp-en-vol1.jpg"));
 	}
-	
+
 	/**
 	 * Action qui suit le clic sur le bouton quitter
 	 */
@@ -50,7 +46,7 @@ public class ConnexionController {
 	private void actionBoutonQuitter(){
 		mainApp.quitterProgramme();
 	}
-	
+
 	/**
 	 * Action qui suit le clic sur le bouton valider
 	 */
@@ -76,7 +72,7 @@ public class ConnexionController {
 			new PopupError("Erreur","Erreur de connexion à la base de données",e.getMessage());
 		}
 	}
-	
+
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}

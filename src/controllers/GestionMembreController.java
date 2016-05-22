@@ -6,8 +6,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import model.classes.membres.Membre;
-import model.dao.AvionDAO;
-import model.dao.AvionDAOImpl;
+import model.dao.AdresseDAO;
+import model.dao.AdresseDAOImpl;
 import model.dao.MembresDAO;
 import model.dao.MembresDAOImpl;
 import view.popup.PopupError;
@@ -78,11 +78,13 @@ public class GestionMembreController {
 		PopupInfoConfirmation popup=new PopupInfoConfirmation();
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		MembresDAO membreDao = new MembresDAOImpl(connexion);
+		AdresseDAO adresseDao = new AdresseDAOImpl(connexion);
 		if (membreSelec != null) {
 			try {
 				popup.afficherPopup("Confirmation","Suppression","Souhaitez-vous vraiment supprimer ce membre ?\n");
 				if(popup.getButtonClicked().get()==ButtonType.OK){
-					membreDao.supprimerMembre(membreSelec.getIdMembre());
+					membreDao.supprimerMembre(this.membreSelec.getIdMembre());
+					adresseDao.supprimerAdresse(this.membreSelec.getAdresse().getIdAdresse());
 					initialiserListeMembre();
 				}
 			} catch (DAOException e) {

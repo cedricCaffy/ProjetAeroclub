@@ -59,12 +59,13 @@ public class Membre {
 		this.paiements=FXCollections.observableArrayList();
 		this.droits=droits;
 	}
-	public Membre(Integer idMembre, String nom, String prenom, String numtel, String email) {
+	public Membre(Integer idMembre, String nom, String prenom, String numtel, String email, Adresse adresse) {
 		this.idMembre = new SimpleIntegerProperty(idMembre);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom=new SimpleStringProperty(prenom);
 		this.numeroTelephone=new SimpleStringProperty(numtel);
 		this.email=new SimpleStringProperty(email);
+		this.adresse=adresse;
 	}
 
 	/*Getters and setters*/

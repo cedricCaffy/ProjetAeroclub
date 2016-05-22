@@ -352,22 +352,33 @@ public class EditerMembreController {
 		}
 	}
 
-	private void enregistrerDonnees() throws DAOException,DAOConfigurationException {
+	private void enregistrerDonnees() throws DAOException,DAOConfigurationException,FormulaireException {
+		Integer idPilote = null;
 		enregistrerAdresse();
 		enregistrerMembre();
 		enregistrerDroits();
 		if (cb_pilote.isSelected()) {
-			enregistrerPilote();
-			if (cb_instructeur.isSelected())
-				enregistrerInstructeur();
-		}
+			if (this.droits.get(3) != null) {
+				editerPilote();
+				idPilote = this.pilote.getIdPilote();
+			}
+			else idPilote = ajouterPilote();
+			if (cb_instructeur.isSelected()) {
+				if (this.droits.get(0) != null) editerInstructeur();
+				else ajouterInstructeur(idPilote);
+			} else if (this.droits.get(0) != null) supprimerInstructeur();
+		} else if (this.droits.get(3) != null) supprimerPilote();
 	}
 
-	private void enregistrerMembre() throws DAOException,DAOConfigurationException {
+	private void enregistrerMembre() throws DAOException,DAOConfigurationException,FormulaireException {
 		MembresDAO membreDao;
 		Membre membreAEditer;
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		membreDao = new MembresDAOImpl(connexion);
+
+		if (membreDao.loginIsPresent(tf_login.getText())) {
+			throw new FormulaireException("Ce login est déjà utilisé");
+		}
 
 		membreAEditer = new Membre(0,tf_nom.getText(),tf_prenom.getText(),tf_login.getText(),tf_motdepasse.getText(),
 				tf_email.getText(),tf_numtel.getText(),tf_nummobile.getText(),dp_datenaissance.getValue(),0,null,this.adresse,null);
@@ -397,22 +408,56 @@ public class EditerMembreController {
 	    droitsDao.editerDroits(this.membreSelec.getIdMembre(), droits);
 	}
 
-	private void enregistrerPilote() throws DAOException,DAOConfigurationException {
-		Pilote piloteAAjouter;
+	private void editerPilote() throws DAOException,DAOConfigurationException {
+		Pilote piloteAEditer;
 		PiloteDAO piloteDao;
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		piloteDao = new PiloteDAOImpl(connexion);
-		piloteAAjouter = new Pilote(dp_datevvm.getValue());
-		piloteDao.editerPilote(this.membreSelec.getIdMembre(), piloteAAjouter);
+		piloteAEditer = new Pilote(dp_datevvm.getValue());
+		piloteDao.editerPilote(this.membreSelec.getIdMembre(), piloteAEditer);
 	}
 
-	private void enregistrerInstructeur() throws DAOException,DAOConfigurationException {
+	private Integer ajouterPilote() throws DAOException,DAOConfigurationException {
+		Pilote piloteAAjouter;
+		PiloteDAO piloteDao;
+		Integer idPilote = null;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		piloteDao = new PiloteDAOImpl(connexion);
+		piloteAAjouter = new Pilote(dp_datevvm.getValue());
+		idPilote = piloteDao.ajouterPilote(this.membreSelec.getIdMembre(), piloteAAjouter);
+		return idPilote;
+	}
+
+	private void supprimerPilote() throws DAOException,DAOConfigurationException {
+		PiloteDAO piloteDao;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		piloteDao = new PiloteDAOImpl(connexion);
+		piloteDao.supprimerPilote(this.membreSelec.getIdMembre());
+	}
+
+	private void editerInstructeur() throws DAOException,DAOConfigurationException {
+		Instructeur instructeurAEditer;
+		InstructeurDAO instructeurDao;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		instructeurDao = new InstructeurDAOImpl(connexion);
+		instructeurAEditer = new Instructeur(tf_numeroinstructeur.getText(), Double.parseDouble(tf_couthoraire.getText()));
+		instructeurDao.editerInstructeur(this.pilote.getIdPilote(), instructeurAEditer);
+	}
+
+	private void ajouterInstructeur(Integer idPilote) throws DAOException,DAOConfigurationException {
 		Instructeur instructeurAAjouter;
 		InstructeurDAO instructeurDao;
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		instructeurDao = new InstructeurDAOImpl(connexion);
 		instructeurAAjouter = new Instructeur(tf_numeroinstructeur.getText(), Double.parseDouble(tf_couthoraire.getText()));
-		instructeurDao.editerInstructeur(this.pilote.getIdPilote(), instructeurAAjouter);
+		instructeurDao.ajouterInstructeur(idPilote, instructeurAAjouter);
+	}
+
+	private void supprimerInstructeur() throws DAOException,DAOConfigurationException {
+		InstructeurDAO instructeurDao;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		instructeurDao = new InstructeurDAOImpl(connexion);
+		instructeurDao.supprimerInstructeur(this.pilote.getIdPilote());
 	}
 
 	private void initialiserCheckBoxInstructeur() {
@@ -471,7 +516,7 @@ public class EditerMembreController {
 		cb_pilote.setDisable(false);
 		cb_pilote.setMouseTransparent(false);
 		cb_pilote.setFocusTraversable(true);
-		cb_pilote.setSelected(false);
+		cb_pilote.setSelected(true);
 	}
 
 	private void activerDateVVM() {

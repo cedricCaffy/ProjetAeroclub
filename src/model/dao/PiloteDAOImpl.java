@@ -106,15 +106,18 @@ public class PiloteDAOImpl implements PiloteDAO {
 	public void supprimerPilote(Integer idMembre) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
-		ResultSet resultSet=null;
+		Integer statut = null;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,PiloteDAOImpl.SUPPRIMER_PILOTE,true,idMembre);
-			resultSet=statement.executeQuery();
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de la suppression du pilote, aucune ligne n'a été supprimée");
+			}
 		} catch(SQLException e){
 			throw new DAOException(e);
 		} finally {
-			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+			DAOUtilitaire.fermeturesSilencieuses(statement,connexion);
 		}
 	}
 

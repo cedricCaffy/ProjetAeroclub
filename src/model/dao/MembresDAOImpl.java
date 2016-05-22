@@ -18,8 +18,9 @@ import util.DateUtil;
 import bd.ConnexionBD;
 
 public class MembresDAOImpl implements MembresDAO{
+	private static final String LOGIN_IS_PRESENT = "SELECT login FROM MEMBRE WHERE login=?";
 	private static final String GET_MEMBRE_BY_LOGIN = "SELECT * FROM MEMBRE WHERE login=?";
-	private static final String GET_ALL_MEMBRE= "SELECT idmembre,nom, prenom, numtel, email FROM MEMBRE";
+	private static final String GET_ALL_MEMBRE= "SELECT idmembre,nom, prenom, numtel, email, idadr FROM MEMBRE";
 	private static final String GET_MEMBRE_FROM_ID = "SELECT * FROM MEMBRE WHERE idmembre=?";
 	private static final String AJOUTER_MEMBRE = "INSERT INTO MEMBRE (nom,prenom,idadr,email,numtel,nummobile,datenaissance,solde,idaeroclub,login,mdp) VALUES (?,?,?,?,?,?,?,?,1,?,?)";
 	private static final String EDITER_MEMBRE = "UPDATE MEMBRE SET nom=?, prenom=?, idadr=?, email=?, numtel=?, nummobile=?, datenaissance=?, login=?, mdp=? WHERE idmembre=?";
@@ -28,6 +29,31 @@ public class MembresDAOImpl implements MembresDAO{
 
 	public MembresDAOImpl(ConnexionBD connexion){
 		this.connexion = ConnexionBD.getInstance();
+	}
+
+	/**
+	 * Prédicat de test de présence du login passe en parametre dan la table membre
+	 * @param login le login a rechercher
+	 * @return true si le login est present dans la table
+	 * 		   false sinon
+	 * @throws DAOException
+	 */
+	public boolean loginIsPresent(String login) throws DAOException {
+		Connection connexion=null;
+		PreparedStatement statement=null;
+		ResultSet resultSet=null;
+		boolean isPresent = false;
+		try {
+			connexion=this.connexion.getConnexion();
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.LOGIN_IS_PRESENT,true,login);
+			resultSet = statement.executeQuery();
+			if (resultSet.next()) isPresent = true;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+		}
+		return isPresent;
 	}
 
 	/**
@@ -78,11 +104,12 @@ public class MembresDAOImpl implements MembresDAO{
 		Connection connexion = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		Integer idMembre;
+		Integer idMembre = null;
 		String nom = null;
 		String prenom = null;
 		String numtel = null;
 		String email = null;
+		Integer idAdresse = null;
 		ObservableList<Membre> list = FXCollections.observableList(listMembre);
 		try {
 			connexion=this.connexion.getConnexion();
@@ -94,7 +121,8 @@ public class MembresDAOImpl implements MembresDAO{
 				prenom = resultSet.getString("prenom");
 				numtel = resultSet.getString("numtel");
 				email = resultSet.getString("email");
-				membre = new Membre(idMembre, nom, prenom, numtel, email);
+				idAdresse = resultSet.getInt("idadr");
+				membre = new Membre(idMembre, nom, prenom, numtel, email, new Adresse(idAdresse));
 				list.add(membre);
 			}
 		} catch (SQLException e) {
@@ -219,15 +247,18 @@ public class MembresDAOImpl implements MembresDAO{
 	public void supprimerMembre(Integer idMembre) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
-		ResultSet resultSet=null;
+		Integer statut = null;
 		try {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,MembresDAOImpl.SUPPRIMER_MEMBRE,true,idMembre);
-			resultSet=statement.executeQuery();
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de la suppression du membre, aucune ligne n'a été supprimée");
+			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
+			DAOUtilitaire.fermeturesSilencieuses(statement,connexion);
 		}
 	}
 }

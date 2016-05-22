@@ -40,3 +40,7 @@ INSERT INTO INSTRUCTEUR (numeroinstructeur,couthoraire,idpilote)
 VALUES
 ('FI-000001',20,1),
 ('FI-000002',30,3);
+
+INSERT INTO VOL (typevol,nbpassagers,datevol,tempsvol,aeroclubdepart,aeroclubarrivee,idavion,idpilote)
+VALUES
+('SOLO',2,'2016-04-13','1:00',1,1,1,1);
