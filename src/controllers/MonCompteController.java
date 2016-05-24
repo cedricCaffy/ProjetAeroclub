@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import view.popup.PopupError;
+import view.popup.PopupException;
+import exceptions.DAOConfigurationException;
+import exceptions.DAOException;
 import application.MainApp;
 import bd.ConnexionBD;
 import javafx.collections.FXCollections;
@@ -90,17 +94,17 @@ public class MonCompteController {
 	/**
 	 * Affiche les vols dans la table des vols
 	 */
-	private void afficherVols(){
+	private void afficherVols() throws DAOException,DAOConfigurationException{
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		VolDAO volDao = new VolDAOImpl(connexion);
 		List<Vol> listeVol = new ArrayList<Vol>();
 		ObservableList<Vol> list = FXCollections.observableList(listeVol);
 		list = volDao.getVolsFromMembre(this.membre.getIdMembre());
 		colonne_dateVol.setCellValueFactory((cellData)->cellData.getValue().getDateVolProperty());
-		colonne_departVol.setCellValueFactory((cellData) -> cellData.getValue().getAerodromeDepart().getNomProperty());
-		colonne_destinationVol.setCellValueFactory((cellData) -> cellData.getValue().getAerodromeArrivee().getNomProperty());
+		colonne_departVol.setCellValueFactory((cellData) -> cellData.getValue().getAerodromeDepartProperty());
+		colonne_destinationVol.setCellValueFactory((cellData) -> cellData.getValue().getAerodromeArriveeProperty());
 		colonne_typeVol.setCellValueFactory((cellData) -> cellData.getValue().getTypeProperty());
-		colonne_tempsVol.setCellValueFactory((cellData) -> cellData.getValue().getTempsVol().toStringProperty());
+		colonne_tempsVol.setCellValueFactory((cellData) -> cellData.getValue().getTempsVolStringProperty());
 		tv_vols.setItems(list);
 	}
 
@@ -108,7 +112,7 @@ public class MonCompteController {
 	 * Affiche les differents paiements que le membre connecte
 	 * a effectue
 	 */
-	private void afficherPaiement(){
+	private void afficherPaiement() throws DAOException,DAOConfigurationException{
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		PaiementDAO paiementDao = new PaiementDAOImpl(connexion);
 		List<Paiement> listePaiement = new ArrayList<Paiement>();
@@ -125,12 +129,14 @@ public class MonCompteController {
 	 * (initialisation des champs)
 	 */
 	private void actionApresChargement(){
-		/**A FAIRE**/
-		afficherSolde();
-		if(membre instanceof Pilote){
+		try{
 			afficherVols();
+		}catch(DAOException e){
+			new PopupException(e);
+		}catch(DAOConfigurationException e){
+			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}
-		afficherPaiement();
+		/*afficherPaiement();*/
 	}
 
 	/**

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,19 +16,16 @@ import bd.ConnexionBD;
 import exceptions.DAOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.classes.vol.Aerodrome;
+import model.classes.vol.TypeVol;
 import model.classes.vol.Vol;
 import util.DateUtil;
-import util.Temps;
 
 public class VolDAOImpl implements VolDAO {
 
 	private ConnexionBD connexion;
-	private static final String GET_VOLS_FROM_MEMBRE = "SELECT datevol, a1.nom, a2.nom, typevol, tempsvol FROM VOL v"
-			+ "JOIN AEROCLUB a1 ON aeroclubdepart = a1.idaeroclub"
-			+ "JOIN AEROCLUB a2 ON aeroclubarrivee = a2.idaeroclub "
+	private static final String GET_VOLS_FROM_MEMBRE = "SELECT datevol, aeroclubdepart,aeroclubarrivee, typevol, tempsvol FROM VOL v "
 			+ "JOIN PILOTE p ON v.idpilote = p.idpilote "
-			+ "WHERE p.idmembre=?"
+			+ "WHERE p.idmembre=? "
 			+ "ORDER BY datevol DESC";
 	//private static final String SQL_INSERT_VOL = "INSERT INTO VOL (typevol, datevol, tempsvol, nbpassagers, aeroclubdepart, aeroclubarrivee, idavion) VALUES (?,?,?,?,?,?,?);";
 
@@ -51,8 +50,8 @@ public class VolDAOImpl implements VolDAO {
 		String aeroclubDepart = null;
 		String aeroclubArrivee = null;
 		String typeVol = null;
-		Temps tempsVol = null;
-		Time timeVol = null;
+		TypeVol type;
+		LocalTime tempsVol = null;
 		ObservableList<Vol> list = FXCollections.observableList(listeVol);
 		try {
 			connexion=this.connexion.getConnexion();
@@ -61,12 +60,12 @@ public class VolDAOImpl implements VolDAO {
 			while (resultSet.next()) {
 				dateVol = resultSet.getDate("datevol");
 				localDateVol = DateUtil.parse(dateVol);
-				aeroclubDepart = resultSet.getString("a1.nom");
-				aeroclubArrivee = resultSet.getString("a2.nom");
+				aeroclubDepart = resultSet.getString("aeroclubdepart");
+				aeroclubArrivee = resultSet.getString("aeroclubarrivee");
 				typeVol = resultSet.getString("typevol");
-				timeVol = resultSet.getTime("tempsvol");
-				tempsVol = new Temps(timeVol.getHours(), timeVol.getMinutes());
-				vol = new Vol(localDateVol,tempsVol,new Aerodrome(aeroclubDepart,null),new Aerodrome(aeroclubArrivee,null),typeVol,0);
+				type=TypeVol.valueOf(typeVol);
+				tempsVol = resultSet.getTime("tempsvol").toLocalTime();
+				vol = new Vol(localDateVol,tempsVol,aeroclubDepart,aeroclubArrivee,type,0);
 				list.add(vol);
 			}
 		} catch (SQLException e) {

@@ -43,4 +43,4 @@ VALUES
 
 INSERT INTO VOL (typevol,nbpassagers,datevol,tempsvol,aeroclubdepart,aeroclubarrivee,idavion,idpilote)
 VALUES
-('SOLO',2,'2016-04-13','1:00',1,1,1,1);
+('Solo',2,'2016-04-13','1:00','LFBX','LFBX',1,1);

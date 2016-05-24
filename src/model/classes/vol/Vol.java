@@ -1,8 +1,8 @@
 package model.classes.vol;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-import util.Temps;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,18 +13,18 @@ import model.classes.membres.Pilote;
 
 public class Vol {
 	private ObjectProperty<LocalDate> dateVol;
-	private ObjectProperty<Temps> tempsVol;
-	private Aerodrome aerodromeDepart;
-	private Aerodrome aerodromeArrivee;
-	private StringProperty type;
+	private ObjectProperty<LocalTime> tempsVol;
+	private StringProperty aerodromeDepart;
+	private StringProperty aerodromeArrivee;
+	private TypeVol type;
 	private IntegerProperty nombrePassager;
 	private Pilote pilote;
-	public Vol(LocalDate dateVol,Temps tempsVol,Aerodrome aerodromeDepart,Aerodrome aerodromeArrivee,String type,int nombrePassager){
+	public Vol(LocalDate dateVol,LocalTime tempsVol,String aerodromeDepart,String aerodromeArrivee,TypeVol type,int nombrePassager){
 		this.dateVol=new SimpleObjectProperty<LocalDate>(dateVol);
-		this.tempsVol=new SimpleObjectProperty<Temps>(tempsVol);
-		this.aerodromeDepart=aerodromeDepart;
-		this.aerodromeArrivee=aerodromeArrivee;
-		this.type=new SimpleStringProperty(type);
+		this.tempsVol=new SimpleObjectProperty<LocalTime>(tempsVol);
+		this.aerodromeDepart=new SimpleStringProperty(aerodromeDepart);
+		this.aerodromeArrivee=new SimpleStringProperty(aerodromeArrivee);
+		this.type=type;
 		this.nombrePassager=new SimpleIntegerProperty(nombrePassager);
 	}
 
@@ -40,39 +40,54 @@ public class Vol {
 		this.dateVol.set(dateVol);
 	}
 
-	public ObjectProperty<Temps> getTempsVolProperty() {
+	public ObjectProperty<LocalTime> getTempsVolProperty() {
 		return tempsVol;
 	}
 
-	public Temps getTempsVol(){
+	public LocalTime getTempsVol(){
 		return tempsVol.get();
 	}
 
-	public void setTempsVol(Temps tempsVol) {
+	public void setTempsVol(LocalTime tempsVol) {
 		this.tempsVol.set(tempsVol);
 	}
-	public Aerodrome getAerodromeDepart() {
-		return aerodromeDepart;
+	
+	public StringProperty getTempsVolStringProperty(){
+		return new SimpleStringProperty(this.getTempsVol().getHour()+":"+this.getTempsVol().getMinute());
 	}
-	public void setAerodromeDepart(Aerodrome aerodromeDepart) {
-		this.aerodromeDepart = aerodromeDepart;
+	
+	public String getTempsVolString(){
+		return this.getTempsVol().getHour()+":"+this.getTempsVol().getMinute();
 	}
-	public Aerodrome getAerodromeArrivee() {
+	public String getAerodromeDepart() {
+		return aerodromeDepart.get();
+	}
+	public StringProperty getAerodromeDepartProperty(){
+		return this.aerodromeDepart;
+	}
+	public void setAerodromeDepart(String aerodromeDepart) {
+		this.aerodromeDepart.set(aerodromeDepart);
+	}
+	public String getAerodromeArrivee() {
+		return aerodromeArrivee.get();
+	}
+	
+	public StringProperty getAerodromeArriveeProperty(){
 		return aerodromeArrivee;
 	}
-	public void setAerodromeArrivee(Aerodrome aerodromeArrivee) {
-		this.aerodromeArrivee = aerodromeArrivee;
+	public void setAerodromeArrivee(String aerodromeArrivee) {
+		this.aerodromeArrivee.set(aerodromeArrivee);
 	}
-	public String getType() {
-		return type.get();
+	public TypeVol getType() {
+		return type;
 	}
 	public StringProperty getTypeProperty(){
 		StringProperty type=new SimpleStringProperty();
 		type.set(this.type.toString());
 		return type;
 	}
-	public void setType(String type) {
-		this.type.set(type);
+	public void setType(TypeVol type) {
+		this.type=type;
 	}
 	public IntegerProperty getNombrePassagerProperty() {
 		return nombrePassager;
