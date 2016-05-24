@@ -43,7 +43,7 @@ public class MainApp extends Application {
 			ConnexionBD connexion=ConnexionBD.getInstance();
 			AeroclubDAO aeroclubDAO=connexion.getAeroclubDAO();
 			this.primaryStage.setTitle(aeroclubDAO.getNomAeroclub());
-			afficherFenetrePrincipale();
+			afficherEcranConnexion();
 		}catch(DAOConfigurationException e){
 			new PopupError("Erreur de connexion à la base de données","Erreur",e.getMessage());
 		}catch(DAOException e){
@@ -54,7 +54,7 @@ public class MainApp extends Application {
 	/**
 	 * Affiche l'ecran de connexion
 	 */
-	public void afficherFenetrePrincipale(){
+	public void afficherEcranConnexion(){
 		try {
 			/*Loader du fxml*/
 			FXMLLoader loader=new FXMLLoader();

@@ -1,13 +1,11 @@
 package controllers;
 
-import view.popup.PopupError;
-import model.classes.membres.Administrateur;
-import model.classes.membres.Droits;
-import model.classes.membres.Membre;
-import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import model.classes.membres.Droits;
+import model.classes.membres.Membre;
+import application.MainApp;
 
 public class AccueilController {
 	@FXML
@@ -50,6 +48,10 @@ public class AccueilController {
 		mainApp.afficherEcranSaisirVol(this.membre);
 	}
 	
+	@FXML
+	private void actionBoutonDeconnexion(){
+		mainApp.afficherEcranConnexion();
+	}
 	/**
 	 * Action qui suit le click sur le bouton
 	 * saisir paiement
