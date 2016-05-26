@@ -130,6 +130,7 @@ public class MonCompteController {
 	 */
 	private void actionApresChargement(){
 		try{
+			afficherSolde();
 			afficherVols();
 		}catch(DAOException e){
 			new PopupException(e);
