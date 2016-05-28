@@ -20,7 +20,8 @@ public class PaiementDAOImpl implements PaiementDAO{
 	private ConnexionBD connexion;
 	private static final String GET_PAIEMENTS_FROM_MEMBRE = "SELECT idpaiement,datepaiement,montant FROM PAIEMENT "
 			+ "WHERE idmembre=? ORDER BY datepaiement DESC";
-	private static final String IS_ESPECE = "SELECT * FROM ESPECE WHERE idpaiement=?";
+	private static final String GET_ESPECES="SELECT * FROM ESPECE WHERE idMembre=?";
+	private static final String GET_CHEQUES="SELECT * FROM CHEQUE WHERE idMembre=?";
 	private static final String SQL_INSERT_PAIEMENT = "INSERT INTO PAIEMENT (idmembre,montant,datepaiement) VALUES (?,?,?);";
 
 	public PaiementDAOImpl(ConnexionBD connexion){
@@ -33,7 +34,7 @@ public class PaiementDAOImpl implements PaiementDAO{
 	 * @return la liste de ses paiements
 	 * @throws DAOException si une erreur de bdd survient
 	 */
-	public ObservableList<Paiement> getPaiementsFromMembre(Integer idMembre) throws DAOException {
+	/*public ObservableList<Paiement> getPaiementsFromMembre(Integer idMembre) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
@@ -65,7 +66,7 @@ public class PaiementDAOImpl implements PaiementDAO{
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,statement,connexion);
 		}
 		return list;
-	}
+	}*/
 
 	/**
 	 * Predicat de test dutype de paiement
@@ -74,7 +75,7 @@ public class PaiementDAOImpl implements PaiementDAO{
 	 * 		   false si c'est par cheque
 	 * @throws DAOException
 	 */
-	public boolean isEspece(Integer idPaiement) throws DAOException {
+	/*public boolean isEspece(Integer idPaiement) throws DAOException {
 		Connection connexion=null;
 		PreparedStatement statement=null;
 		ResultSet resultSet=null;
@@ -91,7 +92,7 @@ public class PaiementDAOImpl implements PaiementDAO{
 		}
 		return isPresent;
 	}
-
+*/
 	/**
 	 * Insere un paiement au membre associé à l'idMembre passe en parametre
 	 * @param paiement le paiement a inserer
@@ -126,5 +127,12 @@ public class PaiementDAOImpl implements PaiementDAO{
 			DAOUtilitaire.fermeturesSilencieuses(resultSet,preparedStatement,connexion);
 		}
 		return lastInsertId;
+	}
+
+	@Override
+	public ObservableList<Paiement> getPaiementsFromMembre(Integer idMembre)
+			throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

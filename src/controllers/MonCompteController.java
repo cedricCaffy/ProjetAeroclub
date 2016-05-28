@@ -2,8 +2,10 @@ package controllers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import util.DateUtil;
 import view.popup.PopupError;
 import view.popup.PopupException;
 import exceptions.DAOConfigurationException;
@@ -21,7 +23,12 @@ import javafx.scene.paint.Color;
 import model.classes.membres.Membre;
 import model.classes.membres.Pilote;
 import model.classes.paiement.Paiement;
+import model.classes.paiement.PaiementUtil;
 import model.classes.vol.Vol;
+import model.dao.ChequeDAO;
+import model.dao.ChequeDAOImpl;
+import model.dao.EspeceDAO;
+import model.dao.EspeceDAOImpl;
 import model.dao.PaiementDAO;
 import model.dao.PaiementDAOImpl;
 import model.dao.VolDAO;
@@ -41,7 +48,7 @@ public class MonCompteController {
 	private TableView<Vol> tv_vols;
 
 	@FXML
-	private TableColumn<Vol,LocalDate> colonne_dateVol;
+	private TableColumn<Vol,String> colonne_dateVol;
 
 	@FXML
 	private TableColumn<Vol,String> colonne_departVol;
@@ -59,7 +66,7 @@ public class MonCompteController {
 	private TableView<Paiement> tv_paiements;
 
 	@FXML
-	private TableColumn<Paiement,LocalDate> colonne_datePaiement;
+	private TableColumn<Paiement,String> colonne_datePaiement;
 
 	@FXML
 	private TableColumn<Paiement,Number> colonne_montantPaiement;
@@ -100,7 +107,8 @@ public class MonCompteController {
 		List<Vol> listeVol = new ArrayList<Vol>();
 		ObservableList<Vol> list = FXCollections.observableList(listeVol);
 		list = volDao.getVolsFromMembre(this.membre.getIdMembre());
-		colonne_dateVol.setCellValueFactory((cellData)->cellData.getValue().getDateVolProperty());
+		list.sort((v1,v2)->v2.getDateVol().compareTo(v1.getDateVol()));
+		colonne_dateVol.setCellValueFactory((cellData)->DateUtil.format(cellData.getValue().getDateVol()));
 		colonne_departVol.setCellValueFactory((cellData) -> cellData.getValue().getAerodromeDepartProperty());
 		colonne_destinationVol.setCellValueFactory((cellData) -> cellData.getValue().getAerodromeArriveeProperty());
 		colonne_typeVol.setCellValueFactory((cellData) -> cellData.getValue().getTypeProperty());
@@ -114,13 +122,15 @@ public class MonCompteController {
 	 */
 	private void afficherPaiement() throws DAOException,DAOConfigurationException{
 		ConnexionBD connexion = ConnexionBD.getInstance();
-		PaiementDAO paiementDao = new PaiementDAOImpl(connexion);
-		List<Paiement> listePaiement = new ArrayList<Paiement>();
-		ObservableList<Paiement> list = FXCollections.observableList(listePaiement);
-		list = paiementDao.getPaiementsFromMembre(this.membre.getIdMembre());
-		colonne_datePaiement.setCellValueFactory((cellData)->cellData.getValue().getDatePaiementProperty());
+		ChequeDAO chequeDAO=new ChequeDAOImpl(connexion);
+		EspeceDAO especeDAO=new EspeceDAOImpl(connexion);
+		ObservableList<Paiement> list = FXCollections.observableArrayList();
+		list.addAll(chequeDAO.getListeChequeByIdMembre(this.membre.getIdMembre()));
+		list.addAll(especeDAO.getEspeceFromIdMembre(this.membre.getIdMembre()));
+		list.sort((p1,p2)-> (p2.getDatePaiement().compareTo(p1.getDatePaiement())));
+		colonne_datePaiement.setCellValueFactory((cellData)-> DateUtil.format(cellData.getValue().getDatePaiement()));
 		colonne_montantPaiement.setCellValueFactory((cellData)-> cellData.getValue().getMontantProperty());
-		colonne_moyenPaiement.setCellValueFactory((cellData)-> cellData.getValue().getTypePaiementProperty());
+		colonne_moyenPaiement.setCellValueFactory((cellData)-> PaiementUtil.getTypePaiement(cellData.getValue()));
 		tv_paiements.setItems(list);
 	}
 
@@ -132,6 +142,7 @@ public class MonCompteController {
 		try{
 			afficherSolde();
 			afficherVols();
+			afficherPaiement();
 		}catch(DAOException e){
 			new PopupException(e);
 		}catch(DAOConfigurationException e){

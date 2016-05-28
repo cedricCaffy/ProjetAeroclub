@@ -43,4 +43,17 @@ VALUES
 
 INSERT INTO VOL (typevol,nbpassagers,datevol,tempsvol,aeroclubdepart,aeroclubarrivee,idavion,idpilote)
 VALUES
-('Solo',2,'2016-04-13','1:00','LFBX','LFBX',1,1);
+('SOLO',2,'2016-04-13','1:00','LFBX','LFBX',1,1);
+
+INSERT INTO PAIEMENT (idmembre,montant,datepaiement)
+VALUES
+(1,45,'2016-04-13'),
+(1,50,'2016-05-24');
+
+INSERT INTO ESPECE (idpaiement)
+VALUES
+(1);
+
+INSERT INTO CHEQUE(idpaiement,nomemetteur,banquedebiteur,numerocheque)
+VALUES
+(2,'CAFFY','CA',1);

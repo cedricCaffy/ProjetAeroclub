@@ -32,7 +32,6 @@ import application.MainApp;
 public class SaisirPaiementController {
 	private MainApp mainApp;
 	private Membre membre;
-	private Paiement paiement;
 	private final static int CHEQUE=0;
 	private final static int ESPECE=1;
 	@FXML
@@ -226,7 +225,7 @@ public class SaisirPaiementController {
 	 * Initialise la date
 	 */
 	private void initialiserDate() {
-		l_date.setText(l_date.getText()+DateUtil.format(getDatePaiement()));
+		l_date.setText(l_date.getText()+DateUtil.format(getDatePaiement()).get());
 	}
 	
 	/**

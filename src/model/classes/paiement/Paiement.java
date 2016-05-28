@@ -1,6 +1,7 @@
 package model.classes.paiement;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -15,7 +16,7 @@ public class Paiement {
 	private IntegerProperty idPaiement;
 	private DoubleProperty montant;
 	private ObjectProperty<LocalDate> datePaiement;
-	private StringProperty typePaiement;
+	/*private TypePaiement typePaiement;*/
 
 	public Paiement(Double montant,LocalDate datePaiement){
 		this.idPaiement=new SimpleIntegerProperty();
@@ -23,11 +24,11 @@ public class Paiement {
 		this.datePaiement=new SimpleObjectProperty<LocalDate>(datePaiement);
 	}
 
-	public Paiement(Integer idPaiement,Double montant,LocalDate datePaiement,String typePaiement) {
+	public Paiement(Integer idPaiement,Double montant,LocalDate datePaiement) {
 		this.idPaiement=new SimpleIntegerProperty(idPaiement);
 		this.montant=new SimpleDoubleProperty(montant);
 		this.datePaiement=new SimpleObjectProperty<LocalDate>(datePaiement);
-		this.typePaiement=new SimpleStringProperty(typePaiement);
+		/*this.typePaiement=typePaiement;*/
 	}
 
 	public IntegerProperty getIdPaiementProperty(){
@@ -64,16 +65,19 @@ public class Paiement {
 		this.datePaiement.set(datePaiement);
 	}
 
-	public StringProperty getTypePaiementProperty() {
+	/*@Override
+	public int compare(Paiement p1,Paiement p2){
+		return p1.getDatePaiement().compareTo(p2.getDatePaiement());
+	}*/
+	/*public TypePaiement getTypePaiement() {
 		return typePaiement;
 	}
-	public String getTypePaiement() {
-		return typePaiement.get();
+	
+	public StringProperty getTypePaiementProperty(){
+		return new SimpleStringProperty(typePaiement.toString());
 	}
 
-	public void setTypePaiement(String typePaiement) {
-		this.typePaiement.set(typePaiement);
-	}
-
-
+	public void setTypePaiement(TypePaiement typePaiement) {
+		this.typePaiement=typePaiement;
+	}*/
 }

@@ -21,7 +21,7 @@ public interface PaiementDAO {
 	 * 		   false si c'est par cheque
 	 * @throws DAOException
 	 */
-	boolean isEspece(Integer idPaiement) throws DAOException;
+	/*boolean isEspece(Integer idPaiement) throws DAOException;*
 
 	/**
 	 * Insere un paiement au membre associé à l'idMembre passe en parametre

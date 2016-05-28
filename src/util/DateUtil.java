@@ -7,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class DateUtil {
 	/** The date pattern that is used for conversion. Change as you wish. */
     private static final String DATE_PATTERN = "dd/MM/yyyy";
@@ -22,11 +25,11 @@ public class DateUtil {
      * @param date the date to be returned as a string
      * @return formatted string
      */
-    public static String format(LocalDate date) {
+    public static StringProperty format(LocalDate date) {
         if (date == null) {
             return null;
         }
-        return DATE_FORMATTER.format(date);
+        return new SimpleStringProperty(DATE_FORMATTER.format(date));
     }
 
     /**
