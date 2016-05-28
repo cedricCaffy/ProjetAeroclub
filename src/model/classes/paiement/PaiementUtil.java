@@ -4,6 +4,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class PaiementUtil {
+	
+	/**
+	 * Retourne le type du paiement en fonction du paiement utilisé
+	 * @param paiement
+	 * @return
+	 */
 	public static StringProperty getTypePaiement(Paiement paiement){
 		StringProperty typePaiement=new SimpleStringProperty();
 		if(paiement instanceof Cheque){
