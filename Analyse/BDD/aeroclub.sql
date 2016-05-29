@@ -118,6 +118,15 @@ CREATE TABLE IF NOT EXISTS cheque(
 	numerocheque int(4) NOT NULL,
 	CONSTRAINT fk_cheque FOREIGN KEY (idpaiement) REFERENCES paiement(idpaiement) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TRIGGER after_insert_paiement AFTER INSERT
+ON paiement FOR EACH ROW
+UPDATE membre m SET m.solde = m.solde + NEW.montant WHERE m.idmembre = NEW.idmembre;
+
+CREATE TRIGGER after_delete_paiement AFTER DELETE
+ON paiement FOR EACH ROW
+UPDATE membre m SET m.solde = m.solde - OLD.montant WHERE m.idmembre = OLD.idmembre;
+
 -- --------------------------------------------------------
 
 --

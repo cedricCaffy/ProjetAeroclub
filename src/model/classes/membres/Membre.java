@@ -34,10 +34,11 @@ public class Membre {
 
 	public Membre() {}
 
-	public Membre(int idMembre,String nom, String prenom,String motDePasse, List<String> droits, double solde){
+	public Membre(int idMembre,String nom, String prenom,String login,String motDePasse, List<String> droits, double solde){
 		this.idMembre=new SimpleIntegerProperty(idMembre);
 		this.nom=new SimpleStringProperty(nom);
 		this.prenom=new SimpleStringProperty(prenom);
+		this.login=new SimpleStringProperty(login);
 		this.motDePasse=new SimpleStringProperty(motDePasse);
 		this.droits=droits;
 		this.solde=new SimpleDoubleProperty(solde);

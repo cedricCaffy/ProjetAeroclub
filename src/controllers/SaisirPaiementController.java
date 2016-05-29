@@ -25,6 +25,7 @@ import model.dao.ChequeDAO;
 import model.dao.ChequeDAOImpl;
 import model.dao.EspeceDAO;
 import model.dao.EspeceDAOImpl;
+import model.dao.MembresDAO;
 import model.dao.PaiementDAO;
 import model.dao.PaiementDAOImpl;
 import application.MainApp;
@@ -36,39 +37,39 @@ public class SaisirPaiementController {
 	private final static int ESPECE=1;
 	@FXML
 	private Button b_annuler;
-	
+
 	@FXML
 	private Label l_pilote;
-	
+
 	@FXML
 	private ComboBox<String> cb_typePaiement;
-	
+
 	@FXML
 	private TextField tf_banque;
-	
+
 	@FXML
 	private TextField tf_numeroCheque;
-	
+
 	@FXML
 	private TextField tf_montant;
-	
-	@FXML 
+
+	@FXML
 	private TextField tf_nomEmetteur;
-	
+
 	@FXML
 	private Label l_date;
-	
+
 	LocalDate datePaiement;
-	
+
 	private ChequeDAO chequeDAO;
-	
+
 	public SaisirPaiementController(){}
-	
+
 	@FXML
 	public void initialize(){
 		this.datePaiement=LocalDate.now();
 	}
-	
+
 	/**
 	 * Action qui suit le click sur le bouton annuler
 	 */
@@ -76,7 +77,7 @@ public class SaisirPaiementController {
 	private void actionBoutonAnnuler(){
 		mainApp.afficherEcranAccueil(this.membre);
 	}
-	
+
 	@FXML
 	private void actionBoutonEnregistrer(){
 		try {
@@ -88,6 +89,7 @@ public class SaisirPaiementController {
 				controlerNomEmetteur();
 			}
 			enregistrerDonnees();
+			reinitialiserMembre();
 			new PopupInfo().afficherPopup("Confirmation", "Confirmation de paiement","Votre paiement a bien été effectué, merci.");
 			mainApp.afficherEcranAccueil(membre);
 		} catch (FormulaireException e) {
@@ -97,9 +99,9 @@ public class SaisirPaiementController {
 		} catch(DAOConfigurationException e){
 			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}
-		
+
 	}
-	
+
 	private void controlerNomEmetteur() throws FormulaireException{
 		if(tf_nomEmetteur.getText().trim().isEmpty()){
 			throw new FormulaireException("Veuillez saisir un nom d'émetteur");
@@ -108,7 +110,7 @@ public class SaisirPaiementController {
 			throw new FormulaireException("Le nom de l'émetteur ne doit pas dépasser 30 caractères");
 		}
 	}
-	
+
 	private void enregistrerDonnees() throws DAOException,DAOConfigurationException{
 		Integer idPaiement=null;
 		idPaiement=enregistrerPaiement();
@@ -118,7 +120,7 @@ public class SaisirPaiementController {
 			enregistrerEspece(idPaiement);
 		}
 	}
-	
+
 	private Integer enregistrerPaiement() throws DAOException,DAOConfigurationException{
 		Integer idPaiement=null;
 		Paiement paiement=new Paiement(getMontant(),getDatePaiement());
@@ -127,47 +129,53 @@ public class SaisirPaiementController {
 		idPaiement=paiementDAO.insererPaiement(paiement,this.membre.getIdMembre());
 		return idPaiement;
 	}
-	
+
 	private void enregistrerCheque(Integer idPaiement) throws DAOException,DAOConfigurationException{
 		ConnexionBD connexion=ConnexionBD.getInstance();
 		ChequeDAO chequeDAO=new ChequeDAOImpl(connexion);
 		Cheque cheque=new Cheque(getMontant(),getDatePaiement(), getNomEmetteur(),getBanqueDebiteur(),getNumeroCheque());
 		chequeDAO.enregistrerCheque(idPaiement,cheque);
 	}
-	
+
 	private void enregistrerEspece(Integer idPaiement) throws DAOException,DAOConfigurationException{
 		ConnexionBD connexion=ConnexionBD.getInstance();
 		EspeceDAO especeDAO=new EspeceDAOImpl(connexion);
 		especeDAO.ajouterEspece(idPaiement);
 	}
-	
+
+	private void reinitialiserMembre() throws DAOException,DAOConfigurationException {
+		ConnexionBD connexion=ConnexionBD.getInstance();
+		MembresDAO membresDAO=connexion.getMembreDAO();
+		this.membre=membresDAO.getMembreByLogin(this.membre.getLogin());
+	}
+
 	private Double getMontant(){
 		return Double.parseDouble(tf_montant.getText());
 	}
-	
+
 	private LocalDate getDatePaiement(){
 		return this.datePaiement;
 	}
-	
+
 	private String getNomEmetteur(){
 		return this.tf_nomEmetteur.getText();
 	}
-	
+
 	private String getBanqueDebiteur(){
 		return this.tf_banque.getText();
 	}
-	
+
 	private Integer getNumeroCheque(){
 		return Integer.parseInt(tf_numeroCheque.getText());
 	}
-	
+
 	private boolean isCheque(){
 		if(cb_typePaiement.getSelectionModel().getSelectedIndex()==CHEQUE){
 			return true;
 		}
 		return false;
 	}
-	
+
 	private void controlerBanque() throws FormulaireException{
 		if(tf_banque.getText().trim().isEmpty()){
 			throw new FormulaireException("Veuillez saisir un nom de banque");
@@ -176,7 +184,7 @@ public class SaisirPaiementController {
 			throw new FormulaireException("Le nom de la banque saisie ne doit pas dépasser 30 caractères");
 		}
 	}
-	
+
 	private void controlerNumeroCheque() throws FormulaireException{
 		try{
 			Integer.parseInt(tf_numeroCheque.getText());
@@ -184,7 +192,7 @@ public class SaisirPaiementController {
 			throw new FormulaireException("Saisie du numéro de chèque incorrecte : veuillez saisir un chiffre");
 		}
 	}
-	
+
 	private void controlerComboboxPaiement() throws FormulaireException{
 		if(cb_typePaiement.getSelectionModel().getSelectedItem()==null){
 			throw new FormulaireException("Veuillez saisir un moyen de paiement");
@@ -210,7 +218,7 @@ public class SaisirPaiementController {
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}
-	
+
 	/**
 	 * Actions a faire apres le chargement de la page
 	 * (initialisation des differents champs)
@@ -220,14 +228,14 @@ public class SaisirPaiementController {
 		initialiserComboBoxTypePaiement();
 		initialiserDate();
 	}
-	
+
 	/**
 	 * Initialise la date
 	 */
 	private void initialiserDate() {
 		l_date.setText(l_date.getText()+DateUtil.format(getDatePaiement()).get());
 	}
-	
+
 	/**
 	 * Action qui suit la selection du type de paiement
 	 * "Espece"
@@ -237,7 +245,7 @@ public class SaisirPaiementController {
 		TextFieldManager.desactiverTextField(tf_numeroCheque);
 		TextFieldManager.desactiverTextField(tf_nomEmetteur);
 	}
-	
+
 	/**
 	 * Action qui suit la selection du type de paiement
 	 * "Cheque"
@@ -260,7 +268,7 @@ public class SaisirPaiementController {
 	            }else{
 	            	chequeSelected();
 	            }
-	          }    
+	          }
 	      });
 	}
 

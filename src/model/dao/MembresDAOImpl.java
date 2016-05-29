@@ -82,7 +82,7 @@ public class MembresDAOImpl implements MembresDAO{
 				motDePasse=resultSet.getString("mdp");
 				droits=droit.getDroitsByIdMembre(idMembre);
 				solde=resultSet.getDouble("solde");
-				membre=new Membre(idMembre,nom,prenom,motDePasse,droits,solde);
+				membre=new Membre(idMembre,nom,prenom,login,motDePasse,droits,solde);
 			}
 		}catch(SQLException e){
 			throw new DAOException(e);
