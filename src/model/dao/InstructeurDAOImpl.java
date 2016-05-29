@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import bd.ConnexionBD;
 import exceptions.DAOException;
 import model.classes.membres.Instructeur;
@@ -15,6 +17,8 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 	private static final String AJOUTER_INSTRUCTEUR = "INSERT INTO INSTRUCTEUR VALUES (?,?,?)";
 	private static final String EDITER_INSTRUCTEUR = "UPDATE INSTRUCTEUR SET numeroinstructeur=?, couthoraire=? WHERE idpilote=?";
 	private static final String SUPPRIMER_INSTRUCTEUR = "DELETE FROM INSTRUCTEUR WHERE idpilote=?";
+	private static final String GET_ALL_INSTRUCTEUR = "SELECT I.idpilote,nom,prenom,couthoraire FROM INSTRUCTEUR I JOIN PILOTE P "
+			+ "ON I.idPilote=P.idPilote JOIN MEMBRE M ON P.idmembre=M.idmembre";
 	private ConnexionBD connexion;
 
 	public InstructeurDAOImpl(ConnexionBD connexion) {
@@ -105,4 +109,35 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 		return instructeur;
 	}
 
+	@Override
+	public ObservableList<Instructeur> getAllInstructeurs() throws DAOException{
+		ObservableList<Instructeur> list=FXCollections.observableArrayList();
+		Connection connexion=null;
+		PreparedStatement ps=null;
+		Integer numeroPiloteInstructeur;
+		String nom;
+		String prenom;
+		Double coutHoraire;
+		ResultSet rs=null;
+		try{
+			connexion=this.connexion.getConnexion();
+			ps=DAOUtilitaire.initialiserRequetePreparee(connexion,GET_ALL_INSTRUCTEUR,false, (Object) null);
+			rs=ps.executeQuery();
+			while(rs.next()){
+				numeroPiloteInstructeur=rs.getInt("idpilote");
+				nom=rs.getString("nom");
+				prenom=rs.getString("prenom");
+				coutHoraire=rs.getDouble("couthoraire");
+				System.out.println(nom);
+				System.out.println(prenom);
+				System.out.println(coutHoraire);
+				list.add(new Instructeur(numeroPiloteInstructeur, nom, prenom, coutHoraire));
+			}
+		}catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaire.fermeturesSilencieuses(rs,ps,connexion);
+		}
+		return list;
+	}
 }

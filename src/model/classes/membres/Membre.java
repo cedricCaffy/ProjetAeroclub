@@ -32,7 +32,14 @@ public class Membre {
 	private ObservableList<Paiement> paiements;
 	private List<String> droits;
 
-	public Membre() {}
+	public Membre() {
+		this.idMembre=new SimpleIntegerProperty();
+		this.nom=new SimpleStringProperty();
+		this.prenom=new SimpleStringProperty();
+		this.login=new SimpleStringProperty();
+		this.motDePasse=new SimpleStringProperty();
+		this.solde=new SimpleDoubleProperty();
+	}
 
 	public Membre(int idMembre,String nom, String prenom,String login,String motDePasse, List<String> droits, double solde){
 		this.idMembre=new SimpleIntegerProperty(idMembre);

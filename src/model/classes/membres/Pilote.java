@@ -18,6 +18,9 @@ public class Pilote extends Membre{
 
 	public Pilote() {
 		super();
+		this.brevets=FXCollections.observableArrayList();
+		this.vols=FXCollections.observableArrayList();
+		this.idPilote = new SimpleIntegerProperty();
 	}
 
 	public Pilote(LocalDate dateVVM) {
