@@ -4,24 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import model.classes.paiement.Paiement;
-import util.DateUtil;
 import exceptions.DAOException;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import bd.ConnexionBD;
 
 public class PaiementDAOImpl implements PaiementDAO{
 	private ConnexionBD connexion;
-	private static final String GET_PAIEMENTS_FROM_MEMBRE = "SELECT idpaiement,datepaiement,montant FROM PAIEMENT "
+	/*private static final String GET_PAIEMENTS_FROM_MEMBRE = "SELECT idpaiement,datepaiement,montant FROM PAIEMENT "
 			+ "WHERE idmembre=? ORDER BY datepaiement DESC";
 	private static final String GET_ESPECES="SELECT * FROM ESPECE WHERE idMembre=?";
-	private static final String GET_CHEQUES="SELECT * FROM CHEQUE WHERE idMembre=?";
+	private static final String GET_CHEQUES="SELECT * FROM CHEQUE WHERE idMembre=?";*/
 	private static final String SQL_INSERT_PAIEMENT = "INSERT INTO PAIEMENT (idmembre,montant,datepaiement) VALUES (?,?,?);";
 
 	public PaiementDAOImpl(ConnexionBD connexion){

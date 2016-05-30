@@ -1,8 +1,6 @@
 package controllers;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import util.DateUtil;
@@ -21,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Color;
 import model.classes.membres.Membre;
-import model.classes.membres.Pilote;
 import model.classes.paiement.Paiement;
 import model.classes.paiement.PaiementUtil;
 import model.classes.vol.Vol;
@@ -29,8 +26,6 @@ import model.dao.ChequeDAO;
 import model.dao.ChequeDAOImpl;
 import model.dao.EspeceDAO;
 import model.dao.EspeceDAOImpl;
-import model.dao.PaiementDAO;
-import model.dao.PaiementDAOImpl;
 import model.dao.VolDAO;
 import model.dao.VolDAOImpl;
 

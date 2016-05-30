@@ -11,7 +11,6 @@ import util.DateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import bd.ConnexionBD;
-import model.classes.paiement.Cheque;
 import model.classes.paiement.Espece;
 import exceptions.DAOException;
 
@@ -22,7 +21,7 @@ public class EspeceDAOImpl implements EspeceDAO{
 	public EspeceDAOImpl(ConnexionBD connexion){
 		this.connexion=connexion;
 	}
-	
+
 	@Override
 	public void ajouterEspece(Integer idPaiement) throws DAOException {
 		Connection connexion=null;
@@ -66,5 +65,5 @@ public class EspeceDAOImpl implements EspeceDAO{
 		}
 		return listEspece;
 	}
-	
+
 }

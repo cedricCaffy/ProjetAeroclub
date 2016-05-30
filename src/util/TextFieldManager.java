@@ -1,7 +1,6 @@
 package util;
 
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Paint;
 
 /**
  * Classe pour gerer l'apercu des TextField
@@ -10,7 +9,7 @@ import javafx.scene.paint.Paint;
  */
 public class TextFieldManager {
 	public TextFieldManager(){}
-	
+
 	/**
 	 * Desactive le textfield passe en parametre
 	 * @param textField le textfield a desactiver
@@ -22,7 +21,7 @@ public class TextFieldManager {
 		textField.setText("");
 		textField.setStyle("-fx-background-color:#cccccc");
 	}
-	
+
 	/**
 	 * Active le textfield passe en parametre
 	 * @param textField le textfield a activer

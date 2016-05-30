@@ -61,8 +61,6 @@ public class SaisirPaiementController {
 
 	LocalDate datePaiement;
 
-	private ChequeDAO chequeDAO;
-
 	public SaisirPaiementController(){}
 
 	@FXML
@@ -262,7 +260,7 @@ public class SaisirPaiementController {
 		cb_typePaiement.getItems().add(SaisirPaiementController.CHEQUE,"Chèque");
 		cb_typePaiement.getItems().add(SaisirPaiementController.ESPECE,"Espèce");
 		cb_typePaiement.valueProperty().addListener(new ChangeListener<String>() {
-	        @Override public void changed(ObservableValue ov, String t, String t1) {
+	        @Override public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, String t, String t1) {
 	            if(cb_typePaiement.getSelectionModel().getSelectedIndex()==SaisirPaiementController.ESPECE){
 	            	especeSelected();
 	            }else{

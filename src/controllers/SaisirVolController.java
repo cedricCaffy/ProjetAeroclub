@@ -37,7 +37,6 @@ public class SaisirVolController {
 	private ObservableList<Vol> listVols;
 	private Membre membre;
 	private MainApp mainApp;
-	@SuppressWarnings("rawtypes")
 	@FXML
 	private ComboBox<Avion> cb_avions;
 
@@ -46,10 +45,10 @@ public class SaisirVolController {
 
 	@FXML
 	private ComboBox<TypeVol> cb_typeVol;
-	
+
 	@FXML
 	private ComboBox<Instructeur> cb_instructeur;
-	
+
 	@FXML
 	private ComboBox<Integer> cb_nbPassagers;
 
@@ -96,7 +95,7 @@ public class SaisirVolController {
 			setComboBoxInstructeur();
 		});
 	}
-	
+
 	private void setComboBoxInstructeur(){
 		TypeVol typeVol=null;
 		typeVol=cb_typeVol.getSelectionModel().getSelectedItem();
@@ -105,17 +104,21 @@ public class SaisirVolController {
 			if(typeVol.equals(TypeVol.ECOLE)){
 				cb_instructeur.setDisable(false);
 			}else{
-				cb_instructeur.setDisable(true);
+				initialiserComboBoxInstructeur();
 			}
 		}
 	}
-	
+
+	private void initialiserComboBoxInstructeur() {
+		cb_instructeur.setDisable(true);
+	}
+
 	private void actionChangementAvion(){
 		cb_avions.setOnAction((event)->{
 			setNbPlacesComboBox();
 		});
 	}
-	
+
 	private void setNbPlacesComboBox(){
 		cb_nbPassagers.getItems().clear();
 		Avion selectedAvion=cb_avions.getSelectionModel().getSelectedItem();
@@ -132,14 +135,14 @@ public class SaisirVolController {
 			}
 		}
 	}
-	
-	
+
+
 	private void ajouterNbPlacesComboBox(Integer nbPlaces){
 		for(Integer i=0;i<=nbPlaces;i++){
 			cb_nbPassagers.getItems().add(i);
 		}
 	}
-	
+
 	/**
 	 * Action qui suit le click sur le bouton Ajouter Etape
 	 */
@@ -161,6 +164,7 @@ public class SaisirVolController {
 			mainApp.afficherEcranAccueil(this.membre);
 		}
 	}
+
 	//TextFieldTableCell
 	//AcceptOnExitTableCell
 	private void initialiserTableVols(){
@@ -208,6 +212,8 @@ public class SaisirVolController {
 		ajouterAvionsComboBox();
 		ajouterInstructeurComboBox();
 		ajouterTypeVolComboBox();
+		initialiserComboBoxInstructeur();
+		initialiserTableVols();
 		actionChangementTypeVol();
 		actionChangementAvion();
 		/*aeroclubBD=new AeroclubDAOImpl();
@@ -226,7 +232,6 @@ public class SaisirVolController {
 	/**
 	 * Ajoute les avions a la combobox
 	 */
-	@SuppressWarnings("rawtypes")
 	private void ajouterAvionsComboBox(){
 		cb_avions.getItems().clear();
 		/**
@@ -293,8 +298,7 @@ public class SaisirVolController {
 			cb_avions.getItems().add(avion);
 		}
 	}
-	
-	@SuppressWarnings("rawtypes")
+
 	private void ajouterInstructeurComboBox(){
 		cb_instructeur.getItems().clear();
 		/**
@@ -349,7 +353,7 @@ public class SaisirVolController {
 			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}
 	}
-	
+
 	private void ajouterInstructeurs() throws DAOException,DAOConfigurationException{
 		ConnexionBD connexion=ConnexionBD.getInstance();
 		InstructeurDAO instructeurDAO=new InstructeurDAOImpl(connexion);

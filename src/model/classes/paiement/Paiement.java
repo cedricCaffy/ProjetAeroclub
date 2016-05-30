@@ -1,7 +1,6 @@
 package model.classes.paiement;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -9,8 +8,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class Paiement {
 	private IntegerProperty idPaiement;
@@ -72,7 +69,7 @@ public class Paiement {
 	/*public TypePaiement getTypePaiement() {
 		return typePaiement;
 	}
-	
+
 	public StringProperty getTypePaiementProperty(){
 		return new SimpleStringProperty(typePaiement.toString());
 	}
