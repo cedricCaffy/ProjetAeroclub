@@ -16,7 +16,7 @@ import model.classes.avion.Disponibilite;
 
 public class AvionDAOImpl implements AvionDAO {
 
-    private static final String GET_ALL_AVION = "SELECT idavion, nomavion, immatriculation FROM AVION;";
+    private static final String GET_ALL_AVION = "SELECT idavion, nomavion, immatriculation,nbplace FROM AVION;";
     private static final String GET_AVION_FROM_ID = "SELECT * FROM AVION WHERE idavion=?";
 	private static final String AJOUTER_AVION = "INSERT INTO AVION (nomavion,typeavion,immatriculation,consommation,capacitereservoir,nbplace,massemaximale,couthoraire,disponibilite,vitessecroisiere,idaeroclub) VALUES (?,?,?,?,?,?,?,?,?,?,1)";
 	private static final String EDITER_AVION = "UPDATE AVION SET nomavion=?,typeavion=?,immatriculation=?,consommation=?,capacitereservoir=?,nbplace=?,massemaximale=?,couthoraire=?,vitessecroisiere=? WHERE idavion=?";
@@ -36,6 +36,7 @@ public class AvionDAOImpl implements AvionDAO {
 		Integer idAvion = null;
 		String nomAvion = null;
 		String immatriculation = null;
+		Integer nbPlace=null;
 		ObservableList<Avion> list = FXCollections.observableList(listAvion);
 		try {
 			connexion=this.connexion.getConnexion();
@@ -45,7 +46,8 @@ public class AvionDAOImpl implements AvionDAO {
 				idAvion = resultSet.getInt("idavion");
 				nomAvion = resultSet.getString("nomavion");
 				immatriculation = resultSet.getString("immatriculation");
-				avion = new Avion(idAvion, nomAvion, immatriculation);
+				nbPlace=resultSet.getInt("nbplace");
+				avion = new Avion(idAvion, nomAvion, immatriculation,nbPlace);
 				list.add(avion);
 			}
 		} catch(SQLException e){

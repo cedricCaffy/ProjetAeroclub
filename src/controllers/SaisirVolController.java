@@ -17,7 +17,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
-import javafx.util.Pair;
 import javafx.util.StringConverter;
 import model.classes.avion.Avion;
 import model.classes.membres.Instructeur;
@@ -40,7 +39,7 @@ public class SaisirVolController {
 	private MainApp mainApp;
 	@SuppressWarnings("rawtypes")
 	@FXML
-	private ComboBox<Pair> cb_avions;
+	private ComboBox<Avion> cb_avions;
 
 	@FXML
 	private DatePicker dp_dateVol;
@@ -49,7 +48,10 @@ public class SaisirVolController {
 	private ComboBox<TypeVol> cb_typeVol;
 	
 	@FXML
-	private ComboBox<Pair> cb_instructeur;
+	private ComboBox<Instructeur> cb_instructeur;
+	
+	@FXML
+	private ComboBox<Integer> cb_nbPassagers;
 
 	@FXML
 	private Button b_ajouterEtape;
@@ -84,10 +86,60 @@ public class SaisirVolController {
 		 */
 		//A FAIRE : les controles des saisies
 		if(cb_avions.getSelectionModel().getSelectedItem()!=null){
-			System.out.println(cb_avions.getSelectionModel().getSelectedItem().getKey());
+			System.out.println(cb_avions.getSelectionModel().getSelectedItem().getId());
 		}
 	}
 
+	private void actionChangementTypeVol(){
+		cb_typeVol.setOnAction((event)->{
+			setNbPlacesComboBox();
+			setComboBoxInstructeur();
+		});
+	}
+	
+	private void setComboBoxInstructeur(){
+		TypeVol typeVol=null;
+		typeVol=cb_typeVol.getSelectionModel().getSelectedItem();
+		if(typeVol!=null){
+			cb_instructeur.getSelectionModel().clearSelection();
+			if(typeVol.equals(TypeVol.ECOLE)){
+				cb_instructeur.setDisable(false);
+			}else{
+				cb_instructeur.setDisable(true);
+			}
+		}
+	}
+	
+	private void actionChangementAvion(){
+		cb_avions.setOnAction((event)->{
+			setNbPlacesComboBox();
+		});
+	}
+	
+	private void setNbPlacesComboBox(){
+		cb_nbPassagers.getItems().clear();
+		Avion selectedAvion=cb_avions.getSelectionModel().getSelectedItem();
+		TypeVol typeVol=null;
+		if(selectedAvion!=null){
+			Integer nbPlaces=selectedAvion.getNombrePlace()-1;
+			typeVol=cb_typeVol.getSelectionModel().getSelectedItem();
+			if(typeVol!=null){
+				if(typeVol.equals(TypeVol.ECOLE)){
+					ajouterNbPlacesComboBox(nbPlaces-1);
+				}else{
+					ajouterNbPlacesComboBox(nbPlaces);
+				}
+			}
+		}
+	}
+	
+	
+	private void ajouterNbPlacesComboBox(Integer nbPlaces){
+		for(Integer i=0;i<=nbPlaces;i++){
+			cb_nbPassagers.getItems().add(i);
+		}
+	}
+	
 	/**
 	 * Action qui suit le click sur le bouton Ajouter Etape
 	 */
@@ -155,9 +207,11 @@ public class SaisirVolController {
 	private void actionChargement(){
 		ajouterAvionsComboBox();
 		ajouterInstructeurComboBox();
+		ajouterTypeVolComboBox();
+		actionChangementTypeVol();
+		actionChangementAvion();
 		/*aeroclubBD=new AeroclubDAOImpl();
 		ajouterAvionsComboBox();
-		ajouterTypeVolComboBox();
 		initialiserTableVols();*/
 	}
 
@@ -182,8 +236,8 @@ public class SaisirVolController {
 		 * de manière à ne pas afficher l'identifiant de l'avion
 		 * (l'utilisateur n'a pas a le savoir)
 		 */
-		cb_avions.setCellFactory((ListView<Pair> param) -> {
-            final ListCell<Pair> cell = new ListCell<Pair>(){
+		cb_avions.setCellFactory((ListView<Avion> param) -> {
+            final ListCell<Avion> cell = new ListCell<Avion>(){
             	/**
             	 * Permet de mettre l'immatriculation et le nom de l'avion
             	 * dans la cellule du combobox
@@ -191,11 +245,11 @@ public class SaisirVolController {
             	 * @param bln
             	 */
                 @Override
-                protected void updateItem(Pair avion, boolean bln) {
+                protected void updateItem(Avion avion, boolean bln) {
                     super.updateItem(avion, bln);
 
                     if(avion != null){
-                        setText(String.valueOf(avion.getValue()));
+                        setText(String.valueOf(avion.getImmatriculation()+" - "+avion.getNom()));
                     }else{
                         setText(null);
                     }
@@ -208,14 +262,14 @@ public class SaisirVolController {
 		 * Permet de mettre le nom de l'avion et l'immatriculation
 		 * lorsque la cellule a ete selectionnee
 		 */
-		cb_avions.setConverter(new StringConverter<Pair>() {
+		cb_avions.setConverter(new StringConverter<Avion>() {
             @Override
-            public String toString(Pair object) {
-                return (String)object.getValue();
+            public String toString(Avion object) {
+                return (String)object.getImmatriculation()+" - "+object.getNom();
             }
 
             @Override
-            public Pair fromString(String string) {
+            public Avion fromString(String string) {
                 return null; // No conversion fromString needed.
             }
         });
@@ -236,7 +290,7 @@ public class SaisirVolController {
 		ConnexionBD connexion=ConnexionBD.getInstance();
 		AvionDAO avionDAO=new AvionDAOImpl(connexion);
 		for(Avion avion : avionDAO.getAllAvion()){
-			cb_avions.getItems().add(new Pair<Integer,String>(avion.getId(),avion.getImmatriculation()+" - "+avion.getNom()));
+			cb_avions.getItems().add(avion);
 		}
 	}
 	
@@ -250,8 +304,8 @@ public class SaisirVolController {
 		 * de manière à ne pas afficher l'identifiant de l'avion
 		 * (l'utilisateur n'a pas a le savoir)
 		 */
-		cb_instructeur.setCellFactory((ListView<Pair> param) -> {
-            final ListCell<Pair> cell = new ListCell<Pair>(){
+		cb_instructeur.setCellFactory((ListView<Instructeur> param) -> {
+            final ListCell<Instructeur> cell = new ListCell<Instructeur>(){
             	/**
             	 * Permet de mettre l'immatriculation et le nom de l'avion
             	 * dans la cellule du combobox
@@ -259,11 +313,11 @@ public class SaisirVolController {
             	 * @param bln
             	 */
                 @Override
-                protected void updateItem(Pair instructeur, boolean bln) {
+                protected void updateItem(Instructeur instructeur, boolean bln) {
                     super.updateItem(instructeur, bln);
 
                     if(instructeur != null){
-                        setText(String.valueOf(instructeur.getValue()));
+                        setText(String.valueOf(instructeur.getNom()+" "+instructeur.getPrenom()));
                     }else{
                         setText(null);
                     }
@@ -276,14 +330,14 @@ public class SaisirVolController {
 		 * Permet de mettre le nom de l'avion et l'immatriculation
 		 * lorsque la cellule a ete selectionnee
 		 */
-		cb_instructeur.setConverter(new StringConverter<Pair>() {
+		cb_instructeur.setConverter(new StringConverter<Instructeur>() {
             @Override
-            public String toString(Pair object) {
-                return (String)object.getValue();
+            public String toString(Instructeur instructeur) {
+                return (String)instructeur.getNom()+" "+instructeur.getPrenom();
             }
 
             @Override
-            public Pair fromString(String string) {
+            public Instructeur fromString(String string) {
                 return null; // No conversion fromString needed.
             }
         });
@@ -300,7 +354,7 @@ public class SaisirVolController {
 		ConnexionBD connexion=ConnexionBD.getInstance();
 		InstructeurDAO instructeurDAO=new InstructeurDAOImpl(connexion);
 		for(Instructeur instructeur : instructeurDAO.getAllInstructeurs()){
-			cb_instructeur.getItems().add(new Pair<Integer,String>(instructeur.getIdPilote(),instructeur.getNom()+" - "+instructeur.getPrenom()));
+			cb_instructeur.getItems().add(instructeur);
 		}
 	}
 	public void setMainApp(MainApp mainApp){

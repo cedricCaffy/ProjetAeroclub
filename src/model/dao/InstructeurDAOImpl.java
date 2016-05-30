@@ -128,9 +128,6 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 				nom=rs.getString("nom");
 				prenom=rs.getString("prenom");
 				coutHoraire=rs.getDouble("couthoraire");
-				System.out.println(nom);
-				System.out.println(prenom);
-				System.out.println(coutHoraire);
 				list.add(new Instructeur(numeroPiloteInstructeur, nom, prenom, coutHoraire));
 			}
 		}catch (SQLException e) {

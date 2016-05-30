@@ -23,9 +23,10 @@ public class Avion {
 	private Image photo;
 	private Centrage centrage;
 
-	public Avion(Integer id, String nom, String immatriculation) {
+	public Avion(Integer id, String nom, String immatriculation,Integer nbPlace) {
 		this.id=new SimpleIntegerProperty(id);
 		this.nom=new SimpleStringProperty(nom);
+		this.nombrePlace=new SimpleIntegerProperty(nbPlace);
 		this.immatriculation=new SimpleStringProperty(immatriculation);
 	}
 
