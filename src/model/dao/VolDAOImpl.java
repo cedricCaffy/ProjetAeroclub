@@ -25,7 +25,7 @@ public class VolDAOImpl implements VolDAO {
 			+ "JOIN PILOTE p ON v.idpilote = p.idpilote "
 			+ "WHERE p.idmembre=? "
 			+ "ORDER BY datevol DESC";
-	private static final String INSERER_VOL = "INSERT INTO VOL (typevol, datevol, tempsvol, nbpassagers, aeroclubdepart, aeroclubarrivee, idavion, idpilote, numeroinstructeur) VALUES (?,?,?,?,?,?,?,?,?);";
+	private static final String INSERER_VOL = "INSERT INTO VOL (typevol, datevol, tempsvol, nbpassagers, aeroclubdepart, aeroclubarrivee, idavion, idpilote, numeroinstructeur, couttotal) VALUES (?,?,?,?,?,?,?,?,?,?);";
 
 	public VolDAOImpl(ConnexionBD connexion) {
 		this.connexion = ConnexionBD.getInstance();
@@ -63,7 +63,7 @@ public class VolDAOImpl implements VolDAO {
 				typeVol = resultSet.getString("typevol");
 				type=TypeVol.valueOf(typeVol);
 				tempsVol = resultSet.getTime("tempsvol").toLocalTime();
-				vol = new Vol(localDateVol,tempsVol,aeroclubDepart,aeroclubArrivee,type,0);
+				vol = new Vol(localDateVol,tempsVol,aeroclubDepart,aeroclubArrivee,type,0,0);
 				list.add(vol);
 			}
 		} catch (SQLException e) {
@@ -91,7 +91,7 @@ public class VolDAOImpl implements VolDAO {
 			connexion=this.connexion.getConnexion();
 			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,VolDAOImpl.INSERER_VOL,true,vol.getType().name(),
 					vol.getDateVol(), vol.getTempsVol(), vol.getNombrePassager(), vol.getAerodromeDepart(), vol.getAerodromeArrivee(),
-					idAvion, idPilote, numeroInstructeur);
+					idAvion, idPilote, numeroInstructeur, vol.getCoutTotal());
 			setNullIfNecessary(statement, numeroInstructeur);
 			statut = statement.executeUpdate();
 			if(statut==0){

@@ -30,6 +30,14 @@ public class Avion {
 		this.immatriculation=new SimpleStringProperty(immatriculation);
 	}
 
+	public Avion(Integer id, String nom, String immatriculation,Integer nbPlace,Double coutHoraire) {
+		this.id=new SimpleIntegerProperty(id);
+		this.nom=new SimpleStringProperty(nom);
+		this.nombrePlace=new SimpleIntegerProperty(nbPlace);
+		this.immatriculation=new SimpleStringProperty(immatriculation);
+		this.coutHoraire=new SimpleDoubleProperty(coutHoraire);
+	}
+
 	public Avion(Integer id,String nom, String type, String immatriculation,Integer autonomie,Integer capaciteReservoir,Integer nombrePlace, Integer masseMaximale,Double coutHoraire,Disponibilite disponibilite,Double vitesseCroisiere,Image photo,Centrage centrage){
 		this.id=new SimpleIntegerProperty(id);
 		this.nom=new SimpleStringProperty(nom);

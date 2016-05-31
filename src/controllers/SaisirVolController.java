@@ -28,6 +28,7 @@ import model.dao.AvionDAO;
 import model.dao.AvionDAOImpl;
 import model.dao.InstructeurDAO;
 import model.dao.InstructeurDAOImpl;
+import model.dao.MembresDAO;
 import model.dao.PiloteDAO;
 import model.dao.PiloteDAOImpl;
 import model.dao.VolDAO;
@@ -98,6 +99,7 @@ public class SaisirVolController {
 			controlerNbPassagers();
 			controlerEtapes();
 			enregistrerVol();
+			reinitialiserMembre();
 			new PopupInfo().afficherPopup("Confirmation", "Confirmation d'ajout","Le vol a bien été ajouté, merci.");
 			mainApp.afficherEcranAccueil(membre);
 		} catch (FormulaireException e) {
@@ -168,7 +170,7 @@ public class SaisirVolController {
 	 */
 	@FXML
 	private void actionAjouterEtape(){
-		this.listVols.add(new Vol(null,LocalTime.of(0, 0), "", "", null, 0));
+		this.listVols.add(new Vol(null,LocalTime.of(0, 0), "", "", null, 0,0));
 		tv_etapes.setItems(listVols);
 		this.nbEtapes++;
 	}
@@ -458,6 +460,7 @@ public class SaisirVolController {
 		Vol volAAjouter;
 		VolDAO volDao;
 		PiloteDAO piloteDao;
+		Double coutTotal;
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		volDao = new VolDAOImpl(connexion);
 		piloteDao = new PiloteDAOImpl(connexion);
@@ -467,10 +470,26 @@ public class SaisirVolController {
 		for (int i = 0 ; i < nbEtapes ; i++) {
 			tempsVol = LocalTime.of(Integer.parseInt(colonne_tempsVol.getCellData(i).split(":")[0]),
 					Integer.parseInt(colonne_tempsVol.getCellData(i).split(":")[1]));
+			coutTotal = calculerCoutVol(tempsVol);
 			volAAjouter = new Vol(dp_dateVol.getValue(), tempsVol, colonne_aerodromeDepart.getCellData(i),
-					colonne_aerodromeArrivee.getCellData(i), cb_typeVol.getValue(), cb_nbPassagers.getValue());
+					colonne_aerodromeArrivee.getCellData(i), cb_typeVol.getValue(), cb_nbPassagers.getValue(), coutTotal);
 			volDao.insererVol(volAAjouter, idPilote, cb_avions.getValue().getId(), cb_instructeur.getValue() != null ? cb_instructeur.getValue().getNumeroInstructeur() : null);
 		}
+	}
+
+	private Double calculerCoutVol(LocalTime tempsVol) {
+		Double cout = null;
+		cout = cb_avions.getValue().getCoutHoraire()*(tempsVol.getHour()+(tempsVol.getMinute())/60);
+		if (cb_instructeur.getValue() != null) {
+			cout += cb_instructeur.getValue().getCoutHoraire()*(tempsVol.getHour()+(tempsVol.getMinute())/60);
+		}
+		return cout;
+	}
+
+	private void reinitialiserMembre() throws DAOException,DAOConfigurationException {
+		ConnexionBD connexion=ConnexionBD.getInstance();
+		MembresDAO membresDAO=connexion.getMembreDAO();
+		this.membre=membresDAO.getMembreByLogin(this.membre.getLogin());
 	}
 
 	public void setMainApp(MainApp mainApp){

@@ -166,10 +166,15 @@ CREATE TABLE IF NOT EXISTS vol (
   idavion int NOT NULL,
   idpilote int NOT NULL,
   numeroinstructeur varchar(9),
+  couttotal float(6,2) NOT NULL,
   CONSTRAINT fk_volavion FOREIGN KEY (idavion) REFERENCES avion(idavion) ON DELETE CASCADE,
   CONSTRAINT fk_volpilote FOREIGN KEY (idpilote) REFERENCES pilote(idpilote) ON DELETE CASCADE,
   CONSTRAINT fk_volinstruct FOREIGN KEY (numeroinstructeur) REFERENCES instructeur(numeroinstructeur) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TRIGGER after_insert_vol AFTER INSERT
+ON vol FOR EACH ROW
+UPDATE membre m, pilote p SET m.solde = m.solde - NEW.couttotal WHERE p.idpilote = NEW.idpilote AND m.idmembre = p.idmembre;
 
 --
 -- Structure de la table droits

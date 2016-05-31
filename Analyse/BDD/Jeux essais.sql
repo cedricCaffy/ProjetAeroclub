@@ -41,9 +41,9 @@ VALUES
 ('FI-000001',20,1),
 ('FI-000002',30,3);
 
-INSERT INTO VOL (typevol,nbpassagers,datevol,tempsvol,aeroclubdepart,aeroclubarrivee,idavion,idpilote)
+INSERT INTO VOL (typevol,nbpassagers,datevol,tempsvol,aeroclubdepart,aeroclubarrivee,idavion,idpilote,couttotal)
 VALUES
-('SOLO',2,'2016-04-13','1:00','LFBX','LFBX',1,1);
+('SOLO',2,'2016-04-13','1:00','LFBX','LFBX',1,1,125);
 
 INSERT INTO PAIEMENT (idmembre,montant,datepaiement)
 VALUES
