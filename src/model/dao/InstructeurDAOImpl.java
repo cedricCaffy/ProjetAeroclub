@@ -17,7 +17,7 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 	private static final String AJOUTER_INSTRUCTEUR = "INSERT INTO INSTRUCTEUR VALUES (?,?,?)";
 	private static final String EDITER_INSTRUCTEUR = "UPDATE INSTRUCTEUR SET numeroinstructeur=?, couthoraire=? WHERE idpilote=?";
 	private static final String SUPPRIMER_INSTRUCTEUR = "DELETE FROM INSTRUCTEUR WHERE idpilote=?";
-	private static final String GET_ALL_INSTRUCTEUR = "SELECT I.idpilote,nom,prenom,couthoraire FROM INSTRUCTEUR I JOIN PILOTE P "
+	private static final String GET_ALL_INSTRUCTEUR = "SELECT I.idpilote,nom,prenom,couthoraire,numeroinstructeur FROM INSTRUCTEUR I JOIN PILOTE P "
 			+ "ON I.idPilote=P.idPilote JOIN MEMBRE M ON P.idmembre=M.idmembre";
 	private ConnexionBD connexion;
 
@@ -118,6 +118,7 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 		String nom;
 		String prenom;
 		Double coutHoraire;
+		String numeroInstructeur;
 		ResultSet rs=null;
 		try{
 			connexion=this.connexion.getConnexion();
@@ -128,7 +129,8 @@ public class InstructeurDAOImpl implements InstructeurDAO {
 				nom=rs.getString("nom");
 				prenom=rs.getString("prenom");
 				coutHoraire=rs.getDouble("couthoraire");
-				list.add(new Instructeur(numeroPiloteInstructeur, nom, prenom, coutHoraire));
+				numeroInstructeur=rs.getString("numeroinstructeur");
+				list.add(new Instructeur(numeroPiloteInstructeur, nom, prenom, coutHoraire, numeroInstructeur));
 			}
 		}catch (SQLException e) {
 			throw new DAOException(e);

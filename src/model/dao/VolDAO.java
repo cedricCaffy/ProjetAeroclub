@@ -15,11 +15,13 @@ public interface VolDAO {
 	ObservableList<Vol> getVolsFromMembre(Integer idMembre) throws DAOException;
 
 	/**
-	 * Insere un vol au membre associé à l'idMembre passe en parametre
+	 * Insere un vol au pilote associe à l'idPilote passe en parametre
 	 * @param paiement le vol a inserer
-	 * @param idMembre
+	 * @param idPilote id du pilote qui effectue le vol
+	 * @param idAvion id de l'avion utilise pour le vol
+	 * @param numeroInstructeur a null s'il n'y a pas d'instructeur
 	 * @return l'identifiant du vol insere
 	 * @throws DAOException si une erreur de bdd survient
 	 */
-	Integer insererVol(Vol vol, Integer idmembre) throws DAOException;
+	Integer insererVol(Vol vol, Integer idPilote, Integer idAvion, String numeroInstructeur) throws DAOException;
 }

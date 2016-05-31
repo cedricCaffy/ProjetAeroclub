@@ -23,14 +23,15 @@ public class Instructeur extends Pilote{
 		this.coutHoraire = new SimpleDoubleProperty(coutHoraire);
 	}
 
-	public Instructeur(Integer idPilote,String nom, String prenom,Double coutHoraire){
+	public Instructeur(Integer idPilote,String nom, String prenom,Double coutHoraire,String numeroInstructeur){
 		super();
 		super.setNom(nom);
 		super.setPrenom(prenom);
 		super.setIdPilote(idPilote);
 		this.coutHoraire=new SimpleDoubleProperty(coutHoraire);
+		this.numeroInstructeur=new SimpleStringProperty(numeroInstructeur);
 	}
-	
+
 	public Instructeur(int idMembre,String nom,String prenom,String login,String motDePasse,String email,String numeroTelephone,String numeroMobile,LocalDate dateNaissance,double solde,Image photo,Adresse adresse,List<String> droits,LocalDate dateVVM,String numeroInstructeur,float coutHoraire){
 		super(idMembre,nom,prenom,login,motDePasse,email,numeroTelephone,numeroMobile,dateNaissance,solde,photo,adresse,droits,dateVVM);
 		this.numeroInstructeur=new SimpleStringProperty(numeroInstructeur);

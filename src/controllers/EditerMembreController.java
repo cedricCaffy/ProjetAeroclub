@@ -376,8 +376,10 @@ public class EditerMembreController {
 		ConnexionBD connexion = ConnexionBD.getInstance();
 		membreDao = new MembresDAOImpl(connexion);
 
-		if (membreDao.loginIsPresent(tf_login.getText())) {
-			throw new FormulaireException("Ce login est déjà utilisé");
+		if (!tf_login.getText().equals(membreSelec.getLogin())) {
+			if (membreDao.loginIsPresent(tf_login.getText())) {
+				throw new FormulaireException("Ce login est déjà utilisé");
+			}
 		}
 
 		membreAEditer = new Membre(0,tf_nom.getText(),tf_prenom.getText(),tf_login.getText(),tf_motdepasse.getText(),

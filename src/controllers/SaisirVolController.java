@@ -4,6 +4,7 @@ import java.time.LocalTime;
 
 import exceptions.DAOConfigurationException;
 import exceptions.DAOException;
+import exceptions.FormulaireException;
 import bd.ConnexionBD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,14 +28,21 @@ import model.dao.AvionDAO;
 import model.dao.AvionDAOImpl;
 import model.dao.InstructeurDAO;
 import model.dao.InstructeurDAOImpl;
+import model.dao.PiloteDAO;
+import model.dao.PiloteDAOImpl;
+import model.dao.VolDAO;
+import model.dao.VolDAOImpl;
 import util.AcceptOnExitTableCell;
 import view.popup.PopupError;
 import view.popup.PopupException;
+import view.popup.PopupInfo;
 import view.popup.PopupInfoConfirmation;
 import application.MainApp;
 
 public class SaisirVolController {
 	private ObservableList<Vol> listVols;
+	private Vol etapeSelec;
+	private Integer nbEtapes = 0;
 	private Membre membre;
 	private MainApp mainApp;
 	@FXML
@@ -80,12 +88,24 @@ public class SaisirVolController {
 	 */
 	@FXML
 	private void actionBoutonEnregistrer(){
-		/**
-		 * Test du combobox (temporaire)
-		 */
-		//A FAIRE : les controles des saisies
-		if(cb_avions.getSelectionModel().getSelectedItem()!=null){
-			System.out.println(cb_avions.getSelectionModel().getSelectedItem().getId());
+		try {
+			controlerAvion();
+			controlerDateVol();
+			controlerTypeVol();
+			if (cb_typeVol.getValue() == TypeVol.ECOLE) {
+				controlerInstructeur();
+			}
+			controlerNbPassagers();
+			controlerEtapes();
+			enregistrerVol();
+			new PopupInfo().afficherPopup("Confirmation", "Confirmation d'ajout","Le vol a bien été ajouté, merci.");
+			mainApp.afficherEcranAccueil(membre);
+		} catch (FormulaireException e) {
+			new PopupError("Erreur de saisie du formulaire","",e.getMessage());
+		} catch (DAOException e) {
+			new PopupException(e);
+		} catch(DAOConfigurationException e){
+			new PopupError("Erreur","Erreur de configuration",e.getMessage());
 		}
 	}
 
@@ -150,6 +170,18 @@ public class SaisirVolController {
 	private void actionAjouterEtape(){
 		this.listVols.add(new Vol(null,LocalTime.of(0, 0), "", "", null, 0));
 		tv_etapes.setItems(listVols);
+		this.nbEtapes++;
+	}
+
+	@FXML
+	private void actionSupprimerEtape() {
+		if (etapeSelec != null) {
+			this.listVols.remove(this.etapeSelec);
+			tv_etapes.setItems(listVols);
+			this.nbEtapes--;
+		} else {
+			new PopupError("Etape non sélectionnée","","Veuillez sélectionner une étape pour pouvoir la supprimer");
+		}
 	}
 
 	/**
@@ -203,7 +235,10 @@ public class SaisirVolController {
 		                        ).setTempsVol(temps);
 	            	}
 	            });
+		tv_etapes.getSelectionModel().selectedItemProperty().addListener(
+	            (observable, oldValue, newValue) -> setEtapeSelec(newValue));
 	}
+
 	/**
 	 * Methode qui gere les actions apres
 	 * le chargement de la page
@@ -361,6 +396,83 @@ public class SaisirVolController {
 			cb_instructeur.getItems().add(instructeur);
 		}
 	}
+
+	private void controlerAvion() throws FormulaireException {
+		if(cb_avions.getSelectionModel().getSelectedItem()==null){
+			throw new FormulaireException("Veuillez saisir un avion");
+		}
+	}
+
+	private void controlerDateVol() throws FormulaireException{
+		if(dp_dateVol.getValue() == null){
+			throw new FormulaireException("Veuillez saisir la date du vol");
+		}
+	}
+
+	private void controlerTypeVol() throws FormulaireException {
+		if(cb_typeVol.getSelectionModel().getSelectedItem()==null){
+			throw new FormulaireException("Veuillez saisir un type de vol");
+		}
+	}
+
+	private void controlerInstructeur() throws FormulaireException {
+		if(cb_instructeur.getSelectionModel().getSelectedItem()==null){
+			throw new FormulaireException("Veuillez saisir un instructeur");
+		}
+	}
+
+	private void controlerNbPassagers() throws FormulaireException {
+		if(cb_nbPassagers.getSelectionModel().getSelectedItem()==null){
+			throw new FormulaireException("Veuillez saisir un nombre de passagers");
+		}
+	}
+
+	private void controlerEtapes() throws FormulaireException{
+		int numeroEtape;
+		if (nbEtapes == 0) {
+			throw new FormulaireException("Veuillez saisir des étapes pour le vol");
+		}
+		for (int i = 0; i < nbEtapes ; i++) {
+			numeroEtape = i+1;
+			if (colonne_aerodromeDepart.getCellData(i).length() == 0) {
+				throw new FormulaireException("Aérodrome de départ non spécifié à l'étape n°" + numeroEtape);
+			}
+			if (colonne_aerodromeDepart.getCellData(i).length() > 6) {
+				throw new FormulaireException("L'aérodrome de départ de l'étape n°" + numeroEtape + " ne doit pas dépasser 6 caractères");
+			}
+			if (colonne_aerodromeArrivee.getCellData(i).length() == 0) {
+				throw new FormulaireException("Aérodrome d'arrivée non spécifié à l'étape n°" + numeroEtape);
+			}
+			if (colonne_aerodromeArrivee.getCellData(i).length() > 6) {
+				throw new FormulaireException("L'aérodrome d'arrivée de l'étape n°" + numeroEtape + " ne doit pas dépasser 6 caractères");
+			}
+			if (colonne_tempsVol.getCellData(i).equals("0:0")) {
+				throw new FormulaireException("Le temps de vol de l'étape n°" + numeroEtape + " ne doit pas être nul");
+			}
+		}
+	}
+
+	private void enregistrerVol() throws DAOException, DAOConfigurationException {
+		Integer idPilote;
+		LocalTime tempsVol;
+		Vol volAAjouter;
+		VolDAO volDao;
+		PiloteDAO piloteDao;
+		ConnexionBD connexion = ConnexionBD.getInstance();
+		volDao = new VolDAOImpl(connexion);
+		piloteDao = new PiloteDAOImpl(connexion);
+
+		idPilote = piloteDao.getPiloteFromId(this.membre.getIdMembre()).getIdPilote();
+
+		for (int i = 0 ; i < nbEtapes ; i++) {
+			tempsVol = LocalTime.of(Integer.parseInt(colonne_tempsVol.getCellData(i).split(":")[0]),
+					Integer.parseInt(colonne_tempsVol.getCellData(i).split(":")[1]));
+			volAAjouter = new Vol(dp_dateVol.getValue(), tempsVol, colonne_aerodromeDepart.getCellData(i),
+					colonne_aerodromeArrivee.getCellData(i), cb_typeVol.getValue(), cb_nbPassagers.getValue());
+			volDao.insererVol(volAAjouter, idPilote, cb_avions.getValue().getId(), cb_instructeur.getValue() != null ? cb_instructeur.getValue().getNumeroInstructeur() : null);
+		}
+	}
+
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}
@@ -369,4 +481,9 @@ public class SaisirVolController {
 		this.membre=membre;
 		actionChargement();
 	}
+
+	private void setEtapeSelec(Vol newValue) {
+		this.etapeSelec = newValue;
+	}
+
 }

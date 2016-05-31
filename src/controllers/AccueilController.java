@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import model.classes.membres.Droits;
 import model.classes.membres.Membre;
+import view.popup.PopupError;
 import application.MainApp;
 
 public class AccueilController {
@@ -20,18 +21,18 @@ public class AccueilController {
 	private Button b_administration;
 	@FXML
 	private Label l_messageBienvenue;
-	
+
 	private MainApp mainApp;
-	
+
 	private Membre membre;
-	
+
 	public AccueilController(){}
-	
+
 	@FXML
 	private void initialize(){
 
 	}
-	
+
 	/**
 	 * Action qui suit le click sur le bouton Mon Compte
 	 */
@@ -45,9 +46,13 @@ public class AccueilController {
 	 */
 	@FXML
 	private void actionBoutonSaisirVol(){
-		mainApp.afficherEcranSaisirVol(this.membre);
+		if (this.membre.getDroits().get(3) == null) {
+			new PopupError("Erreur de droits", "", "Vous n'avez pas les droits nécessaires pour effectuer la saisie d'un vol");
+		} else {
+			mainApp.afficherEcranSaisirVol(this.membre);
+		}
 	}
-	
+
 	@FXML
 	private void actionBoutonDeconnexion(){
 		mainApp.afficherEcranConnexion();
@@ -60,7 +65,7 @@ public class AccueilController {
 	private void actionBoutonSaisirPaiement(){
 		mainApp.afficherEcranSaisirPaiement(this.membre);
 	}
-	
+
 	@FXML
 	private void actionBoutonAdministration(){
 		mainApp.afficherEcranAdministration(membre);
@@ -77,7 +82,7 @@ public class AccueilController {
 	private void afficherMessageBienvenue(){
 		l_messageBienvenue.setText(l_messageBienvenue.getText()+" "+membre.getNom()+" "+membre.getPrenom());
 	}
-	
+
 	/**
 	 * Permet de setter le mainApp
 	 * @param mainApp le mainApp qui utilise le controller
@@ -85,7 +90,7 @@ public class AccueilController {
 	public void setMainApp(MainApp mainApp){
 		this.mainApp=mainApp;
 	}
-	
+
 	/**
 	 * Recupere le mainApp
 	 * @return le mainApp actuel
@@ -93,7 +98,7 @@ public class AccueilController {
 	public MainApp getMainApp(){
 		return this.mainApp;
 	}
-	
+
 	/**
 	 * Permet de mettre a jour le membre
 	 * qui est sur l'accueil
@@ -104,13 +109,13 @@ public class AccueilController {
 		afficherMessageBienvenue();
 		affichageSelonDroits();
 	}
-	
+
 	private void affichageSelonDroits(){
 		if(!this.membre.hasRole(Droits.ADMIN.toString())){
 			b_administration.setVisible(false);
 		}
 	}
-	
+
 	/**
 	 * Retourne le membre qui utilise cette interface
 	 * @return membre le membre qui utilise cette interface

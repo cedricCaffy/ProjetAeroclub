@@ -25,7 +25,7 @@ public class VolDAOImpl implements VolDAO {
 			+ "JOIN PILOTE p ON v.idpilote = p.idpilote "
 			+ "WHERE p.idmembre=? "
 			+ "ORDER BY datevol DESC";
-	//private static final String SQL_INSERT_VOL = "INSERT INTO VOL (typevol, datevol, tempsvol, nbpassagers, aeroclubdepart, aeroclubarrivee, idavion) VALUES (?,?,?,?,?,?,?);";
+	private static final String INSERER_VOL = "INSERT INTO VOL (typevol, datevol, tempsvol, nbpassagers, aeroclubdepart, aeroclubarrivee, idavion, idpilote, numeroinstructeur) VALUES (?,?,?,?,?,?,?,?,?);";
 
 	public VolDAOImpl(ConnexionBD connexion) {
 		this.connexion = ConnexionBD.getInstance();
@@ -75,16 +75,40 @@ public class VolDAOImpl implements VolDAO {
 	}
 
 	/**
-	 * Insere un vol au membre associé à l'idMembre passe en parametre
+	 * Insere un vol au pilote associe à l'idPilote passe en parametre
 	 * @param paiement le vol a inserer
-	 * @param idAvion
+	 * @param idPilote id du pilote qui effectue le vol
+	 * @param idAvion id de l'avion utilise pour le vol
+	 * @param numeroInstructeur a null s'il n'y a pas d'instructeur
 	 * @return l'identifiant du vol insere
 	 * @throws DAOException si une erreur de bdd survient
 	 */
-	@Override
-	public Integer insererVol(Vol vol, Integer idAvion) throws DAOException {
-		// TODO Auto-generated method stub
+	public Integer insererVol(Vol vol, Integer idPilote, Integer idAvion, String numeroInstructeur) throws DAOException {
+		Connection connexion=null;
+		PreparedStatement statement=null;
+		Integer statut = null;
+		try {
+			connexion=this.connexion.getConnexion();
+			statement=DAOUtilitaire.initialiserRequetePreparee(connexion,VolDAOImpl.INSERER_VOL,true,vol.getType().name(),
+					vol.getDateVol(), vol.getTempsVol(), vol.getNombrePassager(), vol.getAerodromeDepart(), vol.getAerodromeArrivee(),
+					idAvion, idPilote, numeroInstructeur);
+			setNullIfNecessary(statement, numeroInstructeur);
+			statut = statement.executeUpdate();
+			if(statut==0){
+				throw new DAOException("Echec de l'insertion du vol, aucune ligne n'a été modifiée");
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			DAOUtilitaire.fermeturesSilencieuses(statement,connexion);
+		}
 		return null;
+	}
+
+	private void setNullIfNecessary(PreparedStatement ps,String numeroInstructeur) throws SQLException{
+		if(numeroInstructeur == null){
+			ps.setNull(9,java.sql.Types.VARCHAR);
+		}
 	}
 
 }
