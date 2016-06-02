@@ -46,9 +46,9 @@ public class AccueilController {
 	 */
 	@FXML
 	private void actionBoutonSaisirVol(){
-		if (this.membre.getDroits().get(3) == null) {
-			new PopupError("Erreur de droits", "", "Vous n'avez pas les droits nécessaires pour effectuer la saisie d'un vol");
-		} else {
+		if(!this.membre.hasRole(Droits.PILOTE.toString())){
+			new PopupError("Erreur de droits","", "Vous n'avez pas les droits nécessaires pour effectuer la saisie d'un vol");
+		}else{
 			mainApp.afficherEcranSaisirVol(this.membre);
 		}
 	}
